@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurants</title>
+</head>
+<body>
+    <!-- <h3>Menu Details :</h3>
+    <ul>
+        <li><%= listing.title %></li>
+        <li><%= listing.description %></li>
+        <li><%= listing.price.toLocaleString("en-IN") %></li>
+    </ul>
+    <br> -->
+    <style>
+        .buy {
+            font-weight: 200;
+            font-size: larger;
+            color: #ffA500;
+        }
+        .checked {
+            color: #ff9529;
+        }
+        .can{
+           font-weight: 200;
+            font-size: larger;
+            color: #ff0000;
+        }
+        .nav-link{
+             font-weight: 200;
+            font-size: larger;
+            color: #ffA500;
+        }
+    </style>
+    <h3 style="color: blue;">Munu Details:- </h3>
+    <div class="row">
+      <div class="col-8 offest-2">
+
+     
+     <h3><%= listing.title %> :</h3>
+    </div>
+    <div class=" card col-6 offset-2 show-card listing-card">
+       <img src="<%= listing.image.url %>" class="card-img-top show-img" alt="listing_image">
+     <div class="card-body">
+     <p class="card-text">
+      
+      <b><%= listing.title %></p> </b>
+      
+    </div>
+    </div>
+    <ul>
+      <li><%= listing.title %></li>
+      
+      <br/>
+      <li><%= listing.description %></li>
+       <li> &#8377; <%= listing.price.toLocaleString("en-IN") %></li>
+      
+     
+    </ul>
+    
+    <% if(!currentUser){ %>
+         <a class="nav-link " href="/signup"><b>Buy Now</b></a>
+        <h1 style="color: #ff0000;">please signup for buy the food</h1>
+      
+    <% } %>
+    
+
+    <% if(currentUser){ %>
+   <a href="/listings/<%= listing._id %>/buy" class="buy">Buy Now</a>&nbsp; &nbsp;
+    <a href="/listings/<%= listing._id %>/cancle" class="can">Cancle</a>
+   
+   <%} %>
+   
+   
+</body>
+</html>

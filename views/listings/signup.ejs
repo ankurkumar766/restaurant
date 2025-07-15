@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <style>
+        /* Import Google Fonts (Optional, but good for consistent design) */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+/* Basic Body Styling (if not already defined) */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f8f9fa; /* Light grey background, common in Bootstrap themes */
+    margin: 0;
+    padding: 20px; /* Add some padding around the content */
+    color: #333;
+    display: flex; /* Helps in vertical centering if needed */
+    justify-content: center; /* Centers content horizontally */
+    align-items: center; /* Centers content vertically (if height allows) */
+    min-height: 100vh; /* Ensures body takes full viewport height */
+}
+
+/* Heading for the Sign-up Form */
+h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #343a40; /* Darker text for heading */
+    font-size: 2.5em;
+    font-weight: 700;
+    /* For Bootstrap's col-6 offset-3, text-align: center is still good */
+}
+
+/* Form Container Styling (optional, if you want a distinct card-like look for the form) */
+/* The col-6 offset-3 div can act as a container */
+.col-6.offset-3 form { /* Targeting the form within the Bootstrap grid column */
+    background-color: #ffffff; /* White background for the form itself */
+    padding: 30px;
+    border-radius: 8px; /* Slightly rounded corners */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    box-sizing: border-box; /* Include padding in element's total width */
+}
+
+/* Specific styling for form labels and inputs if you want to override Bootstrap defaults slightly */
+.form-label {
+    font-weight: 500; /* Slightly bolder than Bootstrap's default */
+    color: #343a40; /* Darker label text */
+    margin-bottom: 5px; /* Space between label and input */
+}
+
+.form-control {
+    border-radius: 6px; /* Slightly more rounded input fields */
+    padding: 10px 12px; /* Adjust padding for input fields */
+    font-size: 1.0em;
+    border: 1px solid #ced4da; /* Default border color */
+}
+
+.form-control:focus {
+    border-color: #80bdff; /* Bootstrap primary blue on focus */
+    box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25); /* Subtle shadow on focus */
+    outline: 0; /* Remove default outline */
+}
+
+/* Customizing valid/invalid feedback text */
+.valid-feedback {
+    font-size: 0.875em;
+    color: #28a745; /* Bootstrap success green */
+}
+
+/* Signup Button Styling */
+.btn-success {
+    background-color: #28a745; /* Bootstrap green */
+    border-color: #28a745;
+    padding: 10px 25px; /* Comfortable padding */
+    font-size: 1.1em;
+    font-weight: 600;
+    border-radius: 6px; /* Match input border-radius */
+    transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+}
+
+.btn-success:hover {
+    background-color: #218838; /* Darker green on hover */
+    border-color: #1e7e34;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) { /* On smaller screens, remove offset and make form full width */
+    .col-6.offset-3 {
+        width: 100%; /* Take full width */
+        margin-left: 0 !important; /* Remove offset */
+        padding-left: 15px; /* Add default Bootstrap padding */
+        padding-right: 15px; /* Add default Bootstrap padding */
+    }
+
+    h1 {
+        font-size: 2em; /* Adjust heading size */
+    }
+
+    .col-6.offset-3 form {
+        padding: 20px; /* Less padding on smaller forms */
+    }
+}
+
+@media (max-width: 576px) {
+    h1 {
+        font-size: 1.8em;
+    }
+}
+    </style>
+    <div class="row mt-3">
+    <h1 class="col-6 offset-3">SignUp on Restaurants</h1>
+    <div class="col-6 offset-3">
+        <form action="/signup" method="post" class="needs-validation" novalidate>
+            <div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+                <input name="username" id="username" type="text" class="form-control" required>
+                <div class="valid-feedback">Looks good!</div>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input name="email" id="email" type="email" class="form-control" required>
+                <div class="valid-feedback">Looks good!</div>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input name="password" id="password" type="password" class="form-control" required>
+                <div class="valid-feedback">Looks good!</div>
+            </div>
+            <button class="btn btn-success">Signup</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

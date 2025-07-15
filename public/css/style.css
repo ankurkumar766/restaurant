@@ -1,0 +1,386 @@
+@import url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLlDtuHeClgc78a7ODWH0wMcQUqDwrlxNKuw&s");
+
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+.html {
+  font-size: 62.5%;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+   background-color: #f8f9fa; /* Light grey background, common in Bootstrap themes */
+    margin: 0;
+    padding: 20px; /* Add some padding around the content */
+    color: #333;
+}
+
+/* ///////////..utility classes../////////// */
+
+.container {
+  max-width: 1200px;
+  width: 90%;
+  margin: auto;
+}
+
+.btn {
+  display: inline-block;
+  padding: 0.5em 1.5em;
+  text-decoration: none;
+  border-radius: 50px;
+  cursor: pointer;
+  outline: none;
+  margin-top: 1em;
+  text-transform: uppercase;
+  font-weight: small;
+}
+
+.btn-primary {
+  color: #fff;
+  background: #16a083;
+}
+
+.btn-primary:hover {
+  background: #117964;
+  transition: background 0.3s ease-in-out;
+}
+
+/* ............/navbar/............ *
+
+/* desktop mode............/// */
+.navbar input[type="checkbox"],
+.navbar .hamburger-lines {
+  display: none;
+}
+
+.navbar {
+    background: url("https://static.vecteezy.com/system/resources/thumbnails/049/483/997/small/fresh-ingredients-for-a-delicious-meal-photo.jpg");
+  box-shadow: 0px 5px 10px 0px #aaa;
+  position: fixed;
+  width: 100%;
+  background: #fff;
+  color: #000;
+  opacity: 0.85;
+  height: 50px;
+  z-index: 12;
+}
+
+.navbar-container {
+  display: flex;
+  justify-content: space-between;
+  height: 64px;
+  align-items: center;
+}
+
+.menu-items {
+  order: 2;
+  display: flex;
+}
+
+.menu-items li {
+  list-style: none;
+  margin-right: 5rem;
+  margin-bottom: 0.5rem;
+  font-size: 1.2rem;
+}
+
+.menu-items a {
+  text-decoration: none;
+  color: #444;
+  font-weight: 500;
+  transition: color 0.3s ease-in-out;
+}
+
+.menu-items a:hover {
+  color: #ff9529;
+  transform: scale(1);
+  transition: 0.6s;
+  
+  
+  cursor: pointer;
+
+}
+.logo {
+    margin-right: 3rem;
+    order: 1;
+    font-size: 2.3rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  /* ............//// Showcase styling ////......... */
+  
+  .showcase-area {
+    height: 50vh;
+    background: linear-gradient(
+        rgba(240, 240, 240, 0.144),
+        rgba(255, 255, 255, 0.336)
+      ),
+      url("https://i.postimg.cc/wT3TQS3V/header-image2.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  
+  .showcase-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    font-size: 1.6rem;
+  }
+  
+  .main-title {
+    text-transform: uppercase;
+    margin-top: 1.5em;
+  }
+  /* ......//about us//...... */
+
+#about {
+    padding: 50px 0;
+    background: #f5f5f7;
+  }
+  
+  .about-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  #about h2 {
+    font-size: 2.3rem;
+  }
+  
+  #about p {
+    font-size: 1.2rem;
+    color: #555;
+  }
+  
+  #about .small {
+    font-size: 1.2rem;
+    color: #666;
+    font-weight: 600;
+  }
+  
+  .about-img {
+    flex: 1 1 400px;
+    padding: 30px;
+    transform: translateX(150%);
+    animation: about-img-animation 1s ease-in-out forwards;
+  }
+  
+  @keyframes about-img-animation {
+    100% {
+      transform: translate(0);
+    }
+  }
+  
+  .about-text {
+    flex: 1 1 400px;
+    padding: 30px;
+    margin: auto;
+    transform: translate(-150%);
+    animation: about-text-animation 1s ease-in-out forwards;
+  }
+  
+  @keyframes about-text-animation {
+    100% {
+      transform: translate(0);
+    }
+  }
+  .about-img img {
+    display: block;
+    height: 400px;
+    max-width: 100%;
+    margin: auto;
+    object-fit: cover;
+    object-position: right;
+  }
+  
+  
+
+
+h3 { /* Style for "All Menu" heading */
+    text-align: center;
+    margin-bottom: 30px;
+    color: #343a40; /* Darker text for heading */
+    font-size: 2.2em;
+    font-weight: 700;
+}
+
+/* Custom styling for the listing cards */
+.card-link {
+    text-decoration: none; /* Remove underline from the link */
+    color: inherit; /* Inherit text color from parent */
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.listing-card {
+    /* Bootstrap's .card already provides basic styling (background, border, shadow) */
+    /* Add custom shadow and transition for hover effect */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle initial shadow */
+    border-radius: 8px; /* Slightly more rounded corners */
+    margin-bottom: 30px; /* Space between rows of cards */
+    overflow: hidden; /* Ensures image corners are also rounded */
+}
+
+.listing-card:hover {
+    transform: translateY(-5px); /* Lift effect on hover */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* More prominent shadow on hover */
+}
+
+.card-img-top {
+    height: 20rem; /* Fixed height for all images, as specified in your HTML */
+    object-fit: cover; /* Ensures the image covers the area without distortion */
+    border-top-left-radius: 8px; /* Match card border-radius */
+    border-top-right-radius: 8px; /* Match card border-radius */
+}
+
+.card-body {
+    padding: 1rem; /* Default Bootstrap padding */
+}
+
+.card-text {
+    font-size: 1.1em;
+    color: #212529; /* Darker text for main description */
+    margin-bottom: 0; /* Remove default paragraph margin */
+}
+
+.card-text span { /* For the price part */
+    font-weight: bold;
+    color: #dc3545; /* Red color for price, common for emphasis */
+}
+
+.tax-info {
+    font-size: 0.85em;
+    color: #6c757d; /* Muted color for tax info */
+    font-style: normal; /* Override default italic for <i> tag if any */
+    white-space: nowrap; /* Prevent "+18% GST" from wrapping */
+}
+.f-info {
+    display: flex;
+    justify-content: center;
+}
+
+/* Media queries for responsiveness (Bootstrap's grid handles most of it, but good to add if needed) */
+@media (max-width: 768px) {
+    .listing-card {
+        margin-bottom: 20px; /* Less space on smaller screens */
+    }
+    .card-img-top {
+        height: 15rem; /* Adjust image height for smaller screens */
+    }
+}
+
+@media (max-width: 576px) {
+    h3 {
+        font-size: 1.8em;
+    }
+    .card-img-top {
+        height: 12rem; /* Even smaller image height for very small screens */
+    }
+    .card-text {
+        font-size: 1em;
+    }
+}
+footer {
+    background-color: #f8f9fa; /* Light grey background for the footer */
+    color: #343a40; /* Darker text color */
+    padding: 30px 20px; /* Padding top/bottom and left/right */
+    border-top: 1px solid #e9ecef; /* Subtle top border */
+    margin-top: auto; /* Pushes footer to the bottom if body is a flex column */
+    width: 100%; /* Ensure footer spans full width */
+    box-sizing: border-box; /* Include padding in width */
+}
+
+.f-info {
+    display: flex; /* Use flexbox for horizontal layout */
+    flex-wrap: wrap; /* Allow items to wrap on smaller screens */
+    justify-content: space-between; /* Distribute items with space between them */
+    align-items: center; /* Vertically align items in the center */
+    max-width: 1200px; /* Max width for the footer content */
+    margin: 0 auto; /* Center the footer content */
+    text-align: center; /* Fallback for text alignment */
+}
+
+/* Social Icons Section */
+.f-info-socials {
+    display: flex; /* Use flexbox for icons */
+    gap: 20px; /* Space between icons */
+    font-size: 1.8rem; /* Size of the icons */
+    margin-right: 20px; /* Space to the right of social icons */
+    margin-bottom: 15px; /* Margin for smaller screens */
+}
+
+.f-info-socials i {
+    color: #495057; /* Darker grey for icons */
+    transition: color 0.3s ease; /* Smooth color transition on hover */
+}
+
+.f-info-socials i:hover {
+    color: #007bff; /* Blue on hover */
+    cursor: pointer; /* Indicate it's clickable */
+}
+
+/* Brand/Copyright Section */
+.f-info-brand {
+    font-size: 1rem;
+    color: #6c757d; /* Muted color for copyright text */
+    white-space: nowrap; /* Prevent text from wrapping prematurely */
+    margin-bottom: 15px; /* Margin for smaller screens */
+}
+
+/* Links Section (Privacy, Terms) */
+.f-info-links {
+    display: flex; /* Use flexbox for links */
+    gap: 20px; /* Space between links */
+    margin-left: 20px; /* Space to the left of links */
+    margin-bottom: 15px; /* Margin for smaller screens */
+}
+
+.f-info-links a {
+    text-decoration: none; /* Remove underline from links */
+    color: #007bff; /* Primary blue for links */
+    font-size: 1rem;
+    transition: color 0.3s ease; /* Smooth color transition on hover */
+}
+
+.f-info-links a:hover {
+    color: #0056b3; /* Darker blue on hover */
+    text-decoration: underline; /* Underline on hover */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .f-info {
+        flex-direction: column; /* Stack items vertically on smaller screens */
+        align-items: center; /* Center items when stacked */
+        text-align: center; /* Ensure text is centered */
+    }
+
+    .f-info-socials,
+    .f-info-brand,
+    .f-info-links {
+        margin-right: 0; /* Remove horizontal margins when stacked */
+        margin-left: 0;
+        width: 100%; /* Take full width when stacked */
+        justify-content: center; /* Center content within their new full width */
+    }
+
+    .f-info-socials {
+        order: 1; /* Order them (socials first) */
+    }
+    .f-info-brand {
+        order: 2; /* Brand second */
+    }
+    .f-info-links {
+        order: 3; /* Links last */
+    }
+}
+.del{
+  color: #0056b3;
+}

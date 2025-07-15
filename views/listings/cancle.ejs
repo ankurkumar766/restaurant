@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurants</title>
+</head>
+<body>
+    <style>
+        /* Import Google Fonts (Optional, but good for consistent design) */
+/* Import Google Fonts (Optional, but good for consistent design) */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f0f2f5; /* Light background similar to the image */
+    display: flex;
+    justify-content: center; /* Center the form horizontally */
+    align-items: flex-start; /* Align form to the top */
+    min-height: 100vh; /* Ensure body takes full viewport height */
+    padding: 20px; /* Add some padding around the form */
+    box-sizing: border-box; /* Include padding in element's total width */
+}
+
+/* Form Container Styling */
+form {
+    background-color: #ffffff; /* White background for the form */
+    padding: 30px;
+    border-radius: 8px; /* Slightly rounded corners */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    max-width: 500px; /* Max width for the form */
+    width: 100%; /* Ensure it's responsive */
+    box-sizing: border-box;
+}
+
+/* Heading for the form (Assuming there's an h3 or similar outside the form, like in image_cd949c.png) */
+h3 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 25px;
+    font-size: 1.8em;
+    font-weight: 700;
+}
+
+/* Form Group (each label + input/select block) */
+.form-group {
+    margin-bottom: 18px; /* Space between form fields */
+}
+
+.form-group label {
+    display: block; /* Make labels take full width */
+    margin-bottom: 8px; /* Space between label and input */
+    font-weight: 500; /* Slightly bolder labels */
+    color: #343a40; /* Darker label text */
+    font-size: 1.0em;
+}
+
+.form-group input[type="text"],
+.form-group input[type="tel"],
+.form-group select {
+    width: 100%; /* Make inputs/selects take full width */
+    padding: 12px; /* Inner padding */
+    border: 1px solid #ced4da; /* Light grey border */
+    border-radius: 6px; /* Rounded corners for inputs */
+    font-size: 1.0em;
+    color: #495057; /* Input text color */
+    box-sizing: border-box; /* Include padding and border in the element's total width */
+    transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.form-group input[type="text"]::placeholder,
+.form-group input[type="tel"]::placeholder {
+    color: #888; /* Placeholder text color */
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="tel"]:focus,
+.form-group select:focus {
+    border-color: #80bdff; /* Blue border on focus */
+    outline: 0; /* Remove default outline */
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Subtle blue shadow on focus */
+}
+
+.form-group small {
+    display: block; /* Make small text display on its own line */
+    margin-top: 5px;
+    font-size: 0.85em;
+    color: #6c757d; /* Muted color for helper text */
+}
+
+/* Select specific styling */
+.form-group select {
+    -webkit-appearance: none; /* Remove default dropdown arrow for WebKit browsers */
+    -moz-appearance: none;    /* Remove default dropdown arrow for Mozilla browsers */
+    appearance: none;         /* Remove default dropdown arrow */
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23007bff%22%20d%3D%22M287%2C146.24c0%2C0.68-0.27%2C1.35-0.8%2C1.88l-123%2C123c-1.04%2C1.04-2.73%2C1.04-3.77%2C0L1.44%2C148.12c-1.04-1.04-1.04-2.73%2C0-3.77s2.73-1.04%2C3.77%2C0L145.47%2C267.4c1.04%2C1.04%2C2.73%2C1.04%2C3.77%2C0l123-123c1.04-1.04%2C2.73-1.04%2C3.77%2C0S287%2C145.56%2C287%2C146.24z%22%2F%3E%3C%2Fsvg%3E'); /* Custom arrow for select */
+    background-repeat: no-repeat;
+    background-position: right 12px center; /* Position the arrow */
+    background-size: 12px; /* Size of the arrow */
+    padding-right: 30px; /* Make space for the custom arrow */
+}
+
+/* Button Styling (for "Cancel Order" or similar) */
+.form-group button[type="submit"] {
+    display: block; /* Make button take full width if desired, or use inline-block if next to another button */
+    width: 100%; /* Full width button */
+    padding: 12px 20px;
+    background-color: #dc3545; /* Red color for "Cancel Order" as per common cancel buttons */
+    color: white;
+    border: none;
+    border-radius: 6px; /* Rounded corners for button */
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 10px; /* Space above the button */
+}
+
+.form-group button[type="submit"]:hover {
+    background-color: #c82333; /* Darker red on hover */
+}
+
+/* If you have a "Place Order" button and "Cancel Order" button side by side, use this */
+/* Assuming they are in the same .form-group or a new .button-group div */
+/*
+.button-group {
+    display: flex;
+    justify-content: space-between; // Or center, flex-start, etc.
+    gap: 15px; // Space between buttons
+    margin-top: 25px;
+}
+
+.button-group button {
+    flex-grow: 1; // Allow buttons to grow and fill space
+    max-width: 48%; // Adjust for gap
+}
+*/
+
+/* Media Queries for Responsiveness (Basic) */
+@media (max-width: 600px) {
+    form {
+        padding: 20px; /* Less padding on smaller screens */
+    }
+    .form-group input,
+    .form-group select,
+    .form-group button {
+        padding: 10px; /* Slightly less padding on smaller screens */
+    }
+}
+    </style>
+    <form action="https://api.web3forms.com/submit" method="POST">
+         <input type="hidden" name="access_key" value="1f937280-f43a-482b-b121-466444023e0f">
+     <div class="form-group">
+                <label for="name">Your Name:</label>
+                <input type="text" id="name" name="name" required placeholder="Enter your full name">
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone Number:</label>
+                <input type="tel" id="phone" name="phone" pattern="[0-9]{10}" required placeholder="e.g., 9876543210">
+                <small style="color: #666;">(10 digit number)</small>
+            </div>
+            <div class="form-group">
+                <label for="reason">Reason of cancle:</label>
+                <select id="reason" name="reason" required>
+                    <option value="">-- Select Cancle Method --</option>
+                    <option value="food">text is not good</option>
+                    <option value="you are not present that place">you are not present order place</option>
+                   
+                </select>
+                <div class="form-group">
+                    <label for="reason">write a reason</label>
+                    <textarea type="text" id="reason" name="reason" required placeholder="Enter write a reason"></textarea>
+                </div>
+            </div>
+             <div class="form-group">
+                <button type="submit">Cancle Order</button>
+            </div>
+            </form>
+</body>
+</html>
