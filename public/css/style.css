@@ -234,11 +234,12 @@ h3 { /* Style for "All Menu" heading */
 }
 
 .card-img-top {
-    height: 20rem; /* Fixed height for all images, as specified in your HTML */
-    object-fit: cover; /* Ensures the image covers the area without distortion */
-    border-top-left-radius: 8px; /* Match card border-radius */
-    border-top-right-radius: 8px; /* Match card border-radius */
+  width: 100%;
+  height: 12rem;
+  object-fit: cover;
+  border-radius: 0.5rem;
 }
+
 
 .card-body {
     padding: 1rem; /* Default Bootstrap padding */
@@ -268,25 +269,25 @@ h3 { /* Style for "All Menu" heading */
 
 /* Media queries for responsiveness (Bootstrap's grid handles most of it, but good to add if needed) */
 @media (max-width: 768px) {
-    .listing-card {
-        margin-bottom: 20px; /* Less space on smaller screens */
-    }
-    .card-img-top {
-        height: 15rem; /* Adjust image height for smaller screens */
-    }
+  .listing-card{
+    margin-bottom: 20px;
+  }
+  .card-img-top {
+    height: 10rem; /* smaller screens */
+  }
+}
+@media (max-width: 576px) {
+  h3{
+    font-size: 1.8rem;
+  }
+  .card-img-top {
+    height: 9rem; /* very small screens */
+  }
+  .card-text{
+    font-size: 1em;
+  }
 }
 
-@media (max-width: 576px) {
-    h3 {
-        font-size: 1.8em;
-    }
-    .card-img-top {
-        height: 12rem; /* Even smaller image height for very small screens */
-    }
-    .card-text {
-        font-size: 1em;
-    }
-}
 footer {
     background-color: #f8f9fa; /* Light grey background for the footer */
     color: #343a40; /* Darker text color */

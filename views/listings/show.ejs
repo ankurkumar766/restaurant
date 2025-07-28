@@ -17,7 +17,7 @@
         .buy {
             font-weight: 200;
             font-size: larger;
-            color: #ffA500;
+            color: #ffd900;
         }
         .checked {
             color: #ff9529;
@@ -32,6 +32,34 @@
             font-size: larger;
             color: #ffA500;
         }
+
+
+        .f-info-links a {
+    text-decoration: none;
+    color: #222222;
+}
+.f-info-links a:hover {
+    text-decoration: underline;
+}
+.f-info-links,.f-info-socials,.f-info-brand {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.f-info-socials i {
+    margin-right: 1rem;
+}
+.f-info {
+    text-align: center;
+    height: 8rem;
+    background-color: #ebebeb;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: space-evenly;
+}
         
     </style>
     <h3 style="color: blue;">Munu Details:- </h3>
@@ -71,7 +99,30 @@
    <a href="/listings/<%= listing._id %>/buy" class="buy">Buy Now</a>&nbsp; &nbsp;
     <a href="/listings/<%= listing._id %>/cancle" class="can">Cancle</a>
    
-   <%} %>
+   
+   
+   <%} %></br>
+    </br> </br>
+
+
+   
+
+
+   <footer>
+    <div class="f-info">
+        <div class="f-info-socials">
+            <a <i href="https://www.facebook.com/share/19nyENzRAD/" class="fa-brands fa-facebook">facebook</i>&nbsp; &nbsp; &nbsp;  </a>
+            <a <i  href="https://www.instagram.com/invites/contact/?utm_source=ig_contact_invite&utm_medium=copy_link&utm_content=qpexvi5" class="fa-brands fa-square-instagram">instagram</i>&nbsp; &nbsp;&nbsp;  </a>
+           <a <i href="https://www.linkedin.com/in/ankur-kumar-197996333?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" class="fa-brands fa-linkedin"></i></a>
+
+        </div>
+        <div class="f-info-brand"> &copy; Wanderlust Private Limited</div>
+        <div class="f-info-links">
+            <a href="/privacy">Privacy</a>
+            <a href="/terms">Terms</a>
+        </div>
+    </div>
+</footer>
     
    
    

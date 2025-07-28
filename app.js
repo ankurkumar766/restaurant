@@ -1,152 +1,9 @@
-// const express = require("express");
-// const app = express();
-// const mongoose = require("mongoose");
-// const Listing = require("./models/listing.js");
-// const path = require("path");
-// const methodOverride = require("method-override");
-// app.use(express.static(path.join(__dirname, 'public')));
-// const multer = require('multer');
-// const bcrypt = require('bcryptjs');
-
-// // const upload = multer({ storage });
-// // const ejsMate = require("ejs-mate"); // You might need this if using layouts
-
-// const MONGO_URL = "mongodb://127.0.0.1:27017/restaurants";
-
-// main()
-//   .then(() => {
-//     console.log("connected to DB");
-//   })
-//   .catch((err) => {
-//     console.log(err);
-//   });
-
-// async function main() {
-//   await mongoose.connect(MONGO_URL);
-// }
-
-
-// const storage = multer.diskStorage({
-//   destination: function (req, file, cb) {
-//     // फ़ाइलों को कहाँ सहेजना है
-//     // सुनिश्चित करें कि यह डायरेक्टरी आपके प्रोजेक्ट में मौजूद है (जैसे 'uploads' फ़ोल्डर)
-//     cb(null, 'uploads/'); // उदाहरण: 'uploads' नामक फ़ोल्डर में सहेजें
-//   },
-//   filename: function (req, file, cb) {
-//     // फ़ाइल का नाम कैसे दिया जाएगा
-//     // उदाहरण: originalname के साथ timestamp जोड़ें ताकि नाम unique रहे
-//     cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
-//   }
-// });
-
-
-// // =========================================================
-// // Multer Upload Instance
-// // =========================================================
-// const upload = multer({ storage: storage }); 
-
-// app.set("view engine", "ejs");
-// app.set("views", path.join(__dirname, "views"));
-// app.use(express.urlencoded({extended: true}));
-// app.use(methodOverride("_method"));
-
-// app.get("/", (req, res) => {
-//   res.send("hii i am root"); // This root route is currently not displaying listings
-// });
-
-// // This is your main route to display all listings
-// app.get("/listings", async (req, res) => {
-//   const allListings = await Listing.find({});
-//   res.render("listings/index.ejs", { allListings: allListings }); // This sends the response
-
-  
-// });
-// //show Route
-// app.get("/listings/:id", async(req, res) => {
-//   let {id} = req.params;
-//   const listing = await Listing.findById(id);
-//   res.render("listings/show.ejs", {listing});
-// });
-// //buy route
-// app.get("/listings/:id/buy", async(req, res) => {
-// let { id } = req.params;
-// const listing = await Listing.findById(id);
-// res.render("listings/buy.ejs", { listing });
-// });
-
-// //cancle route
-// app.get("/listings/:id/cancle", async(req, res) => {
-// let { id } = req.params;
-// const listing = await Listing.findById(id);
-// res.render("listings/cancle.ejs", { listing });
-// });
-// //signup page
-// app.get("/signup", (req, res) => {
-//     res.render("listings/signup.ejs");
-// });
-// app.post('/signup', async (req, res) => {
-//     try {
-//         const { username, email, password } = req.body;
-
-//         // =========================================================
-//         // सर्वर-साइड पासवर्ड वैलिडेशन (यह वह कोड है जिसे आपको जोड़ना है)
-//         // =========================================================
-//         if (!password || password.length < 8) {
-//             req.flash('error', 'Password must be at least 8 characters long.');
-//             return res.redirect('/signup'); // या res.status(400).send('...');
-//         }
-        
-//         // RegEx वैलिडेशन (यह क्लाइंट-साइड पैटर्न का सर्वर-साइड संस्करण है)
-//         const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+}{'':;?/>.<,]).{8,}$/;
-//         if (!passwordRegex.test(password)) {
-//             req.flash('error', 'Password must contain at least one number, one uppercase and lowercase letter, and one special character.');
-//             return res.redirect('/signup');
-//         }
-
-//         // जाँचें कि क्या उपयोगकर्ता पहले से मौजूद है
-//         const existingUser = await User.findOne({ username: username });
-//         if (existingUser) {
-//             req.flash('error', 'Username already taken.');
-//             return res.redirect('/signup');
-//         }
-
-//         // नया उपयोगकर्ता बनाएं
-//         const newUser = new User({ email, username });
-        
-//         // पासवर्ड को हैश करें (सुरक्षा के लिए बहुत महत्वपूर्ण!)
-//         const saltRounds = 10; // या अपनी आवश्यकतानुसार
-//         const hashedPassword = await bcrypt.hash(password, saltRounds);
-//         newUser.password = hashedPassword; // पासवर्ड को हैश किए गए रूप में सहेजें
-
-//         await newUser.save();
-//         req.flash('success', 'Welcome to Wanderlust! You are signed up.');
-//         res.redirect('/listings'); // सफल साइनअप पर रीडायरेक्ट करें
-//     } catch (e) {
-//         req.flash('error', e.message); // किसी अन्य त्रुटि को हैंडल करें
-//         res.redirect('/signup');
-//     }
-// });
-// // ✅ LOGIN FORM 
-// app.get("/login", (req, res) => {
-//     res.render("listings/login.ejs");
-// });
-// app.post('/login', passport.authenticate('local', {
-//     failureRedirect: '/login',
-//     failureFlash: true
-// }), (req, res) => {
-//     req.flash('success', 'Welcome back to Wanderlust!');
-//     res.redirect('/listings');
-// });
-
-
-// app.listen(8080, () => {
-//   console.log("server is listing to port 8080");
-// });
 
 
 
 
 
+const port = process.env.port || 8080;
 const express = require('express');
 const app = express();
 const mongoose = require("mongoose");
@@ -316,6 +173,9 @@ app.get('/logout', (req, res, next) => {
 // ... आपके अन्य रूट्स ...
 
 // सर्वर शुरू करें
-app.listen(8080, () => {
-  console.log("Server is listening to port 8080");
+// app.listen(8080, () => {
+//   console.log("Server is listening to port 8080");
+// });
+app.listen(port,()=>{
+  console.log(`server running on port ${port}`);
 });
