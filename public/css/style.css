@@ -50,67 +50,144 @@ body {
   transition: background 0.3s ease-in-out;
 }
 
-/* ............/navbar/............ *
 
-/* desktop mode............/// */
-.navbar input[type="checkbox"],
-.navbar .hamburger-lines {
-  display: none;
-}
 
+/* Navbar Styles */
 .navbar {
-    background: url("https://static.vecteezy.com/system/resources/thumbnails/049/483/997/small/fresh-ingredients-for-a-delicious-meal-photo.jpg");
-  box-shadow: 0px 5px 10px 0px #aaa;
-  position: fixed;
   width: 100%;
-  background: #fff;
-  color: #000;
-  opacity: 0.85;
-  height: 50px;
-  z-index: 12;
+  background-color: white;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
 .navbar-container {
   display: flex;
-  justify-content: space-between;
-  height: 64px;
   align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  margin: auto;
+  position: relative;
 }
 
-.menu-items {
-  order: 2;
-  display: flex;
-}
-
-.menu-items li {
-  list-style: none;
-  margin-right: 5rem;
-  margin-bottom: 0.5rem;
-  font-size: 1.2rem;
-}
-
-.menu-items a {
-  text-decoration: none;
-  color: #444;
-  font-weight: 500;
-  transition: color 0.3s ease-in-out;
-}
-
-.menu-items a:hover {
-  color: #ff9529;
-  transform: scale(1);
-  transition: 0.6s;
-  
-  
-  cursor: pointer;
-
-}
+/* Logo */
 .logo {
-    margin-right: 3rem;
-    order: 1;
-    font-size: 2.3rem;
-    margin-bottom: 0.5rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: black;
+}
+
+.the {
+  font-style: italic;
+  font-size: 1rem;
+  color: orange;
+}
+
+/* Hamburger */
+.hamburger-lines {
+  display: none;
+  cursor: pointer;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.hamburger-lines span {
+  display: block;
+  height: 3px;
+  width: 25px;
+  background: black;
+  transition: 0.3s ease;
+}
+
+/* Menu Items */
+.menu-items {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  list-style: none;
+}
+
+/* Search Box */
+#searchInput {
+  padding: 6px 12px;
+  border: 1px solid orange;
+  border-radius: 20px;
+  outline: none;
+}
+
+/* Links */
+.nav-link {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+}
+
+/* Hide checkbox */
+.navbar-container input[type="checkbox"] {
+  display: none;
+}
+.nav-link:hover{
+  color: #28a745;
+}
+
+
+@media screen and (max-width: 768px) {
+  .hamburger-lines {
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    gap: 5px;
   }
+
+  .line {
+    width: 25px;
+    height: 3px;
+    background-color: black;
+  }
+
+  .menu-items {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    background-color: white;
+    padding: 15px 0;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    z-index: 1000;
+  }
+
+  .navbar-container input[type="checkbox"]:checked ~ .menu-items {
+    display: flex;
+  }
+
+  #searchInput {
+    width: 90%;
+    margin: 10px auto;
+    padding: 8px 12px;
+    border-radius: 20px;
+    border: 1px solid orange;
+  }
+
+  .nav-link {
+    padding: 10px;
+    text-align: center;
+    width: 100%;
+    display: block;
+  }
+  
+
+  .logo {
+    width: 100%;
+    text-align: center;
+    margin-top: 10px;
+  }
+}
+
   
   /* ............//// Showcase styling ////......... */
   
@@ -211,6 +288,10 @@ h3 { /* Style for "All Menu" heading */
     font-size: 2.2em;
     font-weight: 700;
 }
+.the{
+  font-size: 20px;
+  color: rgb(255, 173, 80);
+}
 
 /* Custom styling for the listing cards */
 .card-link {
@@ -253,7 +334,7 @@ h3 { /* Style for "All Menu" heading */
 
 .card-text span { /* For the price part */
     font-weight: bold;
-    color: #dc3545; /* Red color for price, common for emphasis */
+    color: green; /* Red color for price, common for emphasis */
 }
 
 .tax-info {
@@ -266,6 +347,49 @@ h3 { /* Style for "All Menu" heading */
     display: flex;
     justify-content: center;
 }
+.price{
+  color: #28a745;
+  font-weight: bold;
+}
+
+ #searchInput {
+    
+      
+      padding: 8px 12px;
+      width: 700px;
+      font-size: 16px;
+    }
+    #searchInput {
+     
+    width: 70%; /* Take full width of its parent container */
+    padding: 10px  15px; /* Comfortable padding inside the input */
+    
+    
+    border: 2px solid orangered; /* Light grey border */
+    border-radius: 20px; /* Slightly rounded corners */
+    font-size: 1em; /* Readable text size */
+    line-height: 1.5; /* Good line height for text */
+    color: #495057; /* Dark grey text color */
+    background-color: #fff; /* White background */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+
+    /* Focus State */
+    outline: none; /* Remove default outline on focus */
+    box-shadow: none; /* Remove default shadow on focus */
+    transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* Smooth transition for focus effects */
+}
+
+#searchInput:focus {
+    border-color: #80bdff; /* A blue border on focus (like Bootstrap's primary) */
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Subtle blue shadow on focus */
+}
+
+/* Placeholder text styling (optional) */
+#searchInput::placeholder {
+    color: #6c757d; /* Lighter grey for placeholder */
+    opacity: 1; /* Firefox default is less opaque */
+}
+
 
 /* Media queries for responsiveness (Bootstrap's grid handles most of it, but good to add if needed) */
 @media (max-width: 768px) {
@@ -287,101 +411,49 @@ h3 { /* Style for "All Menu" heading */
     font-size: 1em;
   }
 }
-
-footer {
-    background-color: #f8f9fa; /* Light grey background for the footer */
-    color: #343a40; /* Darker text color */
-    padding: 30px 20px; /* Padding top/bottom and left/right */
-    border-top: 1px solid #e9ecef; /* Subtle top border */
-    margin-top: auto; /* Pushes footer to the bottom if body is a flex column */
-    width: 100%; /* Ensure footer spans full width */
-    box-sizing: border-box; /* Include padding in width */
-}
-
-.f-info {
-    display: flex; /* Use flexbox for horizontal layout */
-    flex-wrap: wrap; /* Allow items to wrap on smaller screens */
-    justify-content: space-between; /* Distribute items with space between them */
-    align-items: center; /* Vertically align items in the center */
-    max-width: 1200px; /* Max width for the footer content */
-    margin: 0 auto; /* Center the footer content */
-    text-align: center; /* Fallback for text alignment */
-}
-
-/* Social Icons Section */
-.f-info-socials {
-    display: flex; /* Use flexbox for icons */
-    gap: 20px; /* Space between icons */
-    font-size: 1.8rem; /* Size of the icons */
-    margin-right: 20px; /* Space to the right of social icons */
-    margin-bottom: 15px; /* Margin for smaller screens */
-}
-
-.f-info-socials i {
-    color: #495057; /* Darker grey for icons */
-    transition: color 0.3s ease; /* Smooth color transition on hover */
-}
-
-.f-info-socials i:hover {
-    color: #007bff; /* Blue on hover */
-    cursor: pointer; /* Indicate it's clickable */
-}
-
-/* Brand/Copyright Section */
-.f-info-brand {
-    font-size: 1rem;
-    color: #6c757d; /* Muted color for copyright text */
-    white-space: nowrap; /* Prevent text from wrapping prematurely */
-    margin-bottom: 15px; /* Margin for smaller screens */
-}
-
-/* Links Section (Privacy, Terms) */
-.f-info-links {
-    display: flex; /* Use flexbox for links */
-    gap: 20px; /* Space between links */
-    margin-left: 20px; /* Space to the left of links */
-    margin-bottom: 15px; /* Margin for smaller screens */
-}
-
 .f-info-links a {
-    text-decoration: none; /* Remove underline from links */
-    color: #007bff; /* Primary blue for links */
-    font-size: 1rem;
-    transition: color 0.3s ease; /* Smooth color transition on hover */
+    text-decoration: none;
+    color: #222222;
 }
 
 .f-info-links a:hover {
-    color: #0056b3; /* Darker blue on hover */
-    text-decoration: underline; /* Underline on hover */
+    text-decoration: underline;
+}
+.f-info-links,.f-info-socials,.f-info-brand {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .f-info {
-        flex-direction: column; /* Stack items vertically on smaller screens */
-        align-items: center; /* Center items when stacked */
-        text-align: center; /* Ensure text is centered */
-    }
-
-    .f-info-socials,
-    .f-info-brand,
-    .f-info-links {
-        margin-right: 0; /* Remove horizontal margins when stacked */
-        margin-left: 0;
-        width: 100%; /* Take full width when stacked */
-        justify-content: center; /* Center content within their new full width */
-    }
-
-    .f-info-socials {
-        order: 1; /* Order them (socials first) */
-    }
-    .f-info-brand {
-        order: 2; /* Brand second */
-    }
-    .f-info-links {
-        order: 3; /* Links last */
-    }
+.f-info-socials i {
+    margin-right: 2rem;
 }
+.f-info {
+    text-align: center;
+    height: 10rem;
+    background-color: #ebebeb;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: space-evenly;
+}
+.f-info-socials a {
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.f-info-socials a:nth-child(1):hover {
+  color: #1877f2; /* Facebook Blue */
+}
+.f-info-socials a:nth-child(2):hover {
+  color: #e1306c; /* Instagram Pink */
+}
+.f-info-socials a:nth-child(3):hover {
+  color: #0077b5; /* LinkedIn Blue */
+}
+
 .del{
   color: #0056b3;
 }
+        

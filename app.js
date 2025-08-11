@@ -115,9 +115,7 @@ res.render("listings/cancle.ejs", { listing });
 });
 
 
-// =========================================================
-// आपके रूट्स
-// =========================================================
+
 
 // Signup रूट
 //signup page
@@ -133,7 +131,7 @@ app.post('/signup', async (req, res) => {
         // जो उपयोगकर्ता को हैश किए गए पासवर्ड के साथ पंजीकृत करता है।
         const registeredUser = await User.register(newUser, password); 
         
-        // एक बार पंजीकृत होने के बाद, उपयोगकर्ता को स्वचालित रूप से लॉग इन करें
+        
         req.login(registeredUser, err => {
             if (err) return next(err);
             req.flash('success', 'Welcome to Wanderlust!');
@@ -152,16 +150,16 @@ app.get("/login", (req, res) => {
     res.render("listings/login.ejs");
 });
 app.post('/login', passport.authenticate('local', {
-    failureRedirect: '/login', // असफल लॉगिन पर रीडायरेक्ट करें
-    failureFlash: true         // असफल होने पर फ़्लैश संदेश दिखाएं
+    failureRedirect: '/login', 
+    failureFlash: true         
 }), (req, res) => {
     req.flash('success', 'Welcome back to Wanderlust!');
-    const redirectUrl = req.session.returnTo || '/'; // यदि कोई वापसी URL है
-    delete req.session.returnTo; // सत्र से वापसी URL हटा दें
+    const redirectUrl = req.session.returnTo || '/'; 
+    delete req.session.returnTo; 
     res.redirect(redirectUrl);
 });
 
-// Logout रूट
+// Logout 
 app.get('/logout', (req, res, next) => {
     req.logout(function (err) {
         if (err) { return next(err); }
@@ -170,12 +168,8 @@ app.get('/logout', (req, res, next) => {
     });
 });
 
-// ... आपके अन्य रूट्स ...
 
-// सर्वर शुरू करें
-// app.listen(8080, () => {
-//   console.log("Server is listening to port 8080");
-// });
-app.listen(port,()=>{
-  console.log(`server running on port ${port}`);
+app.listen(8080, () => {
+  console.log("Server is listening to port 8080");
+
 });

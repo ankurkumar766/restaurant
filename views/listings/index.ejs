@@ -24,53 +24,54 @@
 
 
 
-    <nav class="navbar">
-        <div class="navbar-container container">
-            <input type="checkbox" name="" id="">
-            <div class="hamburger-lines">
-                <span class="line line1"></span>
-                <span class="line line2"></span>
-                <span class="line line3"></span>
-            </div>
-            <ul class="menu-items">
-                <% if(!currentUser){%>
+   
 
-                
-                 <a class="nav-link " href="/signup"><b>Signup</b></a>&nbsp; &nbsp;
-                  <a class="nav-link " href="/login"><b>Login</b></a>
-                <%}%> 
-                <% if(currentUser){%>
-                <a class="nav-link " href="/logout"><b>Logout</b></a>
-               <% } %>
-        
-            </ul>
-            <h1 class="logo">Vatika</h1>
-        </div>
-    </nav>
+    <nav class="navbar">
+  <div class="navbar-container container">
+
+    <!-- ✅ Checkbox with ID -->
+    <input type="checkbox" id="menu-toggle" />
+
+    <!-- ✅ Label linked to checkbox -->
+    <label for="menu-toggle" class="hamburger-lines">
+      <span class="line line1"></span>
+      <span class="line line2"></span>
+      <span class="line line3"></span>
+    </label>
+
+    <!-- ✅ Menu -->
+    <div class="menu-items">
+      <!-- <input type="text" id="searchInput" placeholder="Search by title or price..." /> -->
+
+      <% if (!currentUser) { %>
+        <a class="nav-link" href="/signup"><b>Signup</b></a>
+        <a class="nav-link" href="/login"><b>Login</b></a>
+      <% } %>
+
+      <% if (currentUser) { %>
+        <a class="nav-link" href="/logout"><b>Logout</b></a>
+      <% } %>
+    </div>
+
+    <input type="text" id="searchInput" placeholder="Search by title or price..." />
+    <!-- <input type="number" id="minPrice" placeholder="Min Price">
+<input type="number" id="maxPrice" placeholder="Max Price"> -->
+
+    <h1 class="logo">Vatika <i class="the">-The family Restaurant</i></h1>
+
+
+  </div>
+</nav>
+
     <section class="showcase-area" id="showcase">
-        <div class="showcase-container">
-            <h1 class="del">delivery for only in  Domchanch</h1>
+        <div class="showcase-container"></br>
+            <h1 class="del">delivery for only in  Koderma</h1>
             <h1 class="main-title" id="home">Eat Right Food</h1>
             <p>Eat Healty, it is good for our health.</p>
             
         </div>
     </section>
-    <section id="about">
-        <div class="about-wrapper container">
-            <div class="about-text">
-                <p class="small">About Us</p>
-                <h2>We've beem making healthy food last for 1 year</h2>
-                <p>
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Esse ab
-                    eos omnis, nobis dignissimos perferendis et officia architecto,
-                    fugiat possimus eaque qui ullam excepturi suscipit aliquid optio,
-                    maiores praesentium soluta alias asperiores saepe commodi
-                    consequatur? Perferendis est placeat facere aspernatur!
-                </p>
-            </div>
-            
-        </div>
-    </section>
+   
 <br></br>
 <br></br>
 
@@ -93,8 +94,8 @@
   
   <div class="card-body">
     <p class="card-text">
-      <%= listing.title %> <br>
-     &#8377; <%= listing.price.toLocaleString("en-IN") %> 
+       <b class="title"><%= listing.title %></b> <br>
+     &#8377; <span class="price"><%= listing.price.toLocaleString("en-IN")  %> </span>
      <i class="tax-info"> &nbsp; &nbsp;+18% GST</i>
     </p>
   </div>
@@ -104,9 +105,26 @@
 
     </div>
 
+     <section id="about">
+        <div class="about-wrapper container">
+            <div class="about-text">
+                <p class="small">About Us</p>
+                <h2>We've beem making healthy food last for 1 year</h2>
+                <p>
+                    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Esse ab
+                    eos omnis, nobis dignissimos perferendis et officia architecto,
+                    fugiat possimus eaque qui ullam excepturi suscipit aliquid optio,
+                    maiores praesentium soluta alias asperiores saepe commodi
+                    consequatur? Perferendis est placeat facere aspernatur!
+                </p>
+            </div>
+            
+        </div>
+    </section>
+
 
     <section class="address-section">
-  <h2>📍 Workshop Address</h2>
+  <h2><i class="fa-solid fa-location-dot"></i> Workshop Address</h2>
   <p>Near SBI Bank, 10 meters ahead, Domchanch, Koderma, Jharkhand - 825407</p>
 
   <iframe 
@@ -119,17 +137,68 @@
     <footer>
     <div class="f-info">
         <div class="f-info-socials">
-            <!-- <i class="fa-brands fa-facebook"></i>
-            <i class="fa-brands fa-square-instagram"></i> -->
-             <a href="https://www.facebook.com/share/19nyENzRAD/"><i class="fab fa-facebook-f"></i></a>
-                <a href="https://www.instagram.com/ayush_hamble_4321?igsh=MTk3ZnZmY2tqaWk4MQ==&utm_source=ig_contact_invite"><i class="fab fa-instagram"></i></a>
-        </div>
+            <a <i href="https://www.facebook.com/share/19nyENzRAD/" class="fa-brands fa-facebook" style="font-size: 24px ;"></i>&nbsp; &nbsp; &nbsp;  </a>
+            <a <i  href="https://www.instagram.com/invites/contact/?utm_source=ig_contact_invite&utm_medium=copy_link&utm_content=qpexvi5" class="fa-brands fa-square-instagram" style="font-size: 24px ;"></i>&nbsp; &nbsp;&nbsp;  </a>
+           <a <i href="https://www.linkedin.com/in/ankur-kumar-197996333?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" class="fa-brands fa-linkedin" style="font-size: 24px ;"></i></a>
+
+        </div><br><br><br><br>
+       <div>
+  <p> <i class="fa-solid fa-phone-volume"></i> +91 7667880272</p>
+  <p> <i class="fa-solid fa-envelope"></i> ankurkumar89632@gmail.com</p>
+    </div>
+
+
+       
+        
+       
         <div class="f-info-brand"> &copy; Wanderlust Private Limited</div>
+        
         <div class="f-info-links">
-            <a href="/privacy">Privacy</a>
+            <a href="/privacy">Privacy</a>&nbsp;
             <a href="/terms">Terms</a>
         </div>
     </div>
 </footer>
+
+<script>
+    const searchInput = document.getElementById('searchInput');
+    const cardLinks = document.querySelectorAll('.card-link');
+
+    if (searchInput) {
+        searchInput.addEventListener('input', function () {
+            const query = this.value.trim().toLowerCase();
+
+            // अगर query केवल नंबर है तो उसे price search मानेंगे
+            const queryNumber = parseFloat(query.replace(/,/g, ''));
+
+            cardLinks.forEach(cardLink => {
+                const titleElement = cardLink.querySelector('.title');
+                const priceElement = cardLink.querySelector('.price');
+
+                const title = titleElement ? titleElement.textContent.toLowerCase() : '';
+                const priceText = priceElement ? priceElement.textContent.replace(/[^0-9.]/g, '') : '';
+                const priceValue = parseFloat(priceText);
+
+                let show = false;
+
+                // 1. अगर query text है तो title या price text में search करें
+                if (isNaN(queryNumber)) {
+                    if (title.includes(query) || (priceElement && priceElement.textContent.toLowerCase().includes(query))) {
+                        show = true;
+                    }
+                }
+                // 2. अगर query number है तो price <= query check करें
+                else {
+                    if (!isNaN(priceValue) && priceValue <= queryNumber) {
+                        show = true;
+                    }
+                }
+
+                cardLink.style.display = show ? 'block' : 'none';
+            });
+        });
+    }
+</script>
+
 </body>
 </html>

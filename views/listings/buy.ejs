@@ -17,6 +17,7 @@
 <body>
     <div class="container">
         <ul>
+            <img src="<%= listing.image.url %>" class="card-img-top show-img" alt="listing_image">
             <li class="form"> <span style="color: #a04560;">Title:-</span> <%= listing.title %></li>
         </ul>
         <h2>Food Order Form</h2>
@@ -37,10 +38,32 @@
             </div>
             
 
+            
+
+             <div class="form-group">
+                <label for="paymentMethod">Delivery Address:</label>
+                <select id="paymentMethod" name="paymentMethod" required>
+                    <option value="">-- Select Delivery Address --</option>
+                    <option value="Cash">Mahthadih </option>
+                    <option value="upi">Durodih</option>
+                    <option value="Cash">Shivsagar </option>
+                    <option value="upi">Navadih</option>
+                    <option value="Cash">Maheshpur </option>
+                    <option value="upi">Bazar Road</option>
+                    <option value="Cash">lathyobar </option>
+                    <option value="upi">karakhuth</option>
+                   
+                </select>
+            </div>
             <div class="form-group">
                 <label for="address">Delivery Address:</label>
-                <textarea id="address" name="address" rows="4" required placeholder="House No., Street Name, Area, Landmark"></textarea>
+                <textarea id="address" name="address" rows="2" required placeholder="House No., Area, Landmark"></textarea>
             </div>
+
+
+
+
+
             <div class="form-group">
                 <label for="pincode">Pincode:</label>
                 <input type="text" id="pincode" name="pincode" pattern="[0-9]{6}" required placeholder="e.g., 110001">
@@ -66,22 +89,16 @@
                    
                 </select>
             </div>
-             <!-- <div class="form-group">
-                    <label for="image" class="form-label">Upload ScreenShot</label>
-                    <input type="file" name="listing[image]" class="form-control" id="image" >
-                    <div class="invalid-feedback">Please upload an image.</div>
-                    </div> -->
+             
                    
-                    <h3>please upload payment Screenshot this no: 7667880272</h3>
+                   
                     <h3>You can pay this UPI No:- <span class="ab">7667880272@ybl</span> </h3>
                     <div class="form-group" style="text-align: center; margin: 20px 0;">
                       <p><strong>Scan this QR to Pay:</strong></p>
                        <img src="/css/images/qr.jpg" alt="UPI QR Code" width="200" style="border: 1px solid #ccc; border-radius: 10px;" />
                      </div>
-                     <!-- <div class="form-group">
-                     <label for="screenshot">Upload Payment Screenshot:</label>
-                        <input type="file" id="screenshot" name="screenshot" accept="image/*" required />
-                     </div> -->
+                     <h2> Totle Price - ₹<span id="totalPrice"><%= listing.price.toLocaleString("en-IN") %> + &#8377; 40</span></h2>
+                    
 
                      
 
@@ -91,6 +108,21 @@
         </form>
          <a href="https://forms.gle/r5UYrCbEHFmVqCTY6">Upload Payment screenshot</a>
     </div>
+    <script>
+    // Base price from server
+    const basePrice = Number("<%= listing.price %>");
+    const quantityInput = document.getElementById('quantity');
+    const totalPriceElement = document.getElementById('totalPrice');
+
+    function updatePrice() {
+        let quantity = parseInt(quantityInput.value) || 1;
+        let total = basePrice * quantity + 40;
+        totalPriceElement.textContent = total.toLocaleString("en-IN");
+    }
+
+    // Update on input change
+    quantityInput.addEventListener('input', updatePrice);
+</script>
     
     
 </body>

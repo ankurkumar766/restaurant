@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Restaurants</title>
+    <!-- Font Awesome CDN include karo -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 </head>
 <body>
     <!-- <h3>Menu Details :</h3>
@@ -17,10 +20,10 @@
         .buy {
             font-weight: 200;
             font-size: larger;
-            color: #ffd900;
+            color:  #218838;
         }
         .checked {
-            color: #ff9529;
+            color:  #218838;
         }
         .can{
            font-weight: 200;
@@ -30,13 +33,24 @@
         .nav-link{
              font-weight: 200;
             font-size: larger;
-            color: #ffA500;
+            color:  #218838;
         }
 
 
         .f-info-links a {
     text-decoration: none;
     color: #222222;
+}
+
+
+.show-img {
+width: 40%; 
+display: block; 
+
+border-radius: 0.5rem; 
+object-fit: cover;  
+height: auto; 
+max-height: 400px; 
 }
 .f-info-links a:hover {
     text-decoration: underline;
@@ -49,17 +63,78 @@
 }
 
 .f-info-socials i {
-    margin-right: 1rem;
+    margin-right: 2rem;
 }
 .f-info {
     text-align: center;
-    height: 8rem;
+    height: 10rem;
     background-color: #ebebeb;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     align-items: space-evenly;
 }
+
+.buy-btn {
+  background-color: #ffa41c;         /* Green */
+  color: white;
+  padding: 10px 24px;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: bold;
+  text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.buy-btn:hover {
+  background-color: #218838;         /* Darker green */
+  text-decoration: none;
+}
+.can-btn {
+    background-color: #ff0000;
+    color: white;
+    padding: 10px 24px;
+     border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: bold;
+  text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    
+}
+.can-btn:hover{
+    background-color: #218838;
+    text-decoration: none;
+}
+
+
+
+
+
+
+
+.f-info-socials a {
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.f-info-socials a:nth-child(1):hover {
+  color: #1877f2; /* Facebook Blue */
+}
+.f-info-socials a:nth-child(2):hover {
+  color: #e1306c; /* Instagram Pink */
+}
+.f-info-socials a:nth-child(3):hover {
+  color: #0077b5; /* LinkedIn Blue */
+}
+
         
     </style>
     <h3 style="color: blue;">Munu Details:- </h3>
@@ -72,11 +147,11 @@
     <div class=" card col-6 offset-2 show-card listing-card">
        <img src="<%= listing.image.url %>" class="card-img-top show-img" alt="listing_image">
      <div class="card-body">
-     <p class="card-text">
+      <p class="card-text">
       
       <b><%= listing.title %></p> </b>
       
-    </div>
+     </div>
     </div>
     <ul>
       <li><%= listing.title %></li>
@@ -87,17 +162,20 @@
       
      
     </ul>
+    <h2>Delivery charges :-  &#8377; 40</h2>
     
     <% if(!currentUser){ %>
-         <a class="nav-link " href="/signup"><b>Buy Now</b></a>
+         <!-- <a class="nav-link " href="/signup"><b>Buy Now</b></a> -->
+          <a href="/signup" class="buy-btn">Buy Now</a>
+
         <h1 style="color: #ff0000;">please signup for buy the food</h1>
       
     <% } %>
     
 
     <% if(currentUser){ %>
-   <a href="/listings/<%= listing._id %>/buy" class="buy">Buy Now</a>&nbsp; &nbsp;
-    <a href="/listings/<%= listing._id %>/cancle" class="can">Cancle</a>
+   <a href="/listings/<%= listing._id %>/buy" class="buy-btn">Buy Now</a>&nbsp; &nbsp;
+    <a href="/listings/<%= listing._id %>/cancle" class="can-btn">Cancle</a>
    
    
    
@@ -111,14 +189,24 @@
    <footer>
     <div class="f-info">
         <div class="f-info-socials">
-            <a <i href="https://www.facebook.com/share/19nyENzRAD/" class="fa-brands fa-facebook">facebook</i>&nbsp; &nbsp; &nbsp;  </a>
-            <a <i  href="https://www.instagram.com/invites/contact/?utm_source=ig_contact_invite&utm_medium=copy_link&utm_content=qpexvi5" class="fa-brands fa-square-instagram">instagram</i>&nbsp; &nbsp;&nbsp;  </a>
-           <a <i href="https://www.linkedin.com/in/ankur-kumar-197996333?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" class="fa-brands fa-linkedin"></i></a>
+            <a <i href="https://www.facebook.com/share/19nyENzRAD/" class="fa-brands fa-facebook" style="font-size: 24px ;"></i>&nbsp; &nbsp; &nbsp;  </a>
+            <a <i  href="https://www.instagram.com/invites/contact/?utm_source=ig_contact_invite&utm_medium=copy_link&utm_content=qpexvi5" class="fa-brands fa-square-instagram" style="font-size: 24px ;"></i>&nbsp; &nbsp;&nbsp;  </a>
+           <a <i href="https://www.linkedin.com/in/ankur-kumar-197996333?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" class="fa-brands fa-linkedin" style="font-size: 24px ;"></i></a>
 
         </div>
+       <div>
+  <p> <i class="fa-solid fa-phone-volume"></i> +91 7667880272</p>
+  <p> <i class="fa-solid fa-envelope"></i> ankurkumar89632@gmail.com</p>
+    </div>
+
+
+       
+        
+       
         <div class="f-info-brand"> &copy; Wanderlust Private Limited</div>
+        
         <div class="f-info-links">
-            <a href="/privacy">Privacy</a>
+            <a href="/privacy">Privacy</a>&nbsp;
             <a href="/terms">Terms</a>
         </div>
     </div>

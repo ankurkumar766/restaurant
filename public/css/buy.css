@@ -73,3 +73,12 @@
         .ab{
             color: #a04560;
         }
+        .show-img {
+width: 25%; 
+display: block; 
+
+border-radius: 0.5rem; 
+object-fit: cover;  
+height: auto; 
+max-height: 400px; 
+}
