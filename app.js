@@ -9,9 +9,12 @@ const app = express();
 const mongoose = require("mongoose");
 const path = require('path');
 const multer = require('multer');
-const User = require('./models/user'); // सुनिश्चित करें कि आपका User मॉडल सही ढंग से इम्पोर्ट किया गया है
+const User = require('./models/user'); 
 const Listing = require('./models/listing');
-const bcrypt = require('bcryptjs'); // यदि आप मैन्युअल हैशिंग का उपयोग कर रहे हैं (Passport इसे खुद संभाल सकता है)
+const bcrypt = require('bcryptjs'); 
+// const session = require('express-session');
+// const MongoStore = require('connect-mongo');
+
  const MONGO_URL = "mongodb://127.0.0.1:27017/restaurants";
 
 main()
@@ -45,6 +48,18 @@ const sessionConfig = {
         maxAge: 1000 * 60 * 60 * 24 * 7
     }
 };
+
+mongoose.connect(process.env.MONGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+}).then(() => {
+  console.log("✅ Connected to MongoDB Atlas");
+}).catch(err => {
+  console.error("❌ MongoDB connection error:", err);
+});
+
+
+
 app.use(session(sessionConfig));
 app.use(flash()); // Flash संदेशों का उपयोग करने के लिए
 
