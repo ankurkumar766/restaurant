@@ -30,7 +30,7 @@ async function main() {
 }
 
 // =========================================================
-// Passport.js और Session से संबंधित इम्पोर्ट
+// Passport.js and Session related route
 // =========================================================
 const session = require('express-session');
 const passport = require('passport'); 
@@ -43,7 +43,7 @@ const sessionConfig = {
     resave: false,
     saveUninitialized: true,
     cookie: {
-        httpOnly: true, // सुरक्षा के लिए
+        httpOnly: true, // for security
         expires: Date.now() + 1000 * 60 * 60 * 24 * 7, // 1 week
         maxAge: 1000 * 60 * 60 * 24 * 7
     }
