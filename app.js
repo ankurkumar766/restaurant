@@ -30,21 +30,21 @@ async function main() {
 }
 
 // =========================================================
-// Passport.js और Session से संबंधित इम्पोर्ट और कॉन्फ़िगरेशन
+// Passport.js और Session से संबंधित इम्पोर्ट
 // =========================================================
 const session = require('express-session');
-const passport = require('passport'); // <--- यह लाइन जोड़ें
-const LocalStrategy = require('passport-local'); // <--- यह लाइन जोड़ें
-const flash = require('connect-flash'); // <--- यह लाइन जोड़ें
+const passport = require('passport'); 
+const LocalStrategy = require('passport-local'); 
+const flash = require('connect-flash'); 
 
-// Express सेशन कॉन्फ़िगरेशन
+// Express session
 const sessionConfig = {
-    secret: 'thisshouldbeabettersecret!', // एक मजबूत, प्रोडक्शन-ग्रेड सीक्रेट कुंजी
+    secret: 'thisshouldbeabettersecret!', 
     resave: false,
     saveUninitialized: true,
     cookie: {
         httpOnly: true, // सुरक्षा के लिए
-        expires: Date.now() + 1000 * 60 * 60 * 24 * 7, // 1 सप्ताह
+        expires: Date.now() + 1000 * 60 * 60 * 24 * 7, // 1 week
         maxAge: 1000 * 60 * 60 * 24 * 7
     }
 };
@@ -61,28 +61,28 @@ mongoose.connect(process.env.MONGODB_URI, {
 
 
 app.use(session(sessionConfig));
-app.use(flash()); // Flash संदेशों का उपयोग करने के लिए
+app.use(flash()); 
 
-// Passport.js को इनिशियलाइज़ करें
+// Passport.js of initialize
 app.use(passport.initialize());
-app.use(passport.session()); // पासपोर्ट के लिए सेशंस को सक्षम करें
+app.use(passport.session()); 
 
 
-// यदि आप passport-local-mongoose का उपयोग नहीं कर रहे हैं, तो आपको authenticate, serializeUser, deserializeUser विधियों को मैन्युअल रूप से लागू करना होगा।
-passport.use(new LocalStrategy(User.authenticate())); // User.authenticate() passport-local-mongoose द्वारा प्रदान किया जाता है
-passport.serializeUser(User.serializeUser());   // User.serializeUser() passport-local-mongoose द्वारा प्रदान किया जाता है
-passport.deserializeUser(User.deserializeUser()); // User.deserializeUser() passport-local-mongoose द्वारा प्रदान किया जाता है
+//If you are not using passport-local-mongoose , you will have to manually implement the authenticate, serializeUser, deserializeUser methods.
+passport.use(new LocalStrategy(User.authenticate())); // User.authenticate() passport-local-mongoose 
+passport.serializeUser(User.serializeUser());   // User.serializeUser() passport-local-mongoose 
+passport.deserializeUser(User.deserializeUser()); // User.deserializeUser() passport-local-mongoose 
 
-// Flash संदेशों को सभी टेम्प्लेट में उपलब्ध कराने के लिए एक मिडलवेयर
+// A middleware to make Flash messages available in all templates
 app.use((req, res, next) => {
     res.locals.success = req.flash('success');
     res.locals.error = req.flash('error');
-    // Passport द्वारा प्रदान किए गए req.user को सभी टेम्प्लेट में उपलब्ध कराएं
+    // Make req.user provided by Passport available in all templates
     res.locals.currentUser = req.user; 
     next();
 });
 
-// ... आपका मौजूदा Multer स्टोरेज कॉन्फ़िगरेशन ...
+// ... Your existing Multer storage configuration...
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, 'uploads/');
@@ -93,16 +93,12 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
-// ... आपके अन्य app.use() मिडलवेयर (जैसे express.urlencoded, express.json, static files) ...
+// ... Your other app.use() middleware (such as express.urlencoded, express.json, static files) ...
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
-// app.get("/", (req, res) => {
-//   res.send("hii i am root"); 
-// });
 
-// This is your main route to display all listings
 app.get("/", async (req, res) => {
   const allListings = await Listing.find({});
   res.render("listings/index.ejs", { allListings: allListings }); // This sends the response
@@ -132,7 +128,7 @@ res.render("listings/cancle.ejs", { listing });
 
 
 
-// Signup रूट
+// Signup route
 //signup page
 app.get("/signup", (req, res) => {
     res.render("listings/signup.ejs");
@@ -142,8 +138,8 @@ app.post('/signup', async (req, res) => {
         const { email, username, password } = req.body;
         const newUser = new User({ email, username });
 
-        // User.register Passport-local-mongoose द्वारा प्रदान किया गया एक विधि है
-        // जो उपयोगकर्ता को हैश किए गए पासवर्ड के साथ पंजीकृत करता है।
+        // User.register is a method provided by passport-local-mongoose
+        // Which registers the user with the hashed password.
         const registeredUser = await User.register(newUser, password); 
         
         
@@ -159,7 +155,8 @@ app.post('/signup', async (req, res) => {
     }
 });
 
-// Login रूट
+// Login route
+
 // ✅ LOGIN FORM 
 app.get("/login", (req, res) => {
     res.render("listings/login.ejs");
