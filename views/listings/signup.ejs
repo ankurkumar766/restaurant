@@ -26,9 +26,10 @@
             <div class="mb-3">
                 <label for="password" class="form-label">Password</label><br>
                 <input name="password" id="password" type="password" class="form-control"  required style="padding-right: 40px;">
-                 <button class="btn btn-outline-secondary" type="button" id="togglePassword">
-            👁️
-        </button>
+                 <div class="show-password-container">
+    <input type="checkbox" id="show-password-checkbox">
+    <label for="show-password-checkbox">Show Password</label>
+  </div>
                 
             </div>
         </br></br>
@@ -37,14 +38,21 @@
     </div>
 </div>
 <script>
-    const passwordField = document.getElementById("password");
-    const toggleButton = document.getElementById("togglePassword");
+  
+  const passwordInput = document.getElementById('password');
+  const showPasswordCheckbox = document.getElementById('show-password-checkbox');
 
-    toggleButton.addEventListener("click", function () {
-        const type = passwordField.type === "password" ? "text" : "password";
-        passwordField.type = type;
-        this.textContent = type === "password" ? "👁️" : "🙈";
-    });
+  
+  showPasswordCheckbox.addEventListener('change', function() {
+    
+    if (this.checked) {
+      
+      passwordInput.type = 'text';
+    } else {
+      
+      passwordInput.type = 'password';
+    }
+  });
 </script>
 </body>
 </html>

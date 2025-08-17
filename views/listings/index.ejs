@@ -181,13 +181,13 @@
 
                 let show = false;
 
-                // 1. अगर query text है तो title या price text में search करें
+                // 1. If there is query text then search in title or price text
                 if (isNaN(queryNumber)) {
                     if (title.includes(query) || (priceElement && priceElement.textContent.toLowerCase().includes(query))) {
                         show = true;
                     }
                 }
-                // 2. अगर query number है तो price <= query check करें
+                // 2. if query number then check price <= query
                 else {
                     if (!isNaN(priceValue) && priceValue <= queryNumber) {
                         show = true;
