@@ -7,9 +7,10 @@ const User = require('./models/user');
 const Listing = require('./models/listing');
 const bcrypt = require('bcryptjs');
 
-// =========================================================
-// MongoDB Connection
-// =========================================================
+
+
+
+
 const MONGO_URL = process.env.MONGO_URL || "mongodb://127.0.0.1:27017/restaurants";
 
 mongoose.connect(MONGO_URL, {
@@ -20,6 +21,13 @@ mongoose.connect(MONGO_URL, {
 }).catch(err => {
   console.error("❌ MongoDB connection error:", err);
 });
+
+
+
+
+
+
+
 
 // =========================================================
 // Passport.js and Session
@@ -87,6 +95,10 @@ app.get("/", async (req, res) => {
   res.render("listings/index.ejs", { allListings });
 });
 
+
+
+
+
 app.get("/listings/:id", async (req, res) => {
   let { id } = req.params;
   const listing = await Listing.findById(id);
@@ -149,10 +161,12 @@ app.get('/logout', (req, res, next) => {
     res.redirect('/');
   });
 });
+// app.get("/order", (req, res) => {
+//   res.render("listings/order.ejs");
+// });
 
-// =========================================================
-// Start Server
-// =========================================================
+
+
 const port = process.env.PORT || 8080;
 app.listen(port, () => {
   console.log(`✅ Server running on port ${port}`);

@@ -1,0 +1,104 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Orders</title>
+  <link rel="stylesheet" href="/css/order.css">
+</head>
+<body>
+
+  <div class="header">
+    <span class="back">←</span>
+    <h2>My Orders</h2>
+  </div>
+
+  
+
+  <div class="order-list">
+
+   
+
+    
+
+    <div class="order">
+      <img src="loafers.jpg" alt="Loafers">
+      <div class="details">
+        <p class="date">Delivered on Jul 14, 2024</p>
+        <p class="name">Big Deal Loafers For Men</p>
+        <span class="shared">Shared by Avinash Mehta</span>
+      </div>
+    </div>
+
+    <div class="order">
+      <img src="slippers.jpg" alt="Slippers">
+      <div class="details">
+        <p class="date">Delivered on Jun 28, 2024</p>
+        <p class="name">Footup Men 2 Pairs EVA Ultralig...</p>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Orders</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    .order-list {
+      max-width: 800px;
+      margin: 20px auto;
+    }
+    .order {
+      background: #fff;
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .order h3 {
+      margin: 0;
+      color: #444;
+    }
+    .order p {
+      margin: 5px 0;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <h1>My Orders</h1>
+  
+  <div class="order-list">
+    <% if (orders && orders.length === 0) { %>
+      <p>No orders yet.</p>
+    <% } else { %>
+      <% orders.forEach(order => { %>
+        <div class="order">
+          <h3><%= order.title %></h3>
+          <p><strong>Quantity:</strong> <%= order.quantity %></p>
+          <p><strong>Price:</strong> ₹<%= order.price %></p>
+          <p><strong>Address:</strong> <%= order.address %>, <%= order.pincode %></p>
+          <p><strong>Phone:</strong> <%= order.phone %></p>
+          <p><strong>Payment:</strong> <%= order.paymentMethod %></p>
+          <p><em>Ordered on: <%= order.date.toDateString() %></em></p>
+        </div>
+      <% }) %>
+    <% } %>
+  </div>
+</body>
+</html>

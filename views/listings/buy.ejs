@@ -21,7 +21,8 @@
             <li class="form"> <span style="color: #a04560;">Title:-</span> <%= listing.title %></li>
         </ul>
         <h2>Food Order Form</h2>
-        <form   action="https://api.web3forms.com/submit" method="POST" >
+        <!-- <form   action="https://api.web3forms.com/submit" method="POST" > -->
+            <form action="/orders" method="POST">
             <input type="hidden" name="access_key" value="1f937280-f43a-482b-b121-466444023e0f">
             <div class="form-group">
                 <label for="name"><%= listing.title %></label>
@@ -52,6 +53,12 @@
                     <option value="upi">Bazar Road</option>
                     <option value="Cash">lathyobar </option>
                     <option value="upi">karakhuth</option>
+                    <option value="upi">niru pahari</option>
+                    <option value="upi">lokai</option>
+                    <option value="upi">indarva</option>
+                    <option value="upi">main koderma</option>
+                    <option value="upi">masnodih</option>
+                    <option value="upi">purnadia</option>
                    
                 </select>
             </div>
