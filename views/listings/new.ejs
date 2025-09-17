@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Create Listing</title>
+</head>
+<body>
+  <h1>Create a New Listing</h1>
+  <form action="/listings" method="POST" enctype="multipart/form-data">
+  <div class="mb-3">
+    <label for="title" class="form-label">Title</label>
+    <input type="text" name="title" class="form-control" id="title" required>
+  </div>
+
+  <div class="mb-3">
+    <label for="description" class="form-label">Description</label>
+    <textarea name="description" class="form-control" id="description" required></textarea>
+  </div>
+
+  <div class="mb-3">
+    <label for="image" class="form-label">Upload Image</label>
+    <input type="file" name="image" class="form-control" id="image" required>
+  </div>
+
+  <div class="mb-3">
+    <label for="price" class="form-label">Price</label>
+    <input type="number" name="price" class="form-control" id="price" required>
+  </div>
+
+  <button type="submit" class="btn btn-primary">Create Listing</button>
+</form>
+
+</body>
+</html>

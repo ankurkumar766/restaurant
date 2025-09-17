@@ -6,11 +6,6 @@ const multer = require('multer');
 const User = require('./models/user');
 const Listing = require('./models/listing');
 const bcrypt = require('bcryptjs');
-
-
-
-
-
 const MONGO_URI = process.env.MONGO_URI || "mongodb://127.0.0.1:27017/restaurants";
 
 mongoose.connect(MONGO_URI, {
@@ -21,14 +16,6 @@ mongoose.connect(MONGO_URI, {
 }).catch(err => {
   console.error("❌ MongoDB connection error:", err);
 });
-
-
-
-
-
-
-
-
 // =========================================================
 // Passport.js and Session
 // =========================================================
@@ -70,17 +57,15 @@ app.use((req, res, next) => {
 // =========================================================
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'uploads/');
+    cb(null, 'uploads/'); // uploads folder me file save hogi
   },
   filename: function (req, file, cb) {
-    cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+    cb(null, Date.now() + path.extname(file.originalname)); // unique file name
   }
 });
 const upload = multer({ storage: storage });
 
-// =========================================================
-// Middleware
-// =========================================================
+
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.urlencoded({ extended: true }));
@@ -95,6 +80,75 @@ app.get("/", async (req, res) => {
   res.render("listings/index.ejs", { allListings });
 });
 
+// =========================================================
+// Create New Listing (Form)
+// =========================================================
+app.get("/listings/new", (req, res) => {
+  res.render("listings/new.ejs");
+});
+
+// Handle new listing with image upload
+app.post("/listings", upload.single("image"), async (req, res) => {
+  try {
+    const { title, description, price } = req.body;
+    const filePath = "/uploads/" + req.file.filename;
+
+    const newListing = new Listing({
+      title,
+      description,
+      image: {
+        filename: req.file.filename,
+        url: filePath,
+      },
+      price,
+    });
+
+    await newListing.save();
+    req.flash("success", "New listing created!");
+    res.redirect("/");
+  } catch (err) {
+    console.error(err);
+    req.flash("error", "Something went wrong!");
+    res.redirect("/listings/new");
+  }
+});
+
+// =========================================================
+// Edit Listing
+// =========================================================
+const methodOverride = require("method-override");
+app.use(methodOverride("_method")); // agar pehle nahi lagaya
+
+app.get("/listings/:id/edit", async (req, res) => {
+  const { id } = req.params;
+  const listing = await Listing.findById(id);
+  if (!listing) {
+    req.flash("error", "Listing not found!");
+    return res.redirect("/");
+  }
+  res.render("listings/edit.ejs", { listing });
+});
+
+// Updated route with file upload
+app.put("/listings/:id", upload.single("image"), async (req, res) => {
+  const { id } = req.params;
+  const { title, description, price } = req.body;
+
+  const updateData = { title, description, price };
+
+  // Agar user ne nayi image upload ki
+  if (req.file) {
+    updateData.image = {
+      filename: req.file.filename,
+      url: "/uploads/" + req.file.filename,
+    };
+  }
+
+  await Listing.findByIdAndUpdate(id, updateData);
+
+  req.flash("success", "Listing updated!");
+  res.redirect(`/listings/${id}`);
+});
 
 
 
@@ -161,12 +215,6 @@ app.get('/logout', (req, res, next) => {
     res.redirect('/');
   });
 });
-// app.get("/order", (req, res) => {
-//   res.render("listings/order.ejs");
-// });
-
-
-
 const port = process.env.PORT || 8080;
 app.listen(port, () => {
   console.log(`✅ Server running on port ${port}`);
