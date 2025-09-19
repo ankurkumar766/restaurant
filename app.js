@@ -1,3 +1,5 @@
+// require("dotenv").config();
+
 const express = require('express');
 const app = express();
 const mongoose = require("mongoose");
@@ -64,6 +66,15 @@ const storage = multer.diskStorage({
   }
 });
 const upload = multer({ storage: storage });
+
+
+// const multer = require("multer");
+// const { cloudinary, storage } = require("./utils/cloudinary");
+//   // utils/cloudinary.js file ka path
+// const upload = multer({ storage });
+
+// module.exports = upload;
+
 
 
 app.set('view engine', 'ejs');
