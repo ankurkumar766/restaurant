@@ -1,18 +1,24 @@
-
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Food Order Form</title>
-    
-       
-         
-    
     <link rel="stylesheet" href="/css/buy.css" /> 
+    <style>
+        .removeBtn {
+            background: #ff4d4d;
+            border: none;
+            color: white;
+            padding: 5px 10px;
+            margin-left: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .removeBtn:hover {
+            background: #e60000;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -21,118 +27,139 @@
             <li class="form"> <span style="color: #a04560;">Title:-</span> <%= listing.title %></li>
         </ul>
         <h2>Food Order Form</h2>
-        <!-- <form   action="https://api.web3forms.com/submit" method="POST" > -->
-            <form action="/orders" method="POST">
+
+        <!-- Web3Forms Setup -->
+        <form action="https://api.web3forms.com/submit" method="POST" enctype="multipart/form-data">
+            <!-- Your Web3Forms access key -->
             <input type="hidden" name="access_key" value="1f937280-f43a-482b-b121-466444023e0f">
-            <div class="form-group">
-                <label for="name"><%= listing.title %></label>
-                <input type="text" id="<%= listing.title %>" name="<%= listing.title %>" required placeholder="<%= listing.title %>">
+            <!-- Optional: redirect after submission -->
+            <input type="hidden" name="redirect" value="https://yoursite.com/thank-you">
+
+            <!-- Food Items Container -->
+            <div id="foodContainer">
+                <div class="form-group">
+                    <label for="food-1">Food Item 1</label>
+                    <input type="text" id="food-1" name="food_1" required placeholder="Enter food name">
+                    <input type="number" id="price-1" name="price_1" required placeholder="Price" min="1">
+                    <button type="button" class="removeBtn">❌ Remove</button>
+                </div>
             </div>
+            <button type="button" id="addFoodBtn">➕ Add Food</button>
+
+            <!-- Customer Info -->
             <div class="form-group">
                 <label for="name">Your Name:</label>
                 <input type="text" id="name" name="name" required placeholder="Enter your full name">
             </div>
+            <!-- <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required placeholder="Your email">
+            </div> -->
             <div class="form-group">
                 <label for="phone">Phone Number:</label>
-                <input type="tel" id="phone" name="phone" pattern="[0-9]{10}" required placeholder="e.g., 9876543210">
-                <small style="color: #666;">(10 digit number)</small>
+                <input type="tel" id="phone" name="phone" pattern="[0-9]{10}" required placeholder="9876543210">
             </div>
-            
 
-            
-
-             <div class="form-group">
-                <label for="paymentMethod">Delivery Address:</label>
-                <select id="paymentMethod" name="paymentMethod" required>
-                    <option value="">-- Select Delivery Address --</option>
-                    <option value="Cash">Mahthadih </option>
-                    <option value="upi">Durodih</option>
-                    <option value="Cash">Shivsagar </option>
-                    <option value="upi">Navadih</option>
-                    <option value="Cash">Maheshpur </option>
-                    <option value="upi">Bazar Road</option>
-                    <option value="Cash">lathyobar </option>
-                    <option value="upi">karakhuth</option>
-                    <option value="upi">niru pahari</option>
-                    <option value="upi">lokai</option>
-                    <option value="upi">indarva</option>
-                    <option value="upi">main koderma</option>
-                    <option value="upi">masnodih</option>
-                    <option value="upi">purnadia</option>
-                   
-                </select>
-            </div>
+            <!-- Delivery Info -->
             <div class="form-group">
-                <label for="address">Delivery Address:</label>
-                <textarea id="address" name="address" rows="2" required placeholder="House No., Area, Landmark"></textarea>
+                <label for="deliveryAddress">Delivery Address:</label>
+                <textarea id="deliveryAddress" name="address" rows="2" required placeholder="House No., Area, Landmark"></textarea>
             </div>
-
-
-
-
-
-            <div class="form-group">
+            <!-- <div class="form-group">
                 <label for="pincode">Pincode:</label>
                 <input type="text" id="pincode" name="pincode" pattern="[0-9]{6}" required placeholder="e.g., 110001">
-                <small style="color: #666;">(6 digit number)</small>
-            </div>
+            </div> -->
 
-           
-            <div class="form-group">
+            <!-- Quantity -->
+            <!-- <div class="form-group">
                 <label for="quantity">Quantity:</label>
                 <input type="number" id="quantity" name="quantity" min="1" value="1" required>
-            </div>
+            </div> -->
 
-           
-
-            
-
+            <!-- Payment Method -->
             <div class="form-group">
                 <label for="paymentMethod">Payment Method:</label>
                 <select id="paymentMethod" name="paymentMethod" required>
                     <option value="">-- Select Payment Method --</option>
-                    <option value="Cash">Cash on Delivery </option>
-                    <option value="upi">UPI</option>
-                   
+                    <option value="Cash">Cash on Delivery</option>
+                    <option value="UPI">UPI</option>
                 </select>
             </div>
-             
-                   
-                   
-                    <h3>You can pay this UPI No:- <span class="ab">7667880272@ybl</span> </h3>
-                    <div class="form-group" style="text-align: center; margin: 20px 0;">
-                      <p><strong>Scan this QR to Pay:</strong></p>
-                       <img src="/css/images/qr.jpg" alt="UPI QR Code" width="200" style="border: 1px solid #ccc; border-radius: 10px;" />
-                     </div>
-                     <h2> Totle Price - ₹<span id="totalPrice"><%= listing.price.toLocaleString("en-IN") %> + &#8377; 40</span></h2>
-                    
 
-                     
+            <!-- Optional UPI Info -->
+            <h3>You can pay via UPI No: <span class="ab">7667880272@ybl</span></h3>
+            <div class="form-group" style="text-align:center; margin:20px 0;">
+                <p><strong>Scan this QR to Pay:</strong></p>
+                <img src="/css/images/qr.jpg" alt="UPI QR Code" width="200" style="border:1px solid #ccc; border-radius:10px;">
+            </div>
 
-             <div class="form-group">
+            <!-- Total Price -->
+            <!-- <h2>Total Price: ₹<span id="totalPrice"><%= listing.price.toLocaleString("en-IN") %> + 40</span></h2> -->
+            <h2>Total price :- ₹<span id="totalPrice">0</span></h2>
+            
+
+            <!-- Submit -->
+            <div class="form-group">
                 <button type="submit">Place Order</button>
             </div>
         </form>
          <a href="https://forms.gle/r5UYrCbEHFmVqCTY6">Upload Payment screenshot</a>
     </div>
+
     <script>
-    // Base price from server
-    const basePrice = Number("<%= listing.price %>");
-    const quantityInput = document.getElementById('quantity');
     const totalPriceElement = document.getElementById('totalPrice');
+    const deliveryCharge = 40; // delivery charge
 
     function updatePrice() {
-        let quantity = parseInt(quantityInput.value) || 1;
-        let total = basePrice * quantity + 40;
+        let total = 0;
+
+        // सारे price fields का sum
+        const priceInputs = document.querySelectorAll('[id^="price-"]');
+        priceInputs.forEach(input => {
+            total += parseInt(input.value) || 0;
+        });
+
+        // delivery charge add
+        total += deliveryCharge;
+
+        // total display
         totalPriceElement.textContent = total.toLocaleString("en-IN");
     }
 
-    // Update on input change
-    quantityInput.addEventListener('input', updatePrice);
+    // Add multiple food items with remove option
+    let foodCount = 1;
+    document.getElementById('addFoodBtn').addEventListener('click', function() {
+        foodCount++;
+        const container = document.getElementById('foodContainer');
+        const newDiv = document.createElement('div');
+        newDiv.className = 'form-group';
+        newDiv.innerHTML = `
+            <label for="food-${foodCount}">Food Item ${foodCount}</label>
+            <input type="text" id="food-${foodCount}" name="food_${foodCount}" required placeholder="Enter food name">
+            <input type="number" id="price-${foodCount}" name="price_${foodCount}" required placeholder="Price" min="1">
+            <button type="button" class="removeBtn">❌ Remove</button>
+        `;
+        container.appendChild(newDiv);
+
+        // remove button ka event
+        newDiv.querySelector('.removeBtn').addEventListener('click', function() {
+            newDiv.remove();
+            updatePrice();
+        });
+
+        // new price input change hone par total update
+        newDiv.querySelector(`#price-${foodCount}`).addEventListener('input', updatePrice);
+    });
+
+    // first food item ke price field ke liye listener
+    document.getElementById('price-1')?.addEventListener('input', updatePrice);
+
+    // initial calculation
+    updatePrice();
 </script>
-    
-    
+
+
+
+
 </body>
 </html>
-<!-- // action="https://api.web3forms.com/submit" method="POST" enctype="multipart/form-data" -->
-<!-- // <input type="hidden" name="access_key" value="1f937280-f43a-482b-b121-466444023e0f"> -->

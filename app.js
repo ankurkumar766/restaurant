@@ -176,6 +176,8 @@ app.get("/listings/:id/buy", async (req, res) => {
   res.render("listings/buy.ejs", { listing });
 });
 
+
+
 app.get("/listings/:id/cancle", async (req, res) => {
   let { id } = req.params;
   const listing = await Listing.findById(id);
@@ -226,7 +228,19 @@ app.get('/logout', (req, res, next) => {
     res.redirect('/');
   });
 });
+
+
+
+
 const port = process.env.PORT || 8080;
 app.listen(port, () => {
   console.log(`✅ Server running on port ${port}`);
 });
+
+
+
+
+// const port = process.env.PORT || 8080;
+// app.listen(port, () => {
+//   console.log(`✅ Server running on port ${port}`);
+// });
