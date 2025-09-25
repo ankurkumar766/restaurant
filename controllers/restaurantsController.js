@@ -1,36 +1,37 @@
-// controllers/restaurantsController.js
 const Restaurant = require("../models/restaurant");
 const cloudinary = require("../config/cloudinary");
 const fs = require("fs");
 
+// Create new restaurant
 exports.createRestaurant = async (req, res) => {
   try {
     if (!req.file) return res.status(400).send("Image is required");
 
     // Upload image to Cloudinary
     const result = await cloudinary.uploader.upload(req.file.path, {
-      folder: "restaurant_app"
+      folder: "restaurant_app" // Cloudinary folder
     });
 
-    // Delete temp file
+    // Delete temp file from server
     fs.unlinkSync(req.file.path);
 
-    // Save to DB
+    // Save restaurant in DB
     const restaurant = new Restaurant({
       name: req.body.name,
       description: req.body.description,
-      image: result.secure_url,
-      createdBy: req.user._id // agar auth use kar rahe ho
+      image: result.secure_url, // permanent Cloudinary URL
+      createdBy: req.user ? req.user._id : null
     });
 
     await restaurant.save();
-    res.redirect("/restaurants");
+    res.redirect("/restaurants"); // or json response
   } catch (err) {
     console.error(err);
     res.status(500).send("Error creating restaurant");
   }
 };
 
+// Update existing restaurant
 exports.updateRestaurant = async (req, res) => {
   try {
     const restaurant = await Restaurant.findById(req.params.id);
@@ -48,12 +49,12 @@ exports.updateRestaurant = async (req, res) => {
       });
       fs.unlinkSync(req.file.path);
 
-      // Replace image
+      // Replace image URL
       restaurant.image = result.secure_url;
     }
 
     await restaurant.save();
-    res.redirect("/restaurants");
+    res.redirect("/restaurants"); // or json response
   } catch (err) {
     console.error(err);
     res.status(500).send("Error updating restaurant");
