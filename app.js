@@ -161,23 +161,16 @@ app.put("/listings/:id", upload.single("image"), async (req, res) => {
   res.redirect(`/listings/${id}`);
 });
 
-
-
-
 app.get("/listings/:id", async (req, res) => {
   let { id } = req.params;
   const listing = await Listing.findById(id);
   res.render("listings/show.ejs", { listing });
 });
-
 app.get("/listings/:id/buy", async (req, res) => {
   let { id } = req.params;
   const listing = await Listing.findById(id);
   res.render("listings/buy.ejs", { listing });
 });
-
-
-
 app.get("/listings/:id/cancle", async (req, res) => {
   let { id } = req.params;
   const listing = await Listing.findById(id);
