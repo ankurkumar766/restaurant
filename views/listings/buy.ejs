@@ -27,6 +27,9 @@
             <li class="form"> <span style="color: #a04560;">Title:-</span> <%= listing.title %></li>
         </ul>
         <h2>Food Order Form</h2>
+        <h3>📝 सभी मेनू का पहला अक्षर कैपिटल होगा जैसे पहला मेनू में दिया है</h3>
+
+
 
         <!-- Web3Forms Setup -->
         <form action="https://api.web3forms.com/submit" method="POST" enctype="multipart/form-data">
@@ -39,7 +42,7 @@
             <div id="foodContainer">
                 <div class="form-group">
                     <label for="food-1">Food Item 1</label>
-                    <input type="text" id="food-1" name="food_1" required placeholder="Enter food name">
+                    <input type="text" id="food-1" name="food_1" required placeholder="<%= listing.title %>">
                     <input type="number" id="price-1" name="price_1" required placeholder="Price" min="1">
                     <button type="button" class="removeBtn">❌ Remove</button>
                 </div>
@@ -65,16 +68,7 @@
                 <label for="deliveryAddress">Delivery Address:</label>
                 <textarea id="deliveryAddress" name="address" rows="2" required placeholder="House No., Area, Landmark"></textarea>
             </div>
-            <!-- <div class="form-group">
-                <label for="pincode">Pincode:</label>
-                <input type="text" id="pincode" name="pincode" pattern="[0-9]{6}" required placeholder="e.g., 110001">
-            </div> -->
-
-            <!-- Quantity -->
-            <!-- <div class="form-group">
-                <label for="quantity">Quantity:</label>
-                <input type="number" id="quantity" name="quantity" min="1" value="1" required>
-            </div> -->
+            
 
             <!-- Payment Method -->
             <div class="form-group">
@@ -96,6 +90,7 @@
             <!-- Total Price -->
             <!-- <h2>Total Price: ₹<span id="totalPrice"><%= listing.price.toLocaleString("en-IN") %> + 40</span></h2> -->
             <h2>Total price :- ₹<span id="totalPrice">0</span></h2>
+            <p id="deliveryMsg" style="color: green; font-weight: bold;"></p>
             
 
             <!-- Submit -->
@@ -106,57 +101,99 @@
          <a href="https://forms.gle/r5UYrCbEHFmVqCTY6">Upload Payment screenshot</a>
     </div>
 
-    <script>
-    const totalPriceElement = document.getElementById('totalPrice');
-    const deliveryCharge = 40; // delivery charge
+   
+<script>
+const totalPriceElement = document.getElementById('totalPrice');
+const deliveryCharge = 40; // delivery charge
 
-    function updatePrice() {
-        let total = 0;
+// Food-price mapping (aap yaha apne hisaab se foods add kar sakte ho)
+const foodPrices = {
+    "Maggi": 25,
+    "Veg pasta": 90,
+    "Cheese pasta": 125,
+    "Egg roll": 50,
+    "Paneer roll": 60,
+    "Chicken roll": 70, "Chole bature": 35, "Veg pakoda": 80, "Panner pakoda": 120,
+    "Chicken pakoda": 150, "Fried chicken": 210, "Chicken wings": 110, "Chicken leg": 120,
+    "Mushroom roll": 80
+};
 
-        // सारे price fields का sum
-        const priceInputs = document.querySelectorAll('[id^="price-"]');
-        priceInputs.forEach(input => {
-            total += parseInt(input.value) || 0;
-        });
+// Function to update price total
+function updatePrice() {
+    let total = 0;
 
-        // delivery charge add
-        total += deliveryCharge;
-
-        // total display
-        totalPriceElement.textContent = total.toLocaleString("en-IN");
-    }
-
-    // Add multiple food items with remove option
-    let foodCount = 1;
-    document.getElementById('addFoodBtn').addEventListener('click', function() {
-        foodCount++;
-        const container = document.getElementById('foodContainer');
-        const newDiv = document.createElement('div');
-        newDiv.className = 'form-group';
-        newDiv.innerHTML = `
-            <label for="food-${foodCount}">Food Item ${foodCount}</label>
-            <input type="text" id="food-${foodCount}" name="food_${foodCount}" required placeholder="Enter food name">
-            <input type="number" id="price-${foodCount}" name="price_${foodCount}" required placeholder="Price" min="1">
-            <button type="button" class="removeBtn">❌ Remove</button>
-        `;
-        container.appendChild(newDiv);
-
-        // remove button ka event
-        newDiv.querySelector('.removeBtn').addEventListener('click', function() {
-            newDiv.remove();
-            updatePrice();
-        });
-
-        // new price input change hone par total update
-        newDiv.querySelector(`#price-${foodCount}`).addEventListener('input', updatePrice);
+    // सारे price fields का sum
+    const priceInputs = document.querySelectorAll('[id^="price-"]');
+    priceInputs.forEach(input => {
+        total += parseInt(input.value) || 0;
     });
 
-    // first food item ke price field ke liye listener
-    document.getElementById('price-1')?.addEventListener('input', updatePrice);
+    // delivery charge condition
+    if (total >= 500) {
+        deliveryMsg.textContent = "🎉 Free Delivery (on orders above ₹500)";
+    } else {
+        total += deliveryCharge;
+        deliveryMsg.textContent = "₹40 delivery charge applied";
+    }
 
-    // initial calculation
-    updatePrice();
+    // total display
+    totalPriceElement.textContent = total.toLocaleString("en-IN");
+}
+
+
+// Function to set price automatically when food name entered
+function attachFoodListeners(foodInput, priceInput) {
+    foodInput.addEventListener("input", () => {
+        const foodName = foodInput.value.trim();
+        if (foodPrices[foodName]) {
+            priceInput.value = foodPrices[foodName];
+        } else {
+            priceInput.value = ""; // agar match na mile to blank
+        }
+        updatePrice();
+    });
+
+    // price input change hone par bhi update
+    priceInput.addEventListener("input", updatePrice);
+}
+
+// Add multiple food items with remove option
+let foodCount = 1;
+document.getElementById('addFoodBtn').addEventListener('click', function() {
+    foodCount++;
+    const container = document.getElementById('foodContainer');
+    const newDiv = document.createElement('div');
+    newDiv.className = 'form-group';
+    newDiv.innerHTML = `
+        <label for="food-${foodCount}">Food Item ${foodCount}</label>
+        <input type="text" id="food-${foodCount}" name="food_${foodCount}" required placeholder="Enter food name">
+        <input type="number" id="price-${foodCount}" name="price_${foodCount}" required placeholder="Price" min="1">
+        <button type="button" class="removeBtn">❌ Remove</button>
+    `;
+    container.appendChild(newDiv);
+
+    const foodInput = newDiv.querySelector(`#food-${foodCount}`);
+    const priceInput = newDiv.querySelector(`#price-${foodCount}`);
+
+    // automatic price attach
+    attachFoodListeners(foodInput, priceInput);
+
+    // remove button
+    newDiv.querySelector('.removeBtn').addEventListener('click', function() {
+        newDiv.remove();
+        updatePrice();
+    });
+});
+
+// first food item ke liye listeners
+const firstFood = document.getElementById('food-1');
+const firstPrice = document.getElementById('price-1');
+attachFoodListeners(firstFood, firstPrice);
+
+// initial calculation
+updatePrice();
 </script>
+
 
 
 
