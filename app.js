@@ -1,4 +1,4 @@
-// require("dotenv").config();
+require("dotenv").config();
 
 const express = require('express');
 const app = express();
@@ -8,16 +8,31 @@ const multer = require('multer');
 const User = require('./models/user');
 const Listing = require('./models/listing');
 const bcrypt = require('bcryptjs');
-const MONGO_URI = process.env.MONGO_URI || "mongodb://127.0.0.1:27017/restaurants";
+// const session = require("express-sesstion");
+const MongoStroe = require("connect-mongo");
+// const MONGO_URI = process.env.MONGO_URI || "mongodb://127.0.0.1:27017/restaurants";
+const dbUrl = process.env.ATLASDB_URL;
 
-mongoose.connect(MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-}).then(() => {
-  console.log("✅ MongoDB connected");
-}).catch(err => {
-  console.error("❌ MongoDB connection error:", err);
-});
+
+main()
+   .then(()=>{
+    console.log("connected to DB");
+   })
+   .catch((err)=>{
+    console.log(err);
+   });
+   async function main(){
+    await mongoose.connect(dbUrl);
+   }
+
+// mongoose.connect(MONGO_URI, {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true
+// }).then(() => {
+//   console.log("✅ MongoDB connected");
+// }).catch(err => {
+//   console.error("❌ MongoDB connection error:", err);
+// });
 // =========================================================
 // Passport.js and Session
 // =========================================================
@@ -26,7 +41,20 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const flash = require('connect-flash');
 
+const store = MongoStroe.create({
+  mongoUrl: dbUrl,
+  touchAfter: 24 * 60 *60,
+  crypto: {
+    secret: process.env.SESSION_SECRET,
+  },
+});
+
+store.on("error",() => {
+  console.log("error in MOngo session store",err);
+});
+
 const sessionConfig = {
+  store,
   secret: process.env.SESSION_SECRET || 'thisshouldbeabettersecret!',
   resave: false,
   saveUninitialized: true,
@@ -36,6 +64,8 @@ const sessionConfig = {
     maxAge: 1000 * 60 * 60 * 24 * 7
   }
 };
+
+
 
 app.use(session(sessionConfig));
 app.use(flash());
