@@ -10,6 +10,9 @@ const Listing = require('./models/listing');
 const bcrypt = require('bcryptjs');
 // const session = require("express-sesstion");
 const MongoStroe = require("connect-mongo");
+const Order = require("./models/order");
+
+
 // const MONGO_URI = process.env.MONGO_URI || "mongodb://127.0.0.1:27017/restaurants";
 const dbUrl = process.env.ATLASDB_URL;
 
@@ -127,6 +130,95 @@ app.get("/", async (req, res) => {
 app.get("/listings/new", (req, res) => {
   res.render("listings/new.ejs");
 });
+
+
+// app.post("/place-order", async (req, res) => {
+//   try {
+//     const items = [];
+
+//     Object.keys(req.body).forEach(key => {
+//       if (key.startsWith("food_")) {
+//         const index = key.split("_")[1];
+//         const foodName = req.body[`food_${index}`];
+//         const price = req.body[`price_${index}`];
+//         if (foodName && price) {
+//           items.push({ foodName, price });
+//         }
+//       }
+//     });
+
+//     const order = new Order({
+//       user: req.user._id,
+//       items,
+//       name: req.body.name,
+//       phone: req.body.phone,
+//       address: req.body.address,
+//       paymentMethod: req.body.paymentMethod,
+//       totalPrice: req.body.totalPrice
+//     });
+
+//     await order.save();
+//     res.status(200).json({ success: true });
+//   } catch (err) {
+//     console.log(err);
+//     res.status(500).json({ success: false, error: "Error placing order" });
+//   }
+// });
+
+app.post("/place-order", async (req, res) => {
+  try {
+    if (!req.user) {
+      return res.status(401).json({ success: false, message: "Please login first" });
+    }
+
+    const items = [];
+    Object.keys(req.body).forEach(key => {
+      if (key.startsWith("food_")) {
+        const index = key.split("_")[1];
+        const foodName = req.body[`food_${index}`];
+        const price = req.body[`price_${index}`];
+        if (foodName && price) {
+          items.push({ foodName, price });
+        }
+      }
+    });
+
+    const order = new Order({
+      user: req.user._id,
+      items,
+      name: req.body.name,
+      phone: req.body.phone,
+      address: req.body.address,
+      paymentMethod: req.body.paymentMethod,
+      totalPrice: req.body.totalPrice
+    });
+
+    await order.save();
+    console.log("✅ Order saved:", order);
+    res.status(200).json({ success: true });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ success: false, error: "Error placing order" });
+  }
+});
+
+// My Orders page
+app.get("/my-orders", async (req, res) => {
+  try {
+    if (!req.user) return res.redirect("/login");
+
+    // सिर्फ उसी user के orders
+    const orders = await Order.find({ user: req.user._id }).sort({ createdAt: -1 });
+
+    // listings folder में होने की वजह से path ऐसा देना होगा
+    res.render("listings/myOrders.ejs", { orders });
+  } catch (err) {
+    console.log(err);
+    res.send("My Orders load करने में error");
+  }
+});
+
+
 
 // Handle new listing with image upload
 app.post("/listings", upload.single("image"), async (req, res) => {
