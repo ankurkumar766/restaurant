@@ -10,9 +10,9 @@
    
     <div class="row mt-3">
     <h1 class="col-6 offset-3">SignUp on Restaurants</h1>
-    <h4>कृपया अपना लॉगिन पासवर्ड याद रखें, क्योंकि Forget Password का ऑप्शन अभी नहीं है।</h4>
+    <!-- <h4>कृपया अपना लॉगिन पासवर्ड याद रखें, क्योंकि Forget Password का ऑप्शन अभी नहीं है।</h4>
     <h4>Please remember your login password, because the Forget Password option is not available yet.</h4>
-    <h3>Please save the Password</h3>
+    <h3>Please save the Password</h3> -->
 
     <div class="col-6 offset-3">
         <form action="/signup" method="post" class="needs-validation" novalidate>
@@ -33,6 +33,9 @@
                  <div class="show-password-container">
     <input type="checkbox" id="show-password-checkbox">
     <label for="show-password-checkbox">Show Password</label>
+  </div>
+  <div class="invalid-feedback">
+    Password must contain at least one number, one uppercase and lowercase letter, one special character, and at least 8 or more characters.
   </div>
                 
             </div>
