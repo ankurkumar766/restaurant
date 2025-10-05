@@ -121,21 +121,21 @@ app.get("/listings/new", (req, res) => {
   res.render("listings/new.ejs");
 });
 
-app.post("/place-order", async (req, res) => {
+// Order route
+app.post("/place-order", upload.none(), async (req, res) => {
   try {
     if (!req.user) {
       return res.status(401).json({ success: false, message: "Please login first" });
     }
 
+    // Items collect करना
     const items = [];
     Object.keys(req.body).forEach(key => {
       if (key.startsWith("food_")) {
         const index = key.split("_")[1];
         const foodName = req.body[`food_${index}`];
         const price = req.body[`price_${index}`];
-        if (foodName && price) {
-          items.push({ foodName, price });
-        }
+        if (foodName && price) items.push({ foodName, price });
       }
     });
 
@@ -151,6 +151,7 @@ app.post("/place-order", async (req, res) => {
 
     await order.save();
     console.log("✅ Order saved:", order);
+
     res.status(200).json({ success: true });
   } catch (err) {
     console.log(err);
@@ -158,23 +159,18 @@ app.post("/place-order", async (req, res) => {
   }
 });
 
-// My Orders page
+// My Orders
 app.get("/my-orders", async (req, res) => {
   try {
     if (!req.user) return res.redirect("/login");
 
-    // सिर्फ उसी user के orders
     const orders = await Order.find({ user: req.user._id }).sort({ createdAt: -1 });
-
-    // listings folder में होने की वजह से path ऐसा देना होगा
     res.render("listings/myOrders.ejs", { orders });
   } catch (err) {
     console.log(err);
     res.send("My Orders load करने में error");
   }
 });
-
-
 
 // Handle new listing with image upload
 app.post("/listings", upload.single("image"), async (req, res) => {

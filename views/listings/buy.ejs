@@ -243,6 +243,30 @@ updatePrice();
 
 
 </script>
+<script>
+document.getElementById("orderForm").addEventListener("submit", async function(e) {
+  e.preventDefault();
+
+  const form = e.target;
+  const formData = new FormData(form);
+  formData.set("totalPrice", document.getElementById("totalPrice").textContent);
+
+  // ✅ Backend पर भेजना (MongoDB में save करने के लिए)
+  const response = await fetch("/place-order", {
+    method: "POST",
+    body: formData
+  });
+
+  const result = await response.json();
+  if (result.success) {
+    alert("✅ Order placed successfully!");
+    window.location.href = "/my-orders";
+  } else {
+    alert("❌ Order failed. Please try again.");
+  }
+});
+</script>
+
 
 
 
