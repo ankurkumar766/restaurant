@@ -238,26 +238,6 @@ updatePrice();
 
 
 
-// UPI ID
-const upiID = "7667880272@ybl";
-
-// Function to open UPI app
-function payViaUPI(app) {
-    const amount = totalPriceElement.textContent.replace(/,/g, ''); // total amount
-    let upiLink = `upi://pay?pa=${upiID}&pn=Your%20Name&am=${amount}&cu=INR`;
-
-    if(app === "phonepe") {
-        // PhonePe specific link (ya generic UPI link chalega)
-        window.location.href = upiLink;
-    } else if(app === "gpay") {
-        // Google Pay link
-        window.location.href = upiLink;
-    }
-}
-
-// Attach click events
-document.getElementById("phonepePay").addEventListener("click", () => payViaUPI("phonepe"));
-document.getElementById("gpayPay").addEventListener("click", () => payViaUPI("gpay"));
 
  
 

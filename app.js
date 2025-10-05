@@ -5,12 +5,17 @@ const app = express();
 const mongoose = require("mongoose");
 const path = require('path');
 const multer = require('multer');
-const User = require('./models/user');
+const User = require('./models/User');
 const Listing = require('./models/listing');
 const bcrypt = require('bcryptjs');
 // const session = require("express-sesstion");
 const MongoStroe = require("connect-mongo");
 const Order = require("./models/order");
+const authRoutes = require("./routes/authRoutes");
+// ...
+
+
+
 
 
 // const MONGO_URI = process.env.MONGO_URI || "mongodb://127.0.0.1:27017/restaurants";
@@ -27,17 +32,10 @@ main()
    async function main(){
     await mongoose.connect(dbUrl);
    }
+   app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
-// mongoose.connect(MONGO_URI, {
-//   useNewUrlParser: true,
-//   useUnifiedTopology: true
-// }).then(() => {
-//   console.log("✅ MongoDB connected");
-// }).catch(err => {
-//   console.error("❌ MongoDB connection error:", err);
-// });
-// =========================================================
-// Passport.js and Session
+
 // =========================================================
 const session = require('express-session');
 const passport = require('passport');
@@ -100,15 +98,7 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
-
-// const multer = require("multer");
-// const { cloudinary, storage } = require("./utils/cloudinary");
-//   // utils/cloudinary.js file ka path
-// const upload = multer({ storage });
-
-// module.exports = upload;
-
-
+app.use("/", authRoutes);
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
@@ -130,40 +120,6 @@ app.get("/", async (req, res) => {
 app.get("/listings/new", (req, res) => {
   res.render("listings/new.ejs");
 });
-
-
-// app.post("/place-order", async (req, res) => {
-//   try {
-//     const items = [];
-
-//     Object.keys(req.body).forEach(key => {
-//       if (key.startsWith("food_")) {
-//         const index = key.split("_")[1];
-//         const foodName = req.body[`food_${index}`];
-//         const price = req.body[`price_${index}`];
-//         if (foodName && price) {
-//           items.push({ foodName, price });
-//         }
-//       }
-//     });
-
-//     const order = new Order({
-//       user: req.user._id,
-//       items,
-//       name: req.body.name,
-//       phone: req.body.phone,
-//       address: req.body.address,
-//       paymentMethod: req.body.paymentMethod,
-//       totalPrice: req.body.totalPrice
-//     });
-
-//     await order.save();
-//     res.status(200).json({ success: true });
-//   } catch (err) {
-//     console.log(err);
-//     res.status(500).json({ success: false, error: "Error placing order" });
-//   }
-// });
 
 app.post("/place-order", async (req, res) => {
   try {
@@ -323,6 +279,9 @@ app.post('/signup', async (req, res, next) => {
 // Login
 app.get("/login", (req, res) => {
   res.render("listings/login.ejs");
+});
+app.get("/forgot", (req, res)=> {
+  res.render("listings/forgot.ejs");
 });
 
 app.post('/login', passport.authenticate('local', {
