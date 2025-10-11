@@ -12,6 +12,7 @@ const bcrypt = require('bcryptjs');
 const MongoStroe = require("connect-mongo");
 const Order = require("./models/order");
 const authRoutes = require("./routes/authRoutes");
+
 // ...
 
 
@@ -32,8 +33,8 @@ main()
    async function main(){
     await mongoose.connect(dbUrl);
    }
-   app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+//    app.use(express.urlencoded({ extended: true }));
+// app.use(express.json());
 
 
 // =========================================================
@@ -103,6 +104,8 @@ app.use("/", authRoutes);
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads'))); // ⚠️ Render पर temporary
 
@@ -176,6 +179,8 @@ app.get("/my-orders", async (req, res) => {
 app.post("/listings", upload.single("image"), async (req, res) => {
   try {
     const { title, description, price } = req.body;
+    
+
     const filePath = "/uploads/" + req.file.filename;
 
     const newListing = new Listing({
@@ -263,7 +268,7 @@ app.post('/signup', async (req, res, next) => {
     const registeredUser = await User.register(newUser, password);
     req.login(registeredUser, err => {
       if (err) return next(err);
-      req.flash('success', 'Welcome to Wanderlust!');
+      req.flash('success', 'Welcome to Vatika Restaurant!');
       res.redirect('/');
     });
   } catch (e) {
@@ -284,7 +289,7 @@ app.post('/login', passport.authenticate('local', {
   failureRedirect: '/login',
   failureFlash: true
 }), (req, res) => {
-  req.flash('success', 'Welcome back to Wanderlust!');
+  req.flash('success', 'Welcome back to Vatika Restaurant!');
   const redirectUrl = req.session.returnTo || '/';
   delete req.session.returnTo;
   res.redirect(redirectUrl);
