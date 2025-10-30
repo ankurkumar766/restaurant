@@ -14,14 +14,8 @@ const Order = require("./models/order");
 const authRoutes = require("./routes/authRoutes");
 
 // ...
-
-
-
-
-
 // const MONGO_URI = process.env.MONGO_URI || "mongodb://127.0.0.1:27017/restaurants";
 const dbUrl = process.env.ATLASDB_URL;
-
 
 main()
    .then(()=>{
@@ -66,8 +60,6 @@ const sessionConfig = {
     maxAge: 1000 * 60 * 60 * 24 * 7
   }
 };
-
-
 
 app.use(session(sessionConfig));
 app.use(flash());
@@ -304,9 +296,6 @@ app.get('/logout', (req, res, next) => {
   });
 });
 
-
-
-
 const port = process.env.PORT || 8080;
 app.listen(port, () => {
   console.log(`✅ Server running on port ${port}`);
@@ -315,7 +304,3 @@ app.listen(port, () => {
 
 
 
-// const port = process.env.PORT || 8080;
-// app.listen(port, () => {
-//   console.log(`✅ Server running on port ${port}`);
-// });

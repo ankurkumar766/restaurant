@@ -132,8 +132,8 @@ const foodPrices = {
     "Golden pizza: ": 120, "Veg loaded pizza": 120, "Mushroom pizza": 150, "Paneer pizza":150, "Mix pizza":170, "BBQ chicken pizza": 170, "Vatika supreme": 190,
     "Veg manchow soup": 70, "Veg hot soup": 80, "Veg lemon coriander": 90, "Sweet carn soup": 85, "Mushroom soup": 80,
     "Paneer masala":120, "Paneer butter masala":130,  "Paneer chilli": 90, "Kadhi panner": 120, "Matar Paneer": 130, "Paneer do pyaza": 130, "Mix veg": 150,
-    "Chicken lollipop":120, "Chicken chilli": 80, "Boneless chicken": 90, "Butter chiceken": 160, "Chicken masala":140, "Kadhai chicken": 140, "Chicken do pyaza": 130, "Chicken cry": 110,
-    "Egg bhurgi":50, "Egg masala":120, "Egg curry": 70, "Omlet": 50, "Har fry egg": 40,
+    "Chicken lollipop":120, "Chicken chilli": 80, "Boneless chicken": 90, "Butter chiceken": 160, "Chicken masala":140, "Kadhai chicken": 140, "Chicken do pyaza": 130, "Chicken curry": 110,
+    "Egg bhurgi":50, "Egg masala":120, "Egg curry": 70, "Omlet": 50, "Half fry egg": 40,
     "Mushroom masala":120, "Mushroom butter masala": 120, "Kadhi mushroom": 130, "Mushroom chilli": 110, "Mushroom do pyaza": 120,
     "Plane dosa": 50, "Masala dosa": 60, "Paneer masala dosa": 90, "cheese dosa": 90, "Paneer tikka": 280, "Chicken tikka": 210, "Tandoori chicken tikka": 260,
     "Hakka noodles": 40, "Veg noodles": 40, "Paneer noodles": 60, "Egg noodles": 60, "Chicken noodles": 70, "Mix noodles":80, "Singhapuri noodles":60, "Veg biryani": 140, "Chicken biryani": 90,
@@ -219,41 +219,9 @@ updatePrice();
 
 
 
- document.getElementById("orderForm").addEventListener("submit", async function(e) {
-    e.preventDefault();
-
-    const form = e.target;
-    const formData = new FormData(form);
-
-    // total price hidden field update
-    formData.set("totalPrice", totalPriceElement.textContent);
-
-    // ✅ 1. Web3Forms (Gmail के लिए)
-    formData.append("access_key", "1f937280-f43a-482b-b121-466444023e0f");
-    formData.append("redirect", "https://yoursite.com/thank-you");
-
-    fetch("https://api.web3forms.com/submit", {
-        method: "POST",
-        body: formData
-    });
-
-    // ✅ 2. Apne backend (MongoDB save करने के लिए)
-    fetch("/place-order", {
-        method: "POST",
-        body: formData
-    }).then(() => {
-        window.location.href = "/my-orders";
-    });
-});
 
 
 
-
- 
-
-
-</script>
-<script>
 document.getElementById("orderForm").addEventListener("submit", async function(e) {
   e.preventDefault();
 
@@ -261,21 +229,43 @@ document.getElementById("orderForm").addEventListener("submit", async function(e
   const formData = new FormData(form);
   formData.set("totalPrice", document.getElementById("totalPrice").textContent);
 
-  // ✅ Backend पर भेजना (MongoDB में save करने के लिए)
-  const response = await fetch("/place-order", {
-    method: "POST",
-    body: formData
-  });
+  try {
+    // ✅ Step 1: Gmail (Web3Forms)
+    formData.append("access_key", "1f937280-f43a-482b-b121-466444023e0f");
+    formData.append("redirect", "https://yoursite.com/thank-you");
 
-  const result = await response.json();
-  if (result.success) {
-    alert("✅ Order placed successfully!");
-    window.location.href = "/my-orders";
-  } else {
-    alert("❌ Order failed. Please try again.");
+    await fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      body: formData
+    });
+
+    // ✅ Step 2: Backend (MongoDB)
+    const response = await fetch("/place-order", {
+      method: "POST",
+      body: formData
+    });
+
+    const result = await response.json();
+
+    if (result.success) {
+      alert("✅ Order placed successfully!");
+      window.location.href = "/my-orders";
+    } else {
+      alert("❌ Order failed. Please try again.");
+    }
+
+  } catch (err) {
+    console.error(err);
+    alert("⚠️ Error while placing order. Please try again.");
   }
 });
+
+
+ 
+
+
 </script>
+
 
 
 
