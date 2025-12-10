@@ -99,8 +99,8 @@
            <!-- Payment Options -->
 <h3>Pay via UPI:</h3>
 <div style="display: flex; gap: 20px; align-items: center; margin-bottom: 20px;">
-    <img src="/css/images/phonepay.jpg" alt="PhonePe" style="width:100px; cursor:pointer;" id="phonepePay">
-    <img src="/css/images/googlepay.jpg" alt="Google Pay" style="width:100px; cursor:pointer;" id="gpayPay">
+    <img onclick="openPhonePe()" src="/css/images/phonepay.jpg" alt="PhonePe" style="width:100px; cursor:pointer;" id="phonepePay">
+    <!-- <img src="/css/images/googlepay.jpg" alt="Google Pay" style="width:100px; cursor:pointer;" id="gpayPay"> -->
 </div>
 
             
@@ -111,12 +111,26 @@
             </div>
         </form>
          <a href="https://forms.gle/r5UYrCbEHFmVqCTY6">Upload Payment screenshot</a> <br><br>
-         <a href="https://forms.gle/r5UYrCbEHFmVqCTY6">href="https://forms.gle/r5UYrCbEHFmVqCTY6</a>
+         <a href="https://forms.gle/r5UYrCbEHFmVqCTY6">href="https://forms.gle/r5UYrCbEHFmVqCTY6</a><br>
+             <h3>you can send payments screenshort my whatsapp number</h3>
+         <div style="display: flex; gap: 20px; align-items: center; margin-bottom: 20px; ">
+    <img onclick="openWhatsApp()" src="/css/images/whatsapp image.jpeg" alt="whatsapp" style="width:100px; cursor:pointer; border-radius: 50%;" id="whatsapp">
+   
         
     </div>
 
+    <script>
+function openPhonePe() {
+  window.location.href =
+  "upi://pay?pa=7667880272@postbank&pn=Ankur%20Kumar&am=100&cu=INR";
+}
+</script>
+
    
 <script>
+    function openWhatsApp() {
+  window.location.href = "https://wa.me/917667880272?text=Hello%2C%20main%20aapko%20photo%20bhejna%20chahta%20hoon";
+}
 const totalPriceElement = document.getElementById('totalPrice');
 const deliveryCharge = 40; // delivery charge
 
