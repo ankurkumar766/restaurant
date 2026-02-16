@@ -109,6 +109,7 @@ max-height: 400px;
   box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     
 }
+
 .can-btn:hover{
     background-color: #218838;
     text-decoration: none;
@@ -178,6 +179,20 @@ max-height: 400px;
    <a href="/listings/<%= listing._id %>/buy" class="buy-btn">Buy Now</a>&nbsp; &nbsp;
    
     <a href="/listings/<%= listing._id %>/cancle" class="can-btn">Cancle</a>
+       
+
+      
+
+    <form action="/cart/<%= listing._id %>" method="POST">
+    <button class="btn btn-primary" style="background:rgb(165, 42, 58); color:white; padding:10px; cursor:pointer">
+        Add to Bag 🛒
+    </button>
+</form>
+
+
+
+   
+    
     <h2>₹500 से ज्यादा के ऑर्डर पर डिलीवरी फ्री</h2>
 
    

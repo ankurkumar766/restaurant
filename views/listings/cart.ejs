@@ -1,0 +1,66 @@
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+  <h1>Your Bag 🛒</h1>
+
+ <%
+let total = 0;
+cart.forEach(item => {
+    total += item.price;
+});
+%>
+
+<h2>Total: ₹ <%= total %></h2>
+
+<!-- Payment button -->
+<form action="/cart/checkout" method="GET">
+    <input type="hidden" name="total" value="<%= total %>">
+    <button style="background:green; color:white; padding:10px;">
+        Proceed to Payment 💳
+    </button>
+</form>
+
+
+<% if(cart.length === 0){ %>
+
+    <p>Cart is empty</p>
+
+<% } else { %>
+
+    <% cart.forEach((item, index) => { %>
+
+        <div style="border:1px solid black; padding:10px; margin:10px; width:300px;">
+
+            <!-- Image -->
+            <img src="<%= item.image.url %>" width="200" height="150">
+
+            <!-- Title -->
+            <h3><%= item.title %></h3>
+
+            <!-- Price -->
+            <p>₹ <%= item.price %></p>
+
+            <!-- Remove button -->
+            <form action="/cart/remove/<%= index %>" method="POST">
+                <button style="background:red; color:white;">
+                    Remove ❌
+                </button>
+            </form>
+
+        </div>
+
+    <% }) %>
+
+<% } %>
+
+
+</body>
+</html>

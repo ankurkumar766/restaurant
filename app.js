@@ -13,6 +13,8 @@ const MongoStroe = require("connect-mongo");
 const Order = require("./models/order");
 const authRoutes = require("./routes/authRoutes");
 
+
+
 // ...
 // const MONGO_URI = process.env.MONGO_URI || "mongodb://127.0.0.1:27017/restaurants";
 const dbUrl = process.env.ATLASDB_URL;
@@ -36,6 +38,7 @@ const session = require('express-session');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const flash = require('connect-flash');
+const cartRoutes = require("./routes/cart");
 
 const store = MongoStroe.create({
   mongoUrl: dbUrl,
@@ -66,6 +69,16 @@ app.use(flash());
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+
+app.use("/cart", cartRoutes);
+
+
+app.use(session({
+    secret: "mysupersecret",
+    resave: false,
+    saveUninitialized: true
+}));
 
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
@@ -247,6 +260,13 @@ app.get("/listings/:id/cancle", async (req, res) => {
   const listing = await Listing.findById(id);
   res.render("listings/cancle.ejs", { listing });
 });
+
+
+app.get("/listings/:id/cart", async (req, res) => {
+  const cart = await Cart.findOne({ userId: req.user._id });
+  res.render("listings/cart.ejs", { cart });
+});
+
 
 // Signup
 app.get("/signup", (req, res) => {

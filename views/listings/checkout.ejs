@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Payment Page 💳</h1>
+
+<h2>Total Amount: ₹ <%= total %></h2>
+
+<button onclick="payNow()" style="background:blue; color:white; padding:10px;">
+    Pay ₹ <%= total %>
+</button>
+
+<script>
+function payNow(){
+    alert("Payment Successful ₹ <%= total %>");
+    window.location.href = "/cart";
+}
+</script>
+
+</body>
+</html>
