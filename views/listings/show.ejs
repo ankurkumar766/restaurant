@@ -114,6 +114,27 @@ max-height: 400px;
     background-color: #218838;
     text-decoration: none;
 }
+.add{
+     background-color: rgb(255, 28, 85);
+    color: white;
+    padding: 10px 24px;
+     border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: bold;
+  text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+
+}
+.add:hover{
+    background-color: #218838;
+    color: thistle;
+    cursor: pointer;
+}
+
 
 
 
@@ -178,13 +199,13 @@ max-height: 400px;
     <% if(currentUser){ %>
    <a href="/listings/<%= listing._id %>/buy" class="buy-btn">Buy Now</a>&nbsp; &nbsp;
    
-    <a href="/listings/<%= listing._id %>/cancle" class="can-btn">Cancle</a>
+    <a href="/listings/<%= listing._id %>/cancle" class="can-btn">Cancle</a>&nbsp; &nbsp;
        
 
       
 
     <form action="/cart/<%= listing._id %>" method="POST">
-    <button class="btn btn-primary" style="background:rgb(165, 42, 58); color:white; padding:10px; cursor:pointer">
+    <button class="add " >
         Add to Bag 🛒
     </button>
 </form>

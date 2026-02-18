@@ -1,65 +1,291 @@
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Your Bag</title>
+
+    <link rel="stylesheet" href="/css/card.css">
+
 </head>
 <body>
-  <h1>Your Bag 🛒</h1>
 
- <%
+<div class="container">
+
+<h1>Your Bag 🛒</h1>
+
+<%
 let total = 0;
 cart.forEach(item => {
     total += item.price;
 });
 %>
 
-<h2>Total: ₹ <%= total %></h2>
-
-<!-- Payment button -->
-<form action="/cart/checkout" method="GET">
-    <input type="hidden" name="total" value="<%= total %>">
-    <button style="background:green; color:white; padding:10px;">
-        Proceed to Payment 💳
-    </button>
-</form>
+<h2 class="total">Total: ₹ <%= total %></h2>
 
 
+<!-- Cart items -->
 <% if(cart.length === 0){ %>
 
-    <p>Cart is empty</p>
+<p class="empty">Cart is empty</p>
 
 <% } else { %>
 
-    <% cart.forEach((item, index) => { %>
+<div class="cart-items">
 
-        <div style="border:1px solid black; padding:10px; margin:10px; width:300px;">
+<% cart.forEach((item, index) => { %>
 
-            <!-- Image -->
-            <img src="<%= item.image.url %>" width="200" height="150">
+<div class="card">
 
-            <!-- Title -->
-            <h3><%= item.title %></h3>
+<img src="<%= item.image.url %>" alt="food">
 
-            <!-- Price -->
-            <p>₹ <%= item.price %></p>
+<h3><%= item.title %></h3>
 
-            <!-- Remove button -->
-            <form action="/cart/remove/<%= index %>" method="POST">
-                <button style="background:red; color:white;">
-                    Remove ❌
-                </button>
-            </form>
+<p class="price">₹ <%= item.price %></p>
 
-        </div>
+<form action="/cart/remove/<%= index %>" method="POST">
+<button class="remove-btn">Remove ❌</button>
+</form>
 
-    <% }) %>
+</div>
+
+<% }) %>
+
+</div>
 
 <% } %>
+
+
+<hr>
+
+
+<!-- Payment Section -->
+
+<h2>Payment Options</h2>
+
+<h3>UPI ID: 7667880272@ybl</h3>
+
+<img src="/css/images/qr.jpg" class="qr">
+
+<div class="payment-icons">
+
+<img onclick="openPhonePe()" src="/css/images/phonepay.jpg" class="pay-icon">
+
+<img onclick="openWhatsApp()" src="/css/images/whatsapp image.jpeg" class="pay-icon whatsapp">
+
+</div>
+
+
+<a href="https://forms.gle/r5UYrCbEHFmVqCTY6" class="upload-link">
+Upload Payment Screenshot
+</a>
+
+
+<hr>
+
+
+<!-- Order Form -->
+
+<h2>Order Details</h2>
+
+<form id="orderForm">
+
+<input type="hidden" name="total" value="<%= total %>">
+
+<input type="hidden" name="access_key" value="1f937280-f43a-482b-b121-466444023e0f">
+
+<div class="form-group">
+
+<label>Food Items</label>
+
+
+<div id="foodContainer">
+
+<div class="food-row">
+
+<input type="text" name="foods[]" placeholder="Enter food name" class="food-input">
+
+<button type="button" onclick="removeFood(this)" class="remove-btn">
+❌
+</button>
+
+</div>
+
+</div>
+
+<button type="button" onclick="addFood()" class="add-btn">
++ Add More
+</button>
+
+</div>
+
+
+
+<div class="form-group">
+
+<label>Name</label>
+
+<input type="text" name="name" required>
+
+</div>
+
+
+<div class="form-group">
+
+<label>Phone</label>
+
+<input type="tel" name="phone" required>
+
+</div>
+
+
+<div class="form-group">
+
+<label>Address</label>
+
+<textarea name="address" required></textarea>
+
+</div>
+
+
+<div class="form-group">
+
+<label>Payment Method</label>
+
+<select name="paymentMethod" required>
+
+<option value="">Select</option>
+
+<option value="Cash">Cash on Delivery</option>
+
+<option value="UPI">UPI</option>
+
+</select>
+
+</div>
+
+
+<button type="submit" class="order-btn">
+Place Order
+</button>
+
+</form>
+
+</div>
+
+
+<script>
+
+function addFood(){
+
+const container = document.getElementById("foodContainer");
+
+const div = document.createElement("div");
+
+div.className = "food-row";
+
+div.innerHTML = `
+
+<input type="text" name="foods[]" placeholder="Enter food name" class="food-input">
+
+<button type="button" onclick="removeFood(this)" class="remove-btn">
+❌
+</button>
+
+`;
+
+container.appendChild(div);
+
+}
+
+
+function removeFood(button){
+
+button.parentElement.remove();
+
+}
+
+</script>
+
+
+
+
+<script>
+
+function openPhonePe(){
+
+window.location.href =
+"upi://pay?pa=7667880272@postbank&pn=Ankur%20Kumar&cu=INR";
+
+}
+
+
+function openWhatsApp(){
+
+window.location.href =
+"https://wa.me/917667880272?text=Hello%20I%20am%20sending%20payment%20screenshot";
+
+}
+
+
+document.getElementById("orderForm").addEventListener("submit", async function(e){
+
+e.preventDefault();
+
+const formData = new FormData(this);
+
+
+try{
+
+// send email
+
+await fetch("https://api.web3forms.com/submit",{
+
+method:"POST",
+
+body:formData
+
+});
+
+
+// save to database
+
+const response = await fetch("/place-order",{
+
+method:"POST",
+
+body:formData
+
+});
+
+const result = await response.json();
+
+
+if(result.success){
+
+alert("Order placed successfully ✅");
+
+window.location.href="/my-orders";
+
+}
+
+else{
+
+alert("Order failed ❌");
+
+}
+
+}
+
+catch(err){
+
+alert("Error occurred");
+
+}
+
+});
+
+</script>
 
 
 </body>
