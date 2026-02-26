@@ -129,6 +129,8 @@ app.get("/listings/new", (req, res) => {
   res.render("listings/new.ejs");
 });
 
+
+
 // Order route
 app.post("/place-order", upload.none(), async (req, res) => {
   try {
@@ -267,7 +269,9 @@ app.get("/listings/:id/cart", async (req, res) => {
   res.render("listings/cart.ejs", { cart });
 });
 
-
+app.get("/about", (req, res) => {
+  res.render("listings/about.ejs");
+});
 // Signup
 app.get("/signup", (req, res) => {
   res.render("listings/signup.ejs");

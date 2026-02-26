@@ -1,0 +1,167 @@
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+body{
+  background:#f8f9fa;
+}
+
+
+/* Navbar */
+
+.navbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:15px 40px;
+  background:#111;
+  color:white;
+  position:sticky;
+  top:0;
+}
+
+.logo{
+  font-size:24px;
+  font-weight:bold;
+}
+
+
+
+
+/* Hero */
+
+.hero{
+  height:90vh;
+  background:url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0') center/cover;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  color:white;
+}
+
+.hero-content h1{
+  font-size:50px;
+}
+
+.hero-content p{
+  margin:10px 0;
+  font-size:20px;
+}
+
+.hero-content button{
+  padding:12px 25px;
+  border:none;
+  background:#ff5722;
+  color:white;
+  font-size:16px;
+  border-radius:5px;
+  cursor:pointer;
+}
+
+
+/* About */
+
+.about{
+  padding:60px 20px;
+}
+
+.about-container{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:40px;
+  max-width:1000px;
+  margin:auto;
+}
+
+.about-image img{
+  width:400px;
+  border-radius:10px;
+}
+
+.about-text{
+  max-width:400px;
+}
+
+.about-text h2{
+  margin-bottom:10px;
+}
+
+
+/* Stats */
+
+.stats{
+  display:flex;
+  gap:20px;
+  margin-top:20px;
+}
+
+.stat{
+  text-align:center;
+}
+
+.stat h3{
+  color:#ff5722;
+  font-size:28px;
+}
+
+
+/* Chef */
+
+.chef{
+  text-align:center;
+  padding:50px;
+  background:white;
+}
+
+.chef-card{
+  margin-top:20px;
+}
+
+.chef-card img{
+  width:200px;
+  border-radius:50%;
+}
+
+footer{
+  text-align:center;
+  padding:20px;
+  background:#111;
+  color:white;
+}
+
+
+/* Mobile Responsive */
+
+@media(max-width:768px){
+
+  .navbar{
+    flex-direction:column;
+  }
+
+  .nav-links{
+    flex-direction:column;
+    margin-top:10px;
+  }
+
+  .hero-content h1{
+    font-size:30px;
+  }
+
+  .about-container{
+    flex-direction:column;
+  }
+
+  .about-image img{
+    width:100%;
+  }
+
+  .stats{
+    flex-direction:column;
+  }
+
+}
