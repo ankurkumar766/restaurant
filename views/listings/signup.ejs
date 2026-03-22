@@ -16,7 +16,8 @@
     
 
     <div class="col-6 offset-3">
-        <form action="/signup" method="post" class="needs-validation" novalidate>
+        <!-- <form action="/signup" method="post" class="needs-validation" novalidate> -->
+          <form action="/signup-send-otp" method="POST" class="needs-validation" novalidate>
             <div class="mb-3">
                 <label for="username" class="form-label">Username</label><br>
                 <input name="username" id="username" type="text" class="form-control" required>
@@ -40,6 +41,7 @@
   </div>
                 
             </div>
+            <!-- <button class="btn btn-success">Send OTP</button> -->
         </br></br>
             <button class="btn btn-success">Signup</button> </br></br> <a href="/login">login</a> 
         </form>

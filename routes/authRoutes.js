@@ -94,4 +94,114 @@ router.post("/reset-password", async (req, res) => {
   }
 });
 
+
+
+
+
+
+
+
+
+
+// Send OTP for Signup
+router.post("/signup-send-otp", async (req, res) => {
+  try {
+    const { username, email, password } = req.body;
+
+    if (!username || !email || !password) {
+      return res.render("listings/signup.ejs", {
+        message: "Fill all fields",
+        alertType: "error",
+      });
+    }
+
+    // check if user already exists
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.render("listings/signup.ejs", {
+        message: "Email already registered!",
+        alertType: "error",
+      });
+    }
+
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+
+    // store signup data temporarily in session
+    req.session.signupData = { username, email, password, otp };
+
+    // nodemailer reuse
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.GMAIL_USER,
+        pass: process.env.GMAIL_PASS,
+      },
+    });
+
+    await transporter.sendMail({
+      from: process.env.GMAIL_USER,
+      to: email,
+      subject: "OTP for Signup Verification",
+      text: `Your signup OTP is ${otp}`,
+    });
+
+    res.render("listings/verifySignupOtp.ejs", {
+      email,
+      message: "OTP sent to your email!",
+      alertType: "success",
+    });
+
+  } catch (err) {
+    console.log(err);
+    res.render("listings/signup.ejs", {
+      message: "Error sending OTP",
+      alertType: "error",
+    });
+  }
+});
+
+
+
+
+
+
+
+
+// Verify OTP for Signup
+router.post("/verify-signup-otp", async (req, res) => {
+  try {
+    const { otp } = req.body;
+
+    const signupData = req.session.signupData;
+
+    if (!signupData || signupData.otp !== otp) {
+      return res.render("listings/verifySignupOtp.ejs", {
+        email: signupData.email,
+        message: "Invalid OTP!",
+        alertType: "error",
+      });
+    }
+
+    const { username, email, password } = signupData;
+
+    const newUser = new User({ username, email });
+
+    await User.register(newUser, password);
+
+    req.session.signupData = null;
+
+    res.render("listings/login.ejs", {
+      message: "Signup successful! Please login.",
+      alertType: "success",
+    });
+
+  } catch (err) {
+    console.log(err);
+    res.render("listings/login.ejs", {
+      message: "Error creating account",
+      alertType: "error",
+    });
+  }
+});
+
 module.exports = router;

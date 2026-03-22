@@ -6,6 +6,7 @@
     <title>Restaurants</title>
     <!-- Font Awesome CDN include karo -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="/css/show.css" />
 
 </head>
 <body>
@@ -16,152 +17,7 @@
         <li><%= listing.price.toLocaleString("en-IN") %></li>
     </ul>
     <br> -->
-    <style>
-       
-        
-        .buy {
-            font-weight: 200;
-            font-size: larger;
-            color:  #218838;
-        }
-        .checked {
-            color:  #218838;
-        }
-        .can{
-           font-weight: 200;
-            font-size: larger;
-            color: #ff0000;
-        }
-        .nav-link{
-             font-weight: 200;
-            font-size: larger;
-            color:  #218838;
-        }
-
-
-        .f-info-links a {
-    text-decoration: none;
-    color: #222222;
-}
-
-
-.show-img {
-    
-width: 40%; 
-display: block; 
-
-border-radius: 0.5rem; 
-object-fit: cover;  
-height: auto; 
-max-height: 400px; 
-}
-.f-info-links a:hover {
-    text-decoration: underline;
-}
-.f-info-links,.f-info-socials,.f-info-brand {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.f-info-socials i {
-    margin-right: 2rem;
-}
-.f-info {
-    text-align: center;
-    height: 10rem;
-    background-color: #ebebeb;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: space-evenly;
-}
-
-.buy-btn {
-  background-color: #ffa41c;         /* Green */
-  color: white;
-  padding: 10px 24px;
-  border: none;
-  border-radius: 6px;
-  font-size: 16px;
-  font-weight: bold;
-  text-decoration: none;
-  display: inline-block;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-}
-
-.buy-btn:hover {
-  background-color: #218838;         /* Darker green */
-  text-decoration: none;
-}
-.can-btn {
-    background-color: #ff0000;
-    color: white;
-    padding: 10px 24px;
-     border: none;
-  border-radius: 6px;
-  font-size: 16px;
-  font-weight: bold;
-  text-decoration: none;
-  display: inline-block;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    
-}
-
-.can-btn:hover{
-    background-color: #218838;
-    text-decoration: none;
-}
-.add{
-     background-color: rgb(255, 28, 85);
-    color: white;
-    padding: 10px 24px;
-     border: none;
-  border-radius: 6px;
-  font-size: 16px;
-  font-weight: bold;
-  text-decoration: none;
-  display: inline-block;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-
-}
-.add:hover{
-    background-color: #218838;
-    color: thistle;
-    cursor: pointer;
-}
-
-
-
-
-
-
-
-
-.f-info-socials a {
-  text-decoration: none;
-  transition: color 0.3s;
-}
-
-.f-info-socials a:nth-child(1):hover {
-  color: #1877f2; /* Facebook Blue */
-}
-.f-info-socials a:nth-child(2):hover {
-  color: #e1306c; /* Instagram Pink */
-}
-.f-info-socials a:nth-child(3):hover {
-  color: #ff0000; /* LinkedIn Blue */
-}
-
-        
-    </style>
+   
     <h3 style="color: blue;">Munu Details:- </h3>
     <div class="row">
       <div class="col-8 offest-2">
@@ -225,6 +81,38 @@ max-height: 400px;
    <%} %></br>
     </br> </br>
 
+
+
+
+   <hr>
+
+<h2 class="related-title">Related Menu 🍔</h2>
+
+<div class="related-container">
+
+<% relatedListings.forEach(item => { %>
+
+<a href="/listings/<%= item._id %>" class="related-card-link">
+
+<div class="related-card">
+
+<img src="<%= item.image.url %>" class="related-img">
+
+<div class="related-body">
+
+<h5><%= item.title %></h5>
+
+<p>₹ <%= item.price.toLocaleString("en-IN") %></p>
+
+</div>
+
+</div>
+
+</a>
+
+<% }) %>
+
+</div>
 
    
 

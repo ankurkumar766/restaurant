@@ -17,7 +17,7 @@ const authRoutes = require("./routes/authRoutes");
 
 // ...
 // const MONGO_URI = process.env.MONGO_URI || "mongodb://127.0.0.1:27017/restaurants";
-const dbUrl = process.env.ATLASDB_URL;
+const dbUrl = process.env.ATLASDB_URI;
 
 main()
    .then(()=>{
@@ -247,11 +247,31 @@ app.put("/listings/:id", upload.single("image"), async (req, res) => {
   res.redirect(`/listings/${id}`);
 });
 
+// app.get("/listings/:id", async (req, res) => {
+//   let { id } = req.params;
+//   const listing = await Listing.findById(id);
+//   res.render("listings/show.ejs", { listing });
+// });
 app.get("/listings/:id", async (req, res) => {
-  let { id } = req.params;
-  const listing = await Listing.findById(id);
-  res.render("listings/show.ejs", { listing });
+    const { id } = req.params;
+
+    const listing = await Listing.findById(id);
+
+    // const relatedListings = await Listing.find({
+    //     _id: { $ne: id },
+    //     price: { $gte: listing.price - 200, $lte: listing.price + 200 }
+    // }).limit(10);
+    const keyword = listing.title.split(" ").pop();
+
+const relatedListings = await Listing.find({
+  title: { $regex: keyword, $options: "i" },
+  _id: { $ne: id }
+}).limit(6);
+
+    res.render("listings/show", { listing, relatedListings });
 });
+
+
 app.get("/listings/:id/buy", async (req, res) => {
   let { id } = req.params;
   const listing = await Listing.findById(id);
