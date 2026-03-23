@@ -34,20 +34,38 @@ main()
 
 
 // =========================================================
-const session = require('express-session');
-const passport = require('passport');
-const LocalStrategy = require('passport-local');
-const flash = require('connect-flash');
+// const session = require('express-session');
+// const passport = require('passport');
+// const LocalStrategy = require('passport-local');
+// const flash = require('connect-flash');
+// const cartRoutes = require("./routes/cart");
+
+// const store = MongoStroe.create({
+//   mongoUrl: dbUrl,
+//   touchAfter: 24 * 60 *60,
+//   crypto: {
+//     secret: process.env.SESSION_SECRET,
+//   },
+// });
+
+const session = require("express-session");
+const MongoStore = require("connect-mongo");
+const passport = require("passport");
+const LocalStrategy = require("passport-local");
+const flash = require("connect-flash");
 const cartRoutes = require("./routes/cart");
 
-const store = MongoStroe.create({
+const store = MongoStore.create({
   mongoUrl: dbUrl,
-  touchAfter: 24 * 60 *60,
+  touchAfter: 24 * 60 * 60,
   crypto: {
     secret: process.env.SESSION_SECRET,
   },
 });
 
+store.on("error", (err) => {
+  console.log("error in Mongo session store", err);
+});
 store.on("error",() => {
   console.log("error in MOngo session store",err);
 });
