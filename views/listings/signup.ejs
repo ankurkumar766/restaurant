@@ -7,17 +7,25 @@
      <link rel="stylesheet" href="/css/signup.css" />
 </head>
 <body>
+
+  <% if(success && success.length > 0){ %>
+<div style="color:green; font-weight:bold;">
+  <%= success %>
+</div>
+<% } %>
+
+<% if(error && error.length > 0){ %>
+<div style="color:red; font-weight:bold;">
+  <%= error %>
+</div>
+<% } %>
    
     <div class="row mt-3">
     <h1 class="col-6 offset-3">SignUp on Restaurants</h1>
 
-   
-
-    
-
     <div class="col-6 offset-3">
         <form action="/signup" method="post" class="needs-validation" novalidate>
-          <!-- <form action="/signup-send-otp" method="POST" class="needs-validation" novalidate> -->
+         
             <div class="mb-3">
                 <label for="username" class="form-label">Username</label><br>
                 <input name="username" id="username" type="text" class="form-control" required>
@@ -25,7 +33,13 @@
             </div></br></br>
             <div class="mb-3">
                 <label for="email" class="form-label">Email</label><br>
-                <input name="email" id="email" type="email" class="form-control" required>
+                <input 
+                    name="email" 
+                   id="email" 
+                     type="email" 
+                     class="form-control" 
+                            pattern="^[a-zA-Z0-9._%+-]+@gmail\.com$"
+                             required>
                 
             </div></br></br>
            
@@ -41,7 +55,7 @@
   </div>
                 
             </div>
-            <!-- <button class="btn btn-success">Send OTP</button> -->
+           
         </br></br>
             <button class="btn btn-success">Signup</button> </br></br> <a href="/login">login</a> 
         </form>

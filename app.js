@@ -29,24 +29,7 @@ main()
    async function main(){
     await mongoose.connect(dbUrl);
    }
-//    app.use(express.urlencoded({ extended: true }));
-// app.use(express.json());
 
-
-// =========================================================
-// const session = require('express-session');
-// const passport = require('passport');
-// const LocalStrategy = require('passport-local');
-// const flash = require('connect-flash');
-// const cartRoutes = require("./routes/cart");
-
-// const store = MongoStroe.create({
-//   mongoUrl: dbUrl,
-//   touchAfter: 24 * 60 *60,
-//   crypto: {
-//     secret: process.env.SESSION_SECRET,
-//   },
-// });
 
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
@@ -66,7 +49,7 @@ const store = MongoStore.create({
 store.on("error", (err) => {
   console.log("error in Mongo session store", err);
 });
-store.on("error",() => {
+store.on("error",(err) => {
   console.log("error in MOngo session store",err);
 });
 
@@ -92,11 +75,11 @@ app.use(passport.session());
 app.use("/cart", cartRoutes);
 
 
-app.use(session({
-    secret: "mysupersecret",
-    resave: false,
-    saveUninitialized: true
-}));
+// app.use(session({
+//     secret: "mysupersecret",
+//     resave: false,
+//     saveUninitialized: true
+// }));
 
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
@@ -265,20 +248,13 @@ app.put("/listings/:id", upload.single("image"), async (req, res) => {
   res.redirect(`/listings/${id}`);
 });
 
-// app.get("/listings/:id", async (req, res) => {
-//   let { id } = req.params;
-//   const listing = await Listing.findById(id);
-//   res.render("listings/show.ejs", { listing });
-// });
+
 app.get("/listings/:id", async (req, res) => {
     const { id } = req.params;
 
     const listing = await Listing.findById(id);
 
-    // const relatedListings = await Listing.find({
-    //     _id: { $ne: id },
-    //     price: { $gte: listing.price - 200, $lte: listing.price + 200 }
-    // }).limit(10);
+    
     const keyword = listing.title.split(" ").pop();
 
 const relatedListings = await Listing.find({
@@ -315,21 +291,70 @@ app.get("/signup", (req, res) => {
   res.render("listings/signup.ejs");
 });
 
+
+
+
 app.post('/signup', async (req, res, next) => {
   try {
+
     const { email, username, password } = req.body;
+
+    
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+
+if(!emailRegex.test(email)){
+  req.flash("error","Only valid Gmail addresses are allowed!");
+  return res.redirect("/signup");
+}
+
     const newUser = new User({ email, username });
+
     const registeredUser = await User.register(newUser, password);
+
     req.login(registeredUser, err => {
       if (err) return next(err);
-      req.flash('success', 'Welcome to Vatika Restaurant!');
+
+      req.flash('success', 'Welcome to  Restaurant!');
       res.redirect('/');
     });
-  } catch (e) {
-    req.flash('error', e.message);
-    res.redirect('/signup');
+
+  } 
+  // catch (e) {
+  //   req.flash('error', e.message);
+  //   res.redirect('/signup');
+  // }
+  catch (e) {
+
+  if(e.code === 11000){
+    req.flash("error","Email already registered!");
+    return res.redirect("/signup");
   }
+
+  req.flash("error", e.message);
+  res.redirect("/signup");
+}
+
+const otp = Math.floor(100000 + Math.random()*900000);
+
+  const newUser = new User({
+    email,
+    otp,
+    otpExpires: Date.now()+10*60*1000
+  });
+
+  await User.register(newUser,password);
+
+  await transporter.sendMail({
+    to:email,
+    subject:"OTP Verification",
+    text:`Your OTP is ${otp}`
+  });
+
+  req.flash("success","OTP sent to email");
+  res.redirect(`/verify-otp?email=${email}`);
+
 });
+// });
 
 // Login
 app.get("/login", (req, res) => {
