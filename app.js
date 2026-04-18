@@ -46,9 +46,7 @@ const store = MongoStore.create({
   },
 });
 
-store.on("error", (err) => {
-  console.log("error in Mongo session store", err);
-});
+
 store.on("error",(err) => {
   console.log("error in MOngo session store",err);
 });
@@ -294,6 +292,7 @@ app.get("/signup", (req, res) => {
 
 
 
+
 app.post('/signup', async (req, res, next) => {
   try {
 
@@ -387,7 +386,6 @@ const port = process.env.PORT || 8080;
 app.listen(port, () => {
   console.log(`✅ Server running on port ${port}`);
 });
-
 
 
 

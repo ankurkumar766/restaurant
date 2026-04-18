@@ -56,7 +56,7 @@
             <!-- Customer Info -->
             <div class="form-group">
                 <label for="name">Your Name:</label>
-                <input type="text" id="name" name="name" required placeholder="Enter your full name">
+                <input type="text" name="name" value="<%= currentUser.name %>">
             </div>
             <!-- <div class="form-group">
                 <label for="email">Email:</label>
@@ -64,13 +64,13 @@
             </div> -->
             <div class="form-group">
                 <label for="phone">Phone Number:</label>
-                <input type="tel" id="phone" name="phone" pattern="[0-9]{10}" required placeholder="9876543210">
+                <input type="text" name="phone" value="<%= currentUser.phone %>">
             </div>
 
             <!-- Delivery Info -->
             <div class="form-group">
                 <label for="deliveryAddress">Delivery Address:</label>
-                <textarea id="deliveryAddress" name="address" rows="2" required placeholder="House No., Area, Landmark"></textarea>
+               <textarea name="address"><%= currentUser.address %></textarea>
             </div>
             
 
