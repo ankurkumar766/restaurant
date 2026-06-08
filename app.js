@@ -324,10 +324,10 @@ if(!emailRegex.test(email)){
   // }
   catch (e) {
 
-  if(e.code === 11000){
-    req.flash("error","Email already registered!");
-    return res.redirect("/signup");
-  }
+  // if(e.code === 11000){
+  //   req.flash("error","Email already registered!");
+  //   return res.redirect("/signup");
+  // }
 
   req.flash("error", e.message);
   res.redirect("/signup");
