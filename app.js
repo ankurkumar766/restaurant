@@ -333,24 +333,7 @@ if(!emailRegex.test(email)){
   res.redirect("/signup");
 }
 
-const otp = Math.floor(100000 + Math.random()*900000);
 
-  const newUser = new User({
-    email,
-    otp,
-    otpExpires: Date.now()+10*60*1000
-  });
-
-  await User.register(newUser,password);
-
-  await transporter.sendMail({
-    to:email,
-    subject:"OTP Verification",
-    text:`Your OTP is ${otp}`
-  });
-
-  req.flash("success","OTP sent to email");
-  res.redirect(`/verify-otp?email=${email}`);
 
 });
 // });
