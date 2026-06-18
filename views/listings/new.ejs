@@ -2,8 +2,13 @@
 <html>
 <head>
   <title>Create Listing</title>
+   <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/footer.css">
+    <link rel="stylesheet" href="/css/marquee.css">
 </head>
 <body>
+   <%- include("../partials/marquee") %>
   <h1>Create a New Listing</h1>
   <form action="/listings" method="POST" enctype="multipart/form-data">
   <div class="mb-3">
@@ -30,4 +35,5 @@
 </form>
 
 </body>
+<%- include("../partials/footer") %>
 </html>

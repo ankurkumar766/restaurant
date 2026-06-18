@@ -4,9 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/footer.css">
+    <link rel="stylesheet" href="/css/marquee.css">
      <link rel="stylesheet" href="/css/signup.css" />
+     
+     
 </head>
 <body>
+   
 
   <% if(success && success.length > 0){ %>
 <div style="color:green; font-weight:bold;">
@@ -19,8 +26,10 @@
   <%= error %>
 </div>
 <% } %>
+
    
     <div class="row mt-3">
+      
     <h1 class="col-6 offset-3">SignUp on Restaurants</h1>
 
     <div class="col-6 offset-3">
@@ -61,6 +70,7 @@
         </form>
     </div>
 </div>
+<%- include("../partials/footer") %>
 <script>
   
   const passwordInput = document.getElementById('password');

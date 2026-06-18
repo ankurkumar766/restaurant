@@ -343,10 +343,7 @@ h3 { /* Style for "All Menu" heading */
     font-style: normal; /* Override default italic for <i> tag if any */
     white-space: nowrap; /* Prevent "+18% GST" from wrapping */
 }
-.f-info {
-    display: flex;
-    justify-content: center;
-}
+
 .price{
   color: #28a745;
   font-weight: bold;
@@ -411,49 +408,3 @@ h3 { /* Style for "All Menu" heading */
     font-size: 1em;
   }
 }
-.f-info-links a {
-    text-decoration: none;
-    color: #222222;
-}
-
-.f-info-links a:hover {
-    text-decoration: underline;
-}
-.f-info-links,.f-info-socials,.f-info-brand {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.f-info-socials i {
-    margin-right: 2rem;
-}
-.f-info {
-    text-align: center;
-    height: 10rem;
-    background-color: #ebebeb;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: space-evenly;
-}
-.f-info-socials a {
-  text-decoration: none;
-  transition: color 0.3s;
-}
-
-.f-info-socials a:nth-child(1):hover {
-  color: #1877f2; /* Facebook Blue */
-}
-.f-info-socials a:nth-child(2):hover {
-  color: #e1306c; /* Instagram Pink */
-}
-.f-info-socials a:nth-child(3):hover {
-  color: #ff0000; /* LinkedIn Blue */
-}
-
-.del{
-  color: #0056b3;
-}
-        

@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Food Order Form</title>
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-wx1eC0bXW0f4jL1b5i1fVcW1Zc6W5Xx5T+S+Xz8N6YoZ2v9BJ1q+Pv9+gk2R3k2bYzXvVj1iJ9kM7PrF6L0Yw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/footer.css">
+    <link rel="stylesheet" href="/css/marquee.css">
 
 
     <link rel="stylesheet" href="/css/buy.css" /> 
@@ -24,6 +28,7 @@
     </style>
 </head>
 <body>
+     <%- include("../partials/marquee") %>
     <div class="container">
         <ul>
             <img src="<%= listing.image.url %>" class="card-img-top show-img" alt="listing_image">
@@ -118,6 +123,7 @@
    
         
     </div>
+    <%- include("../partials/footer") %>
 
     <script>
 function openPhonePe() {

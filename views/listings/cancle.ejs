@@ -4,8 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Restaurants</title>
+     <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/footer.css">
+    <link rel="stylesheet" href="/css/marquee.css">
 </head>
 <body>
+     <%- include("../partials/marquee") %>
     <style>
         /* Import Google Fonts (Optional, but good for consistent design) */
 /* Import Google Fonts (Optional, but good for consistent design) */
@@ -177,5 +182,6 @@ h3 {
                 <button type="submit">Cancle Order</button>
             </div>
             </form>
+            <%- include("../partials/footer") %>
 </body>
 </html>
