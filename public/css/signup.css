@@ -7,11 +7,13 @@ body {
     margin: 0;
     padding: 20px; /* Add some padding around the content */
     color: #333;
-    display: flex; /* Helps in vertical centering if needed */
-    justify-content: center; /* Centers content horizontally */
-    align-items: center; /* Centers content vertically (if height allows) */
+   
+    /* display: flex; 
+    justify-content: center; 
+    align-items: center;  */
     min-height: 100vh; /* Ensures body takes full viewport height */
 }
+
 
 /* Heading for the Sign-up Form */
 h1 {
@@ -26,6 +28,7 @@ h1 {
 /* Form Container Styling (optional, if you want a distinct card-like look for the form) */
 /* The col-6 offset-3 div can act as a container */
 .col-6.offset-3 form { /* Targeting the form within the Bootstrap grid column */
+     
     background-color: #ffffff; /* White background for the form itself */
     padding: 30px;
     border-radius: 8px; /* Slightly rounded corners */
