@@ -58,18 +58,19 @@
     
 
     <% if(currentUser){ %>
-   <a href="/listings/<%= listing._id %>/buy" class="buy-btn">Buy Now</a>&nbsp; &nbsp;
+        <form action="/cart/<%= listing._id %>" method="POST">
+    <button class="add " >
+        Add to Bag 🛒
+    </button>
+</form> <br>
+   <!-- <a href="/listings/<%= listing._id %>/buy" class="buy-btn">Buy Now</a>&nbsp; &nbsp; -->
    
     <a href="/listings/<%= listing._id %>/cancle" class="can-btn">Cancle</a>&nbsp; &nbsp;&nbsp;</br></br>
        
 
       
 
-    <form action="/cart/<%= listing._id %>" method="POST">
-    <button class="add " >
-        Add to Bag 🛒
-    </button>
-</form>
+    
 
 
 
