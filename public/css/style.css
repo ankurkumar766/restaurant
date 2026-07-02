@@ -266,3 +266,26 @@ background:#f6f6f6;
         height:160px;
     }
 }
+@media (max-width:768px){
+
+    .card-img-top{
+        height:140px;
+    }
+
+    .card-title{
+        font-size:16px;
+    }
+
+    .price{
+        font-size:16px;
+    }
+
+    .card-body{
+        padding:10px;
+    }
+
+    .btn{
+        font-size:13px;
+        padding:6px 10px;
+    }
+}
