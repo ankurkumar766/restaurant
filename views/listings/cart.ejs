@@ -130,7 +130,11 @@ Upload Payment Screenshot
 
 <label>Name</label>
 
-<input type="text" name="name" required>
+<input
+type="text"
+name="name"
+value="<%= currentUser && currentUser.address ? currentUser.address.fullName : '' %>"
+required>
 
 </div>
 
@@ -139,7 +143,11 @@ Upload Payment Screenshot
 
 <label>Phone</label>
 
-<input type="tel" name="phone" required>
+<input
+type="tel"
+name="phone"
+value="<%= currentUser && currentUser.address ? currentUser.address.phone : '' %>"
+required>
 
 </div>
 
@@ -148,8 +156,9 @@ Upload Payment Screenshot
 
 <label>Address</label>
 
-<textarea name="address" required></textarea>
-
+<textarea
+name="address"
+required><%= currentUser && currentUser.address ? currentUser.address.addressLine : '' %></textarea>
 </div>
 
 
@@ -238,6 +247,13 @@ document.getElementById("orderForm").addEventListener("submit", async function(e
 e.preventDefault();
 
 const formData = new FormData(this);
+await fetch("/cart/save-address",{
+
+method:"POST",
+
+body:formData
+
+});
 
 
 try{

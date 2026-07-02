@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Listing = require("../models/listing");
+const User=require("../models/user");
 
 // Add to cart
 router.post("/:id", async (req, res) => {
@@ -31,6 +32,31 @@ router.post("/remove/:index", (req, res) => {
     }
 
     res.redirect("/cart");
+});
+router.post("/save-address",async(req,res)=>{
+
+    if(!req.user){
+
+        return res.redirect("/login");
+
+    }
+
+    const user=await User.findById(req.user._id);
+
+    user.address={
+
+        fullName:req.body.name,
+
+        phone:req.body.phone,
+
+        addressLine:req.body.address
+
+    }
+
+    await user.save();
+
+    res.redirect("/cart");
+
 });
 
 // Checkout page
