@@ -24,94 +24,153 @@
 <body>
      <%- include("../partials/marquee") %>
    
-   <nav class="navbar">
-   <div class="navbar-container container">
+  <nav class="navbar">
 
-    <!-- ✅ Checkbox with ID -->
-    <input type="checkbox" id="menu-toggle" />
+<div class="container nav-container">
 
-    <!-- ✅ Label linked to checkbox -->
-    <label for="menu-toggle" class="hamburger-lines">
-      <span class="line line1"></span>
-      <span class="line line2"></span>
-      <span class="line line3"></span>
-    </label>
+<div class="logo">
 
-    <!-- ✅ Menu -->
-    <div class="menu-items">
-      <!-- <input type="text" id="searchInput" placeholder="Search by title or price..." /> -->
+<i class="fa-solid fa-utensils"></i>
 
-      <% if (!currentUser) { %>
-        <a class="nav-link" href="/signup"><b>Signup</b></a>
-        <a class="nav-link" href="/login"><b>Login</b></a>
-         <a class="nav-link" href="/about"><b>About Me</b></a>
-        
-        
+<span>Vatika Food</span>
 
-       
+</div>
 
-      <% } %>
+<div class="search-box">
 
-      <% if (currentUser) { %>
-        <a class="nav-link" href="/logout"><b>Logout</b></a>
-        <a class="nav-link" href="/my-orders"><b>My Order</b></a>
-         <a class="nav-link" href="/profile"><b>Create profile</b></a>
-        
-      <% } %>
-    </div>
+<i class="fa-solid fa-magnifying-glass"></i>
 
-    <input type="text" id="searchInput" placeholder="Search the food or price..." />
-    <!-- <input type="number" id="minPrice" placeholder="Min Price">
-<input type="number" id="maxPrice" placeholder="Max Price"> -->
+<input
+type="text"
+id="searchInput"
+placeholder="Search food, pizza, burger..."
+>
 
-    <h1 class="logo"> Restaurant <i class="the">-The family Restaurant</i></h1>
+</div>
+
+<div class="menu-items">
+
+<% if(!currentUser){ %>
+
+<a href="/signup">
+<i class="fa-solid fa-user-plus"></i>
+Signup
+</a>
+
+<a href="/login">
+<i class="fa-solid fa-right-to-bracket"></i>
+Login
+</a>
+
+<a href="/about">
+<i class="fa-solid fa-circle-info"></i>
+About
+</a>
+
+<% } %>
+
+<% if(currentUser){ %>
+
+<a href="/my-orders">
+<i class="fa-solid fa-box"></i>
+Orders
+</a>
+
+<a href="/cart" class="cart">
+
+<i class="fa-solid fa-bag-shopping"></i>card
 
 
-  </div>
+
+</a>
+
+<a href="/logout">
+<i class="fa-solid fa-right-from-bracket"></i>
+Logout
+</a>
+
+<% } %>
+
+</div>
+
+</div>
+
 </nav>
 
-    <section class="showcase-area" id="showcase">
-        <div class="showcase-container"></br>
-            <h1 class="del">delivery for only in  Koderma(Range of 5km)</h1>
-            <h1 class="main-title" id="home">Eat Right Food</h1>
-            <p>Eat Healty, it is good for our health.</p>
-            
+<section class="hero">
+
+    <div class="overlay">
+        <h1>Delicious Food Delivered Fast</h1>
+
+        <p>Delivery within 5 KM • Koderma</p>
+
+        <a href="#menu" class="btn-order">
+            Order Now
+        </a>
+    </div>
+
+</section>
+
+<!-- Hero khatam -->
+
+<section class="menu-section" id="menu">
+
+    <div class="container">
+
+        <h2 class="menu-title">
+            🍽️ Our Popular Menu
+        </h2>
+
+        <p class="menu-subtitle">
+            Fresh • Delicious • Fast Delivery
+        </p>
+
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+
+            <% for(let listing of allListings){ %>
+
+            <div class="col">
+
+                <div class="card listing-card h-100">
+
+                    <img src="<%= listing.image.url %>" class="card-img-top" alt="<%= listing.title %>">
+
+                    <div class="card-body">
+
+                        <h5 class="card-title"><%= listing.title %></h5>
+
+                        <h4 class="price">
+                            ₹ <%= listing.price.toLocaleString("en-IN") %>
+                        </h4>
+
+                        <div class="d-flex justify-content-between mt-3">
+
+                            <a href="/listings/<%= listing._id %>" class="btn btn-warning">
+                                View
+                            </a>
+
+                            <form action="/cart/<%= listing._id %>" method="POST" class="d-inline">
+    <button type="submit" class="btn btn-success">
+        <i class="fa-solid fa-cart-shopping"></i>
+    </button>
+</form>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <% } %>
+
         </div>
-    </section>
-   
-<br></br>
-<br></br>
-
-
-
-
-
-
-
-
-
-     <h3>All Menu</h3>
-    <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-4 mt-3">
-        <!-- <div class="row row-cols-1 row-cols-md-2 g-4 mt-3"></div> -->
-      <% for(let listing of allListings) { %>
-        <a href="/listings/<%= listing._id %>" class="card-link">
-        <!-- <a href="/listings/" class="listing-link"> -->
-    <div class="card col listing-card" >
-  <img src="<%= listing.image.url %>" class="card-img-top" alt="listing_image" >
-  
-  <div class="card-body">
-    <p class="card-text">
-       <b class="title"><%= listing.title %></b> <br>
-     &#8377; <span class="price"><%= listing.price.toLocaleString("en-IN")  %> </span>
-     <i class="tax-info"> &nbsp; &nbsp;+18% GST</i>
-    </p>
-  </div>
- </div>
-</a>
- <% } %>
 
     </div>
 
+</section>
+
+</section>
      <section id="about">
         <div class="about-wrapper container">
             <div class="about-text">
@@ -149,55 +208,46 @@
 
 
 <script>
-    const searchInput = document.getElementById('searchInput');
-    const cardLinks = document.querySelectorAll('.card-link');
+   const searchInput = document.getElementById("searchInput");
 
-    if (searchInput) {
-        searchInput.addEventListener('input', function () {
-            const query = this.value.trim().toLowerCase();
+searchInput.addEventListener("keyup", function () {
 
-            // अगर query केवल नंबर है तो उसे price search मानेंगे
-            const queryNumber = parseFloat(query.replace(/,/g, ''));
+    const query = this.value.trim().toLowerCase();
 
-            cardLinks.forEach(cardLink => {
-                const titleElement = cardLink.querySelector('.title');
-                const priceElement = cardLink.querySelector('.price');
+    const cards = document.querySelectorAll(".listing-card");
 
-                const title = titleElement ? titleElement.textContent.toLowerCase() : '';
-                const priceText = priceElement ? priceElement.textContent.replace(/[^0-9.]/g, '') : '';
-                const priceValue = parseFloat(priceText);
+    cards.forEach(card => {
 
-                let show = false;
+        const title = card.querySelector(".card-title").textContent.toLowerCase();
 
-                // 1. If there is query text then search in title or price text
-                if (isNaN(queryNumber)) {
-                    if (title.includes(query) || (priceElement && priceElement.textContent.toLowerCase().includes(query))) {
-                        show = true;
-                    }
-                }
-                // 2. if query number then check price <= query
-                else {
-                    if (!isNaN(priceValue) && priceValue <= queryNumber) {
-                        show = true;
-                    }
-                }
+        const price = card.querySelector(".price")
+            .textContent.replace(/[₹,\s]/g, "");
 
-                cardLink.style.display = show ? 'block' : 'none';
-            });
-        });
-    }
-    //app install code
-   if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/service-worker.js')
-      .then(registration => {
-        console.log('ServiceWorker registration successful with scope:', registration.scope);
-      })
-      .catch(err => {
-        console.log('ServiceWorker registration failed:', err);
-      });
-  });
-}
+        // Agar user number likhta hai
+        if (!isNaN(query) && query !== "") {
+
+            if (parseInt(price) <= parseInt(query)) {
+                card.parentElement.style.display = "";
+            } else {
+                card.parentElement.style.display = "none";
+            }
+
+        }
+
+        // Agar user food name likhta hai
+        else {
+
+            if (title.includes(query) || price.includes(query)) {
+                card.parentElement.style.display = "";
+            } else {
+                card.parentElement.style.display = "none";
+            }
+
+        }
+
+    });
+
+});
 </script>
 
 </body>

@@ -12,399 +12,257 @@
   font-size: 62.5%;
 }
 
-body {
-  font-family: "Poppins", sans-serif;
-   background-color: #f8f9fa; /* Light grey background, common in Bootstrap themes */
-    margin: 0;
-    padding: 20px; /* Add some padding around the content */
-    color: #333;
+body{
+
+margin:0;
+
+font-family:Poppins,sans-serif;
+
+background:#f6f6f6;
+
 }
 
-/* ///////////..utility classes../////////// */
+/* NAVBAR */
 
-.container {
-  max-width: 1200px;
-  width: 90%;
-  margin: auto;
+/* ================= NAVBAR ================= */
+
+.navbar{
+    position: sticky;
+    top:0;
+    z-index:1000;
+    background:#fff;
+    box-shadow:0 5px 20px rgba(0,0,0,.08);
+    padding:12px 0;
 }
 
-.btn {
-  display: inline-block;
-  padding: 0.5em 1.5em;
-  text-decoration: none;
-  border-radius: 50px;
-  cursor: pointer;
-  outline: none;
-  margin-top: 1em;
-  text-transform: uppercase;
-  font-weight: small;
+.nav-container{
+    max-width:1300px;
+    margin:auto;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:25px;
 }
 
-.btn-primary {
-  color: #fff;
-  background: #16a083;
+.logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-size:28px;
+    font-weight:700;
+    color:#ff6b00;
 }
 
-.btn-primary:hover {
-  background: #117964;
-  transition: background 0.3s ease-in-out;
+.logo i{
+    font-size:30px;
 }
 
-
-
-/* Navbar Styles */
-.navbar {
-  width: 100%;
-  background-color: white;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-  position: sticky;
-  top: 0;
-  z-index: 10;
+.search-box{
+    flex:1;
+    max-width:500px;
+    display:flex;
+    align-items:center;
+    background:#f5f5f5;
+    border-radius:40px;
+    padding:10px 18px;
+    border:1px solid #dddddda0;
 }
 
-.navbar-container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px 20px;
-  flex-wrap: wrap;
-  max-width: 1200px;
-  margin: auto;
-  position: relative;
+.search-box i{
+   
+    color:#777;
 }
 
-/* Logo */
-.logo {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: black;
+.search-box input{
+    border:none;
+    outline:none;
+    background:none;
+    width:100%;
+    margin-left:10px;
 }
 
-.the {
-  font-style: italic;
-  font-size: 1rem;
-  color: orange;
+.menu-items{
+    display:flex;
+    align-items:center;
+    gap:25px;
 }
 
-/* Hamburger */
-.hamburger-lines {
-  display: none;
-  cursor: pointer;
-  flex-direction: column;
-  gap: 5px;
+.menu-items a{
+    text-decoration:none;
+    color:#333;
+    font-weight:600;
+    transition:.3s;
 }
 
-.hamburger-lines span {
-  display: block;
-  height: 3px;
-  width: 25px;
-  background: black;
-  transition: 0.3s ease;
+.menu-items a:hover{
+    color:#ff6b00;
 }
 
-/* Menu Items */
-.menu-items {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  list-style: none;
-}
-
-/* Search Box */
-#searchInput {
-  padding: 6px 12px;
-  border: 1px solid orange;
-  border-radius: 20px;
-  outline: none;
-}
-
-/* Links */
-.nav-link {
-  text-decoration: none;
-  color: #333;
-  font-weight: 500;
-}
-
-/* Hide checkbox */
-.navbar-container input[type="checkbox"] {
-  display: none;
-}
-.nav-link:hover{
-  color: #28a745;
+.cart{
+    position:relative;
 }
 
 
-@media screen and (max-width: 768px) {
-  .hamburger-lines {
-    display: flex;
-    flex-direction: column;
-    cursor: pointer;
-    gap: 5px;
-  }
 
-  .line {
-    width: 25px;
-    height: 3px;
-    background-color: black;
-  }
+.hero{
+    width:100%;
+    height:550px;
 
-  .menu-items {
-    display: none;
-    flex-direction: column;
-    position: absolute;
-    top: 60px;
-    left: 0;
-    width: 100%;
-    background-color: white;
-    padding: 15px 0;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    z-index: 1000;
-  }
+    background:
+    linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.45)),
+    url("https://images.unsplash.com/photo-1504674900247-0877df9cc836");
 
-  .navbar-container input[type="checkbox"]:checked ~ .menu-items {
-    display: flex;
-  }
+    background-size:cover;
+    background-position:center;
 
-  #searchInput {
-    width: 90%;
-    margin: 10px auto;
-    padding: 8px 12px;
-    border-radius: 20px;
-    border: 1px solid orange;
-  }
-
-  .nav-link {
-    padding: 10px;
-    text-align: center;
-    width: 100%;
-    display: block;
-  }
-  
-
-  .logo {
-    width: 100%;
-    text-align: center;
-    margin-top: 10px;
-  }
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
 }
 
-  
-  /* ............//// Showcase styling ////......... */
-  
-  .showcase-area {
-    height: 50vh;
-    background: linear-gradient(
-        rgba(240, 240, 240, 0.144),
-        rgba(255, 255, 255, 0.336)
-      ),
-      url("https://i.postimg.cc/wT3TQS3V/header-image2.jpg");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-  }
-  
-  .showcase-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    font-size: 1.6rem;
-  }
-  
-  .main-title {
-    text-transform: uppercase;
-    margin-top: 1.5em;
-  }
-  /* ......//about us//...... */
-
-#about {
-    padding: 50px 0;
-    background: #f5f5f7;
-  }
-  
-  .about-wrapper {
-    display: flex;
-    flex-wrap: wrap;
-  }
-  
-  #about h2 {
-    font-size: 2.3rem;
-  }
-  
-  #about p {
-    font-size: 1.2rem;
-    color: #555;
-  }
-  
-  #about .small {
-    font-size: 1.2rem;
-    color: #666;
-    font-weight: 600;
-  }
-  
-  .about-img {
-    flex: 1 1 400px;
-    padding: 30px;
-    transform: translateX(150%);
-    animation: about-img-animation 1s ease-in-out forwards;
-  }
-  
-  @keyframes about-img-animation {
-    100% {
-      transform: translate(0);
-    }
-  }
-  
-  .about-text {
-    flex: 1 1 400px;
-    padding: 30px;
-    margin: auto;
-    transform: translate(-150%);
-    animation: about-text-animation 1s ease-in-out forwards;
-  }
-  
-  @keyframes about-text-animation {
-    100% {
-      transform: translate(0);
-    }
-  }
-  .about-img img {
-    display: block;
-    height: 400px;
-    max-width: 100%;
-    margin: auto;
-    object-fit: cover;
-    object-position: right;
-  }
-  
-  
-
-
-h3 { /* Style for "All Menu" heading */
-    text-align: center;
-    margin-bottom: 30px;
-    color: #343a40; /* Darker text for heading */
-    font-size: 2.2em;
-    font-weight: 700;
-}
-.the{
-  font-size: 20px;
-  color: rgb(255, 173, 80);
+.overlay h1{
+    font-size:60px;
+    color:white;
+    font-weight:700;
 }
 
-/* Custom styling for the listing cards */
-.card-link {
-    text-decoration: none; /* Remove underline from the link */
-    color: inherit; /* Inherit text color from parent */
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+.overlay p{
+    color:white;
+    font-size:22px;
+    margin:20px 0;
 }
 
-.listing-card {
-    /* Bootstrap's .card already provides basic styling (background, border, shadow) */
-    /* Add custom shadow and transition for hover effect */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle initial shadow */
-    border-radius: 8px; /* Slightly more rounded corners */
-    margin-bottom: 30px; /* Space between rows of cards */
-    overflow: hidden; /* Ensures image corners are also rounded */
+.btn-order{
+    display:inline-block;
+    padding:15px 40px;
+    border-radius:40px;
+    background:#ff6b00;
+    color:white;
+    text-decoration:none;
+    font-weight:bold;
 }
 
-.listing-card:hover {
-    transform: translateY(-5px); /* Lift effect on hover */
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* More prominent shadow on hover */
-}
-
-.card-img-top {
-  width: 100%;
-  height: 12rem;
-  object-fit: cover;
-  border-radius: 0.5rem;
+.btn-order:hover{
+    background:#ff7f1f;
 }
 
 
-.card-body {
-    padding: 1rem; /* Default Bootstrap padding */
+.menu-section{
+    padding:80px 0;
 }
 
-.card-text {
-    font-size: 1.1em;
-    color: #212529; /* Darker text for main description */
-    margin-bottom: 0; /* Remove default paragraph margin */
+.menu-title{
+    text-align:center;
+    font-size:42px;
+    font-weight:700;
 }
 
-.card-text span { /* For the price part */
-    font-weight: bold;
-    color: green; /* Red color for price, common for emphasis */
+.menu-subtitle{
+    text-align:center;
+    color:#666;
+    margin-bottom:40px;
 }
 
-.tax-info {
-    font-size: 0.85em;
-    color: #6c757d; /* Muted color for tax info */
-    font-style: normal; /* Override default italic for <i> tag if any */
-    white-space: nowrap; /* Prevent "+18% GST" from wrapping */
+.listing-card{
+    border:none;
+    border-radius:18px;
+    overflow:hidden;
+    transition:.3s;
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+}
+
+.listing-card:hover{
+    transform:translateY(-8px);
+    box-shadow:0 20px 40px rgba(0,0,0,.15);
+}
+
+.card-img-top{
+    height:220px;
+    object-fit:cover;
+}
+
+.card-body{
+    text-align:center;
+}
+
+.card-title{
+    font-weight:700;
 }
 
 .price{
-  color: #28a745;
-  font-weight: bold;
+    color:#16a34a;
+    font-weight:bold;
 }
 
- #searchInput {
-    
-      
-      padding: 8px 12px;
-      width: 700px;
-      font-size: 16px;
+
+/* ================= Mobile Responsive ================= */
+
+@media (max-width:768px){
+
+    .nav-container{
+        flex-direction:column;
+        gap:15px;
     }
-    #searchInput {
-     
-    width: 70%; /* Take full width of its parent container */
-    padding: 10px  15px; /* Comfortable padding inside the input */
-    
-    
-    border: 2px solid orangered; /* Light grey border */
-    border-radius: 20px; /* Slightly rounded corners */
-    font-size: 1em; /* Readable text size */
-    line-height: 1.5; /* Good line height for text */
-    color: #495057; /* Dark grey text color */
-    background-color: #fff; /* White background */
-    box-sizing: border-box; /* Include padding and border in the element's total width and height */
 
-    /* Focus State */
-    outline: none; /* Remove default outline on focus */
-    box-shadow: none; /* Remove default shadow on focus */
-    transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* Smooth transition for focus effects */
+    .logo{
+        font-size:24px;
+    }
+
+    .search-box{
+        width:100%;
+        max-width:100%;
+    }
+
+    .menu-items{
+        width:100%;
+        justify-content:center;
+        flex-wrap:wrap;
+        gap:15px;
+    }
+
+    .hero{
+        height:380px;
+        padding:20px;
+    }
+
+    .overlay h1{
+        font-size:34px;
+    }
+
+    .overlay p{
+        font-size:16px;
+    }
+
+    .btn-order{
+        padding:12px 28px;
+        font-size:15px;
+    }
+
+    .menu-title{
+        font-size:30px;
+    }
+
+    .card-img-top{
+        height:180px;
+    }
 }
 
-#searchInput:focus {
-    border-color: #80bdff; /* A blue border on focus (like Bootstrap's primary) */
-    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Subtle blue shadow on focus */
-}
+@media (max-width:480px){
 
-/* Placeholder text styling (optional) */
-#searchInput::placeholder {
-    color: #6c757d; /* Lighter grey for placeholder */
-    opacity: 1; /* Firefox default is less opaque */
-}
+    .overlay h1{
+        font-size:28px;
+    }
 
+    .overlay p{
+        font-size:14px;
+    }
 
-/* Media queries for responsiveness (Bootstrap's grid handles most of it, but good to add if needed) */
-@media (max-width: 768px) {
-  .listing-card{
-    margin-bottom: 20px;
-  }
-  .card-img-top {
-    height: 10rem; /* smaller screens */
-  }
-}
-@media (max-width: 576px) {
-  h3{
-    font-size: 1.8rem;
-  }
-  .card-img-top {
-    height: 9rem; /* very small screens */
-  }
-  .card-text{
-    font-size: 1em;
-  }
+    .menu-title{
+        font-size:26px;
+    }
+
+    .card-img-top{
+        height:160px;
+    }
 }

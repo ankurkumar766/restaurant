@@ -7,6 +7,7 @@ body {
     margin: 0;
     padding: 20px; /* Add some padding around the content */
     color: #333;
+   
     
     min-height: 100vh; /* Ensures body takes full viewport height */
 }
@@ -25,6 +26,7 @@ h1 {
 .col-6.offset-3 form { /* Targeting the form within the Bootstrap grid column */
     background-color: #ffffff; /* White background for the form itself */
     padding: 30px;
+   
     border-radius: 8px; /* Slightly rounded corners */
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
     box-sizing: border-box; /* Include padding in element's total width */
@@ -32,9 +34,11 @@ h1 {
 
 /* Specific styling for form labels and inputs if you want to override Bootstrap defaults slightly */
 .form-label {
-    font-weight: 500; /* Slightly bolder than Bootstrap's default */
-    color: #343a40; /* Darker label text */
-    margin-bottom: 5px; /* Space between label and input */
+    font-weight: 500; 
+    color: #343a40; 
+    margin-bottom: 5px; 
+    display: flex;
+    justify-content: flex-start; /* Align labels to the left */
 }
 
 .form-control {
