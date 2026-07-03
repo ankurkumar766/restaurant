@@ -17,9 +17,19 @@ router.post("/:id", async (req, res) => {
 });
 
 // Show cart
+// router.get("/", (req, res) => {
+//     const cart = req.session.cart || [];
+//     res.render("listings/cart.ejs", { cart });
+// });
 router.get("/", (req, res) => {
+
     const cart = req.session.cart || [];
-    res.render("listings/cart.ejs", { cart });
+
+    res.render("listings/cart.ejs", {
+        cart,
+        currentUser: req.user
+    });
+
 });
 
 // Remove from cart

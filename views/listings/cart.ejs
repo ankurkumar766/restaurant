@@ -28,29 +28,68 @@ cart.forEach(item => {
 
 <h2 class="total">Total: ₹ <%= total %></h2>
 
-
-<!-- Cart items -->
 <% if(cart.length === 0){ %>
 
 <p class="empty">Cart is empty</p>
 
 <% } else { %>
 
-<div class="cart-items">
+<div class="cart-container">
 
 <% cart.forEach((item, index) => { %>
 
-<div class="card">
+<div class="cart-card">
 
-<img src="<%= item.image.url %>" alt="food">
+    <!-- Left Image -->
+    <div class="cart-image">
+        <img src="<%= item.image.url %>" alt="<%= item.title %>">
+    </div>
 
-<h3><%= item.title %></h3>
+    <!-- Right Details -->
+    <div class="cart-details">
 
-<p class="price">₹ <%= item.price %></p>
+        <h3><%= item.title %></h3>
 
-<form action="/cart/remove/<%= index %>" method="POST">
-<button class="remove-btn">Remove ❌</button>
-</form>
+       <p class="price">
+    ₹ <span class="item-price"><%= item.price %></span>
+    </p>
+
+       <div class="qty-box">
+
+  <button
+    type="button"
+    class="qty-btn"
+    data-price="<%= item.price %>"
+    onclick="changeQty(this,-1)">
+    -
+</button>
+
+    <span class="qty">1</span>
+
+   <button
+    type="button"
+    class="qty-btn"
+    data-price="<%= item.price %>"
+    onclick="changeQty(this,1)">
+    +
+</button>
+
+</div>
+
+        <p class="subtotal">
+            Subtotal :
+            ₹ <span class="item-total"><%= item.price %></span>
+        </p>
+
+        <form action="/cart/remove/<%= index %>" method="POST">
+
+            <button class="delete-btn">
+                <i class="fa-solid fa-trash"></i> Delete
+            </button>
+
+        </form>
+
+    </div>
 
 </div>
 
@@ -61,250 +100,107 @@ cart.forEach(item => {
 <% } %>
 
 
-<hr>
+<!-- Checkout Section -->
 
+<div class="checkout-box">
 
-<!-- Payment Section -->
+    <div class="checkout-left">
 
-<h2>Payment Options</h2>
+        <h2>Your Total Amount</h2>
 
-<h3>UPI ID: 7667880272@ybl</h3>
+        <h1>₹ <span id="grandTotal"><%= total %></span></h1>
 
-<img src="/css/images/qr.jpg" class="qr">
+    </div>
 
-<div class="payment-icons">
+    <div class="checkout-right">
+        <a href="/address">
+           <button
+type="button"
+class="checkout-btn"
+onclick="proceedToPayment()">
 
-<img onclick="openPhonePe()" src="/css/images/phonepay.jpg" class="pay-icon">
+Proceed to Payment →
 
-<img onclick="openWhatsApp()" src="/css/images/whatsapp image.jpeg" class="pay-icon whatsapp">
-
-</div>
-
-
-<a href="https://forms.gle/r5UYrCbEHFmVqCTY6" class="upload-link">
-Upload Payment Screenshot
-</a>
-
-
-<hr>
-
-
-<!-- Order Form -->
-
-<h2>Order Details</h2>
-
-<form id="orderForm">
-
-<input type="hidden" name="total" value="<%= total %>">
-
-<input type="hidden" name="access_key" value="1f937280-f43a-482b-b121-466444023e0f">
-
-<div class="form-group">
-
-<label>Food Items</label>
-
-
-<div id="foodContainer">
-
-<div class="food-row">
-
-<input type="text" name="foods[]" placeholder="Enter food name" class="food-input">
-
-<button type="button" onclick="removeFood(this)" class="remove-btn">
-❌
 </button>
 
-</div>
-
-</div>
-
-<button type="button" onclick="addFood()" class="add-btn">
-+ Add More
-</button>
+    </div>
 
 </div>
 
 
-
-<div class="form-group">
-
-<label>Name</label>
-
-<input
-type="text"
-name="name"
-value="<%= currentUser && currentUser.address ? currentUser.address.fullName : '' %>"
-required>
-
-</div>
-
-
-<div class="form-group">
-
-<label>Phone</label>
-
-<input
-type="tel"
-name="phone"
-value="<%= currentUser && currentUser.address ? currentUser.address.phone : '' %>"
-required>
-
-</div>
-
-
-<div class="form-group">
-
-<label>Address</label>
-
-<textarea
-name="address"
-required><%= currentUser && currentUser.address ? currentUser.address.addressLine : '' %></textarea>
-</div>
-
-
-<div class="form-group">
-
-<label>Payment Method</label>
-
-<select name="paymentMethod" required>
-
-<option value="">Select</option>
-
-<option value="Cash">Cash on Delivery</option>
-
-<option value="UPI">UPI</option>
-
-</select>
-
-</div>
-
-
-<button type="submit" class="order-btn">
-Place Order
-</button>
-
-</form>
-
-</div>
-<%- include("../partials/footer") %>
-
-<script>
-
-function addFood(){
-
-const container = document.getElementById("foodContainer");
-
-const div = document.createElement("div");
-
-div.className = "food-row";
-
-div.innerHTML = `
-
-<input type="text" name="foods[]" placeholder="Enter food name" class="food-input">
-
-<button type="button" onclick="removeFood(this)" class="remove-btn">
-❌
-</button>
-
-`;
-
-container.appendChild(div);
-
-}
-
-
-function removeFood(button){
-
-button.parentElement.remove();
-
-}
-
-</script>
 
 
 
 
 <script>
 
-function openPhonePe(){
+// ================= Quantity =================
 
-window.location.href =
-"upi://pay?pa=7667880272@postbank&pn=Ankur%20Kumar&cu=INR";
+function changeQty(btn, change){
 
-}
+    const price = Number(btn.dataset.price);
 
+    const card = btn.closest(".cart-card");
 
-function openWhatsApp(){
+    const qty = card.querySelector(".qty");
+    const priceTag = card.querySelector(".item-price");
+    const subtotal = card.querySelector(".item-total");
 
-window.location.href =
-"https://wa.me/917667880272?text=Hello%20I%20am%20sending%20payment%20screenshot";
+    let value = parseInt(qty.innerText);
 
-}
+    value += change;
 
+    if(value < 1){
+        value = 1;
+    }
 
-document.getElementById("orderForm").addEventListener("submit", async function(e){
+    qty.innerText = value;
 
-e.preventDefault();
+    const newPrice = price * value;
 
-const formData = new FormData(this);
-await fetch("/cart/save-address",{
+    priceTag.innerText = newPrice;
+    subtotal.innerText = newPrice;
 
-method:"POST",
+    // Grand Total
+    let grand = 0;
 
-body:formData
+    document.querySelectorAll(".item-total").forEach(item=>{
+        grand += Number(item.innerText);
+    });
 
-});
+    document.querySelector(".total").innerHTML = "Total: ₹ " + grand;
 
-
-try{
-
-// send email
-
-await fetch("https://api.web3forms.com/submit",{
-
-method:"POST",
-
-body:formData
-
-});
-
-
-// save to database
-
-const response = await fetch("/place-order",{
-
-method:"POST",
-
-body:formData
-
-});
-
-const result = await response.json();
-
-
-if(result.success){
-
-alert("Order placed successfully ✅");
-
-window.location.href="/my-orders";
+    document.getElementById("grandTotal").innerText = grand;
 
 }
 
-else{
 
-alert("Order failed ❌");
+// ================= Proceed To Payment =================
+
+function proceedToPayment(){
+
+    const order = [];
+
+    document.querySelectorAll(".cart-card").forEach(card=>{
+
+        order.push({
+
+            title: card.querySelector("h3").innerText,
+
+            // Original price of one item
+            price: Number(card.querySelector(".qty-btn").dataset.price),
+
+            quantity: Number(card.querySelector(".qty").innerText)
+
+        });
+
+    });
+
+    localStorage.setItem("order",JSON.stringify(order));
+
+    window.location.href="/address";
 
 }
-
-}
-
-catch(err){
-
-alert("Error occurred");
-
-}
-
-});
 
 </script>
 

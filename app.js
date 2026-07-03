@@ -285,6 +285,27 @@ app.get("/listings/:id/cart", async (req, res) => {
 app.get("/about", (req, res) => {
   res.render("listings/about.ejs");
 });
+
+// app.get("/address", (req, res) => {
+//   res.render("listings/address.ejs");
+// });
+app.get("/address", (req, res) => {
+
+    const cart = req.session.cart || [];
+
+    let total = 0;
+
+    cart.forEach(item => {
+        total += item.price * (item.quantity || 1);
+    });
+
+    res.render("listings/address", {
+        currentUser: req.user,
+        cart,
+        total
+    });
+
+});
 // Signup
 app.get("/signup", (req, res) => {
   res.render("listings/signup.ejs");
