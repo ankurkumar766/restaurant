@@ -17,12 +17,14 @@
     <link rel="stylesheet" href="/css/style.css" /> 
     <link rel="stylesheet" href="/css/footer.css">
     <link rel="stylesheet" href="/css/marquee.css">
+     <link rel="stylesheet" href="/css/nav.css">
      <!-- ✅ PWA Support -->
     <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#4CAF50">
 </head>
 <body>
      <%- include("../partials/marquee") %>
+    
    
   <nav class="navbar">
 
@@ -70,8 +72,9 @@ About
 <% } %>
 
 <% if(currentUser){ %>
+     <%- include("../partials/nav") %>
 
-<a href="/my-orders">
+<!-- <a href="/my-orders">
 <i class="fa-solid fa-box"></i>
 Orders
 </a>
@@ -87,7 +90,7 @@ Orders
 <a href="/logout">
 <i class="fa-solid fa-right-from-bracket"></i>
 Logout
-</a>
+</a> -->
 
 <% } %>
 
@@ -147,12 +150,21 @@ Logout
                             <a href="/listings/<%= listing._id %>" class="btn btn-warning">
                                 View
                             </a>
-
+                            <% if(!currentUser){ %>
+                            <form action="/signup/" class="d-inline">
+                                <button type="submit" class="btn btn-success">
+                                    <i class="fa-solid fa-cart-shopping"></i>
+                                         </button>
+                            </form>
+                           <% } %>
+                            
+                         <% if(currentUser){ %>
                             <form action="/cart/<%= listing._id %>" method="POST" class="d-inline">
-    <button type="submit" class="btn btn-success">
-        <i class="fa-solid fa-cart-shopping"></i>
-    </button>
-</form>
+                                <button type="submit" class="btn btn-success">
+                                    <i class="fa-solid fa-cart-shopping"></i>
+                                         </button>
+                            </form>
+                           <% } %>
                         </div>
 
                     </div>
