@@ -309,6 +309,15 @@ app.get("/address", (req, res) => {
 app.get("/profile", (req, res) => {
   res.render("listings/profile.ejs", { currentUser: req.user });
 });
+app.get("/term", (req, res) => {
+  res.render("listings/term.ejs");
+});
+app.get("/policy", (req, res) => {
+  res.render("listings/policy.ejs");
+});
+app.get("/save", (req, res) => {
+  res.render("listings/save.ejs");
+});
 // Signup
 app.get("/signup", (req, res) => {
   res.render("listings/signup.ejs");
