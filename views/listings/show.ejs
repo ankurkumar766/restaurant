@@ -90,12 +90,136 @@
 
    <hr>
 
+ <hr>
+
+<div class="review-section">
+
+    <h2 class="review-heading">
+        ⭐ Customer Reviews
+    </h2>
+
+<% if(currentUser){ %>
+
+<form action="/listings/<%= listing._id %>/reviews" method="POST">
+
+    <div class="mb-4">
+
+        <label class="form-label">Your Rating</label>
+
+        <div class="star-rating">
+
+            <input type="radio" id="star5" name="review[rating]" value="5" required>
+            <label for="star5">★</label>
+
+            <input type="radio" id="star4" name="review[rating]" value="4">
+            <label for="star4">★</label>
+
+            <input type="radio" id="star3" name="review[rating]" value="3">
+            <label for="star3">★</label>
+
+            <input type="radio" id="star2" name="review[rating]" value="2">
+            <label for="star2">★</label>
+
+            <input type="radio" id="star1" name="review[rating]" value="1">
+            <label for="star1">★</label>
+
+        </div>
+
+    </div>
+
+    <div class="mb-3">
+
+        <label class="form-label">
+            Write Review
+        </label>
+
+        <textarea
+            name="review[comment]"
+            rows="5"
+            class="form-control"
+            placeholder="Share your experience..."
+            required
+        ></textarea>
+
+    </div>
+
+    <button class="review-btn">
+
+        Submit Review
+
+    </button>
+
+</form>
+
+<% } else { %>
+
+<div class="login-message">
+
+    Please Login to Write Review
+
+</div>
+
+<% } %>
+
+</div>
+
+
+<h2 class="all-review-title">
+
+Customer Reviews
+
+</h2>
+
+<% if(listing.reviews.length){ %>
+
+<% listing.reviews.forEach(review=>{ %>
+
+<div class="review-card">
+
+<div class="review-stars">
+
+<% for(let i=1;i<=5;i++){ %>
+
+<% if(i<=review.rating){ %>
+
+<span class="filled">★</span>
+
+<% }else{ %>
+
+<span>☆</span>
+
+<% } %>
+
+<% } %>
+
+</div>
+
+<p class="review-comment">
+
+<%= review.comment %>
+
+</p>
+
+</div>
+
+<% }) %>
+
+<% }else{ %>
+
+<p class="no-review">
+
+No Reviews Yet.
+
+</p>
+
+<% } %>
+
 <h2 class="related-title">Related Menu 🍔</h2>
 <!-- <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-4 mt-3"> -->
 
 
 <div class="related-container">
-
+    
 <% relatedListings.forEach(item => { %>
 
 <a href="/listings/<%= item._id %>" class="related-card-link">
@@ -111,6 +235,7 @@
 <p>₹ <%= item.price.toLocaleString("en-IN") %></p>
 
 </div>
+
 
 </div>
 <!-- </div> -->

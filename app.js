@@ -12,6 +12,7 @@ const bcrypt = require('bcryptjs');
 const MongoStroe = require("connect-mongo");
 const Order = require("./models/order");
 const authRoutes = require("./routes/authRoutes");
+const Review = require("./models/review");
 
 
 
@@ -128,6 +129,9 @@ app.get("/", async (req, res) => {
 app.get("/listings/new", (req, res) => {
   res.render("listings/new.ejs");
 });
+
+
+
 
 
 
@@ -251,7 +255,8 @@ app.put("/listings/:id", upload.single("image"), async (req, res) => {
 app.get("/listings/:id", async (req, res) => {
     const { id } = req.params;
 
-    const listing = await Listing.findById(id);
+    // const listing = await Listing.findById(id);
+    const listing = await Listing.findById(id).populate("reviews");
 
     
     const keyword = listing.title.split(" ").pop();
@@ -324,6 +329,30 @@ app.get("/signup", (req, res) => {
 });
 
 
+
+app.post("/listings/:id/reviews", async (req, res) => {
+
+    if (!req.user) {
+        req.flash("error", "Please login first!");
+        return res.redirect("/login");
+    }
+
+    const listing = await Listing.findById(req.params.id);
+
+    const review = new Review(req.body.review);
+
+    review.author = req.user._id;
+
+    await review.save();
+
+    listing.reviews.push(review);
+
+    await listing.save();
+
+    req.flash("success", "Review Added Successfully!");
+
+    res.redirect(`/listings/${listing._id}`);
+});
 
 
 
@@ -398,6 +427,7 @@ app.get('/logout', (req, res, next) => {
     res.redirect('/');
   });
 });
+
 
 const port = process.env.PORT || 8080;
 app.listen(port, () => {
