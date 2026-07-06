@@ -13,6 +13,7 @@ const MongoStroe = require("connect-mongo");
 const Order = require("./models/order");
 const authRoutes = require("./routes/authRoutes");
 const Review = require("./models/review");
+const nodemailer = require("nodemailer");
 
 
 
@@ -356,48 +357,217 @@ app.post("/listings/:id/reviews", async (req, res) => {
 
 
 
-app.post('/signup', async (req, res, next) => {
-  try {
+// app.post('/signup', async (req, res, next) => {
+//   try {
+
+//     const { email, username, password } = req.body;
+
+    
+//     const emailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+
+// if(!emailRegex.test(email)){
+//   req.flash("error","Only valid Gmail addresses are allowed!");
+//   return res.redirect("/signup");
+// }
+
+//     const newUser = new User({ email, username });
+
+//     const registeredUser = await User.register(newUser, password);
+
+//     req.login(registeredUser, err => {
+//       if (err) return next(err);
+
+//       req.flash('success', 'Welcome to  Restaurant!');
+//       res.redirect('/');
+//     });
+
+//   } 
+//   // catch (e) {
+//   //   req.flash('error', e.message);
+//   //   res.redirect('/signup');
+//   // }
+//   catch (e) {
+
+//   // if(e.code === 11000){
+//   //   req.flash("error","Email already registered!");
+//   //   return res.redirect("/signup");
+//   // }
+
+//   req.flash("error", e.message);
+//   res.redirect("/signup");
+// }
+
+
+
+// });
+
+app.post("/signup", async (req, res) => {
 
     const { email, username, password } = req.body;
 
-    
     const emailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
 
-if(!emailRegex.test(email)){
-  req.flash("error","Only valid Gmail addresses are allowed!");
-  return res.redirect("/signup");
-}
+    if (!emailRegex.test(email)) {
+        req.flash("error", "Only Gmail Allowed!");
+        return res.redirect("/signup");
+    }
 
-    const newUser = new User({ email, username });
+    const oldUser = await User.findOne({ email });
 
-    const registeredUser = await User.register(newUser, password);
+    if (oldUser) {
+        req.flash("error", "Email Already Registered!");
+        return res.redirect("/signup");
+    }
 
-    req.login(registeredUser, err => {
-      if (err) return next(err);
+    // OTP
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
 
-      req.flash('success', 'Welcome to  Restaurant!');
-      res.redirect('/');
+    // Session me data save
+   req.session.signupData = {
+    username,
+    email,
+    password,
+    otp,
+    otpExpires: Date.now() + 5 * 60 * 1000 // 5 minutes
+};
+
+    const transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+            user: process.env.GMAIL_USER,
+            pass: process.env.GMAIL_PASS,
+        },
     });
 
-  } 
-  // catch (e) {
-  //   req.flash('error', e.message);
-  //   res.redirect('/signup');
-  // }
-  catch (e) {
+    await transporter.sendMail({
+        from: process.env.GMAIL_USER,
+        to: email,
+        subject: "Restaurant Signup OTP",
+        text: `Your Signup OTP is ${otp}`,
+    });
 
-  // if(e.code === 11000){
-  //   req.flash("error","Email already registered!");
-  //   return res.redirect("/signup");
-  // }
+    res.redirect("/verify-signup");
 
-  req.flash("error", e.message);
-  res.redirect("/signup");
+});
+
+app.get("/verify-signup", (req, res) => {
+
+    if (!req.session.signupData) {
+        req.flash("error", "Please Signup First!");
+        return res.redirect("/signup");
+    }
+
+    res.render("listings/verifySignup");
+
+});
+
+app.post("/verify-signup", async (req, res, next) => {
+  
+
+    const { otp } = req.body;
+
+    if (!req.session.signupData) {
+
+        req.flash("error", "Session Expired!");
+
+        return res.redirect("/signup");
+
+    }
+
+   if (otp !== req.session.signupData.otp) {
+
+    req.flash("error", "Invalid OTP!");
+
+    return res.redirect("/verify-signup");
 }
 
+if (Date.now() > req.session.signupData.otpExpires) {
 
+    req.flash("error", "OTP Expired! Please request a new OTP.");
 
+    return res.redirect("/verify-signup");
+}
+
+    const { username, email, password } = req.session.signupData;
+
+    const newUser = new User({
+        username,
+        email,
+        isVerified: true,
+    });
+
+    const registeredUser = await User.register(newUser, password);
+     const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+        user: process.env.GMAIL_USER,
+        pass: process.env.GMAIL_PASS,
+    },
+});
+
+await transporter.sendMail({
+    from: process.env.GMAIL_USER,
+    to: email,
+    subject: "🎉 Welcome to Restaurant",
+
+    html: `
+    <div style="font-family:Arial;padding:20px">
+
+        <h2>Welcome ${username} 🎉</h2>
+
+        <p>Your account has been successfully created.</p>
+
+        <p>Thank you for joining our Restaurant.</p>
+
+        <h3>Enjoy Delicious Food 🍕🍔🍟</h3>
+
+    </div>
+    `
+});
+    req.session.signupData = null;
+
+    req.login(registeredUser, err => {
+
+        if (err) return next(err);
+
+        req.flash("success", "Signup Successful!");
+
+        res.redirect("/");
+
+    });
+
+});
+
+app.post("/resend-signup-otp", async (req, res) => {
+
+    if (!req.session.signupData) {
+        req.flash("error", "Session Expired!");
+        return res.redirect("/signup");
+    }
+
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+
+    req.session.signupData.otp = otp;
+    req.session.signupData.otpExpires = Date.now() + 5 * 60 * 1000;
+
+    const transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+            user: process.env.GMAIL_USER,
+            pass: process.env.GMAIL_PASS,
+        },
+    });
+
+    await transporter.sendMail({
+        from: process.env.GMAIL_USER,
+        to: req.session.signupData.email,
+        subject: "New Signup OTP",
+        text: `Your new OTP is ${otp}. It is valid for 5 minutes.`,
+    });
+
+    req.flash("success", "New OTP sent to your email.");
+
+    res.redirect("/verify-signup");
 });
 // });
 
