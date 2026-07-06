@@ -37,6 +37,7 @@ object-fit: cover;
 height: auto; 
 max-height: 400px; 
 }
+
 .f-info-links a:hover {
     text-decoration: underline;
 }
@@ -51,6 +52,7 @@ max-height: 400px;
     margin-right: 2rem;
 }
 .f-info {
+   
     text-align: center;
     height: 10rem;
     background-color: #ebebeb;

@@ -1,282 +1,275 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Restaurants</title>
     <!-- Font Awesome CDN include karo -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
-<link rel="stylesheet" href="/css/show.css" />
-<link rel="stylesheet" href="/css/marquee.css">
- <link rel="stylesheet" href="/css/nav.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+        integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="/css/show.css" />
+    <link rel="stylesheet" href="/css/marquee.css">
+    <link rel="stylesheet" href="/css/nav.css">
 
 </head>
+
 <body>
-     <%- include("../partials/marquee") %>
-    <!-- <h3>Menu Details :</h3>
+    <%- include("../partials/marquee") %>
+        <!-- <h3>Menu Details :</h3>
     <ul>
         <li><%= listing.title %></li>
         <li><%= listing.description %></li>
         <li><%= listing.price.toLocaleString("en-IN") %></li>
     </ul>
     <br> -->
-   <%- include("../partials/nav") %>
-    <h3 style="color: blue;">Munu Details:- </h3>
-    <div class="row">
-      <div class="col-8 offest-2">
+        <%- include("../partials/nav") %>
+            <h3 style="color: blue;">Munu Details:- </h3>
+            <div class="row">
+                <div class="col-8 offest-2">
 
-     
-     <h3><%= listing.title %> :</h3>
-    </div>
-    <div class=" card col-6 offset-2 show-card listing-card">
-       <img src="<%= listing.image.url %>" class="card-img-top show-img" alt="listing_image">
-     <div class="card-body">
-      <p class="card-text">
-      
-      <b><%= listing.title %></p> </b>
-      
-     </div>
-    </div>
-    <ul>
-      <li><%= listing.title %></li>
-      
-      <br/>
-      <li><%= listing.description %></li>
-       <li> &#8377; <%= listing.price.toLocaleString("en-IN") %></li>
-      
-     
-    </ul>
-   
-    
-    <% if(!currentUser){ %>
-         <!-- <a class="nav-link " href="/signup"><b>Buy Now</b></a> -->
-          <a href="/signup" class="buy-btn">Buy Now</a>
-          
 
-        <h1 style="color: #ff0000;">please signup for buy the food</h1>
-      
-    <% } %>
-    
+                    <h3>
+                        <%= listing.title %> :
+                    </h3>
+                </div>
+                <div class=" card col-6 offset-2 show-card listing-card">
+                    <img src="<%= listing.image.url %>" class="card-img-top show-img" alt="listing_image">
+                    <div class="card-body">
+                        <p class="card-text">
 
-    <% if(currentUser){ %>
-        <form action="/cart/<%= listing._id %>" method="POST">
-    <button class="add " >
-        Add to Bag 🛒
-    </button>
-</form> <br>
-   <!-- <a href="/listings/<%= listing._id %>/buy" class="buy-btn">Buy Now</a>&nbsp; &nbsp; -->
-   
-    <a href="/listings/<%= listing._id %>/cancle" class="can-btn">Cancle</a>&nbsp; &nbsp;&nbsp;</br></br>
-       
+                            <b>
+                                <%= listing.title %>
+                        </p> </b>
 
-      
+                    </div>
+                </div>
+                <ul>
+                    <li>
+                        <%= listing.title %>
+                    </li>
 
-    
+                    <br />
+                    <li>
+                        <%= listing.description %>
+                    </li>
+                    <li> &#8377; <%= listing.price.toLocaleString("en-IN") %>
+                    </li>
 
 
+                </ul>
 
-   
-    
-  
 
-   
-   
-   
-   <%} %></br>
-    </br> </br>
+                <% if(!currentUser){ %>
+                    <!-- <a class="nav-link " href="/signup"><b>Buy Now</b></a> -->
+                    <a href="/signup" class="buy-btn">Buy Now</a>
 
 
+                    <h1 style="color: #ff0000;">please signup for buy the food</h1>
 
+                    <% } %>
 
-   <hr>
 
- <hr>
+                        <% if(currentUser){ %>
+                            <form action="/cart/<%= listing._id %>" method="POST">
+                                <button class="add ">
+                                    Add to Bag 🛒
+                                </button>
+                            </form> <br>
+                            <!-- <a href="/listings/<%= listing._id %>/buy" class="buy-btn">Buy Now</a>&nbsp; &nbsp; -->
 
-<div class="review-section">
+                            <a href="/listings/<%= listing._id %>/cancle" class="can-btn">Cancle</a>&nbsp;
+                            &nbsp;&nbsp;</br></br>
+                            <%} %></br>
+                                </br> </br>
+                                <hr>
+                                <h2 class="related-title">Related Menu 🍔</h2>
+                                <!-- <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-4 mt-3"> -->
 
-    <h2 class="review-heading">
-        ⭐ Customer Reviews
-    </h2>
 
-<% if(currentUser){ %>
+                                <div class="related-container">
 
-<form action="/listings/<%= listing._id %>/reviews" method="POST">
+                                    <% relatedListings.forEach(item=> { %>
 
-    <div class="mb-4">
+                                        <a href="/listings/<%= item._id %>" class="related-card-link">
 
-        <label class="form-label">Your Rating</label>
+                                            <div class="related-card">
 
-        <div class="star-rating">
+                                                <img src="<%= item.image.url %>" class="related-img">
 
-            <input type="radio" id="star5" name="review[rating]" value="5" required>
-            <label for="star5">★</label>
+                                                <div class="related-body">
 
-            <input type="radio" id="star4" name="review[rating]" value="4">
-            <label for="star4">★</label>
+                                                    <h5>
+                                                        <%= item.title %>
+                                                    </h5>
 
-            <input type="radio" id="star3" name="review[rating]" value="3">
-            <label for="star3">★</label>
+                                                    <p>₹ <%= item.price.toLocaleString("en-IN") %>
+                                                    </p>
 
-            <input type="radio" id="star2" name="review[rating]" value="2">
-            <label for="star2">★</label>
+                                                </div>
 
-            <input type="radio" id="star1" name="review[rating]" value="1">
-            <label for="star1">★</label>
 
-        </div>
+                                            </div>
+                                            <!-- </div> -->
 
-    </div>
+                                        </a>
 
-    <div class="mb-3">
+                                        <% }) %>
 
-        <label class="form-label">
-            Write Review
-        </label>
+                                </div>
+                                <hr>
 
-        <textarea
-            name="review[comment]"
-            rows="5"
-            class="form-control"
-            placeholder="Share your experience..."
-            required
-        ></textarea>
+                                <div class="review-section">
 
-    </div>
+                                    <h2 class="review-heading">
+                                        ⭐ Customer Reviews
+                                    </h2>
 
-    <button class="review-btn">
+                                    <% if(currentUser){ %>
 
-        Submit Review
+                                        <form action="/listings/<%= listing._id %>/reviews" method="POST">
 
-    </button>
+                                            <div class="mb-4">
 
-</form>
+                                                <label class="form-label">Your Rating</label>
 
-<% } else { %>
+                                                <div class="star-rating">
 
-<div class="login-message">
+                                                    <input type="radio" id="star5" name="review[rating]" value="5"
+                                                        required>
+                                                    <label for="star5">★</label>
 
-    Please Login to Write Review
+                                                    <input type="radio" id="star4" name="review[rating]" value="4">
+                                                    <label for="star4">★</label>
 
-</div>
+                                                    <input type="radio" id="star3" name="review[rating]" value="3">
+                                                    <label for="star3">★</label>
 
-<% } %>
+                                                    <input type="radio" id="star2" name="review[rating]" value="2">
+                                                    <label for="star2">★</label>
 
-</div>
+                                                    <input type="radio" id="star1" name="review[rating]" value="1">
+                                                    <label for="star1">★</label>
 
+                                                </div>
 
-<h2 class="all-review-title">
+                                            </div>
 
-Customer Reviews
+                                            <div class="mb-3">
 
-</h2>
+                                                <label class="form-label">
+                                                    Write Review
+                                                </label>
 
-<% if(listing.reviews.length){ %>
+                                                <textarea name="review[comment]" rows="5" class="form-control"
+                                                    placeholder="Share your experience..." required></textarea>
 
-<% listing.reviews.forEach(review=>{ %>
+                                            </div>
 
-<div class="review-card">
+                                            <button class="review-btn">
 
-<div class="review-stars">
+                                                Submit Review
 
-<% for(let i=1;i<=5;i++){ %>
+                                            </button>
 
-<% if(i<=review.rating){ %>
+                                        </form>
 
-<span class="filled">★</span>
+                                        <% } else { %>
 
-<% }else{ %>
+                                            <div class="login-message">
 
-<span>☆</span>
+                                                Please Login to Write Review
 
-<% } %>
+                                            </div>
 
-<% } %>
+                                            <% } %>
 
-</div>
+                                </div>
 
-<p class="review-comment">
 
-<%= review.comment %>
+                                <h2 class="all-review-title">
 
-</p>
+                                    Customer Reviews
 
-</div>
+                                </h2>
 
-<% }) %>
+                                <% if(listing.reviews.length){ %>
 
-<% }else{ %>
+                                    <% listing.reviews.forEach(review=>{ %>
 
-<p class="no-review">
+                                        <div class="review-card">
 
-No Reviews Yet.
+                                            <div class="review-stars">
 
-</p>
+                                                <% for(let i=1;i<=5;i++){ %>
 
-<% } %>
+                                                    <% if(i<=review.rating){ %>
 
-<h2 class="related-title">Related Menu 🍔</h2>
-<!-- <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-4 mt-3"> -->
+                                                        <span class="filled">★</span>
 
+                                                        <% }else{ %>
 
-<div class="related-container">
-    
-<% relatedListings.forEach(item => { %>
+                                                            <span>☆</span>
 
-<a href="/listings/<%= item._id %>" class="related-card-link">
+                                                            <% } %>
 
-<div class="related-card">
+                                                                <% } %>
 
-<img src="<%= item.image.url %>" class="related-img">
+                                            </div>
 
-<div class="related-body">
+                                            <p class="review-comment">
 
-<h5><%= item.title %></h5>
+                                                <%= review.comment %>
 
-<p>₹ <%= item.price.toLocaleString("en-IN") %></p>
+                                            </p>
 
-</div>
+                                        </div>
 
+                                        <% }) %>
 
-</div>
-<!-- </div> -->
+                                            <% }else{ %>
 
-</a>
+                                                <p class="no-review">
 
-<% }) %>
+                                                    No Reviews Yet.
 
-</div>
+                                                </p>
 
-   
+                                                <% } %><br><br>
+                                                    <footer>
+                                                        <div class="f-info">
+                                                            <div class="f-info-socials">
+                                                                <a <i href="https://www.facebook.com/share/19nyENzRAD/"
+                                                                    class="fa-brands fa-facebook"
+                                                                    style="font-size: 24px ;"></i>&nbsp; &nbsp; &nbsp;
+                                                                </a>
+                                                                <a <i
+                                                                    href="https://www.instagram.com/invites/contact/?utm_source=ig_contact_invite&utm_medium=copy_link&utm_content=qpexvi5"
+                                                                    class="fa-brands fa-square-instagram"
+                                                                    style="font-size: 24px ;"></i>&nbsp; &nbsp;&nbsp;
+                                                                </a>
+                                                                <a <i
+                                                                    href="https://youtube.com/@ankurkumar-3?si=JRHq2H5lawvXVejf "
+                                                                    class="fa-brands fa-youtube"
+                                                                    style="font-size: 24px ;"></i></a>
 
+                                                            </div>
+                                                            <div>
+                                                                <p> <i class="fa-solid fa-phone-volume"></i> +91
+                                                                    7667880272</p>
+                                                                <p> <i class="fa-solid fa-envelope"></i>
+                                                                    ankurkumar89632@gmail.com</p>
+                                                            </div>
+                                                            <div class="f-info-brand"> &copy; Wanderlust Private Limited
+                                                            </div>
 
-   <footer>
-    <div class="f-info">
-        <div class="f-info-socials">
-            <a <i href="https://www.facebook.com/share/19nyENzRAD/" class="fa-brands fa-facebook" style="font-size: 24px ;"></i>&nbsp; &nbsp; &nbsp;  </a>
-            <a <i  href="https://www.instagram.com/invites/contact/?utm_source=ig_contact_invite&utm_medium=copy_link&utm_content=qpexvi5" class="fa-brands fa-square-instagram" style="font-size: 24px ;"></i>&nbsp; &nbsp;&nbsp;  </a>
-            <a <i  href="https://youtube.com/@ankurkumar-3?si=JRHq2H5lawvXVejf "   class="fa-brands fa-youtube" style="font-size: 24px ;"></i></a>
-
-        </div>
-       <div>
-  <p> <i class="fa-solid fa-phone-volume"></i> +91 7667880272</p>
-  <p> <i class="fa-solid fa-envelope"></i> ankurkumar89632@gmail.com</p>
-    </div>
-
-
-       
-        
-       
-        <div class="f-info-brand"> &copy; Wanderlust Private Limited</div>
-        
-        <div class="f-info-links">
-            <a href="/privacy">Privacy</a>&nbsp;
-            <a href="/terms">Terms</a>
-             <a href="/listings/<%= listing._id %>/edit">-</a>
-        </div>
-    </div>
-</footer>
-    
-   
-   
+                                                            <div class="f-info-links">
+                                                                <a href="/privacy">Privacy</a>&nbsp;
+                                                                <a href="/terms">Terms</a>
+                                                                <a href="/listings/<%= listing._id %>/edit">-</a>
+                                                            </div>
+                                                        </div>
+                                                    </footer>
 </body>
+
 </html>

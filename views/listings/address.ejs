@@ -1,268 +1,238 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Payment</title>
+    <title>Payment</title>
 
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 
-<link rel="stylesheet" href="/css/footer.css">
-<link rel="stylesheet" href="/css/marquee.css">
-<link rel="stylesheet" href="/css/address.css">
- <link rel="stylesheet" href="/css/nav.css">
+    <link rel="stylesheet" href="/css/footer.css">
+    <link rel="stylesheet" href="/css/marquee.css">
+    <link rel="stylesheet" href="/css/address.css">
+    <link rel="stylesheet" href="/css/nav.css">
 </head>
 
 <body>
 
-<%- include("../partials/marquee") %>
+    <%- include("../partials/marquee") %>
 
-<!-- ================= PAYMENT ================= -->
-<%- include("../partials/nav") %>
+        <!-- ================= PAYMENT ================= -->
+        <%- include("../partials/nav") %>
 
-<div class="payment-section">
+            <div class="payment-section">
 
-<h2>Choose Payment Method</h2>
+                <h2>Choose Payment Method</h2>
 
-<div class="payment-card">
+                <div class="payment-card">
 
-<div class="qr-box">
+                    <div class="qr-box">
 
-<img src="/css/images/qr.jpg" class="qr">
+                        <img src="/css/images/qr.jpg" class="qr">
 
-</div>
+                    </div>
 
-<div class="upi-details">
+                    <div class="upi-details">
 
-<h3>Scan & Pay</h3>
+                        <h3>Scan & Pay</h3>
 
-<p><b>UPI ID</b></p>
+                        <p><b>UPI ID</b></p>
 
-<div class="upi-id">
+                        <div class="upi-id">
 
-7667880272@ybl
+                            7667880272@ybl
 
-</div>
+                        </div>
 
-<div class="payment-buttons">
+                        <div class="payment-buttons">
 
-<button
-type="button"
-class="pay-btn phonepe"
-onclick="openPhonePe()">
+                            <button type="button" class="pay-btn phonepe" onclick="openPhonePe()">
 
-<i class="fa-solid fa-mobile-screen-button"></i>
+                                <i class="fa-solid fa-mobile-screen-button"></i>
 
-PhonePe
+                                PhonePe
 
-</button>
+                            </button>
 
-<button
-type="button"
-class="pay-btn whatsapp"
-onclick="openWhatsApp()">
+                            <button type="button" class="pay-btn whatsapp" onclick="openWhatsApp()">
 
-<i class="fa-brands fa-whatsapp"></i>
+                                <i class="fa-brands fa-whatsapp"></i>
 
-WhatsApp
+                                WhatsApp
 
-</button>
+                            </button>
 
-</div>
+                        </div>
 
-<a
-href="https://forms.gle/r5UYrCbEHFmVqCTY6"
-target="_blank"
-class="upload-btn">
+                        <a href="https://forms.gle/r5UYrCbEHFmVqCTY6" target="_blank" class="upload-btn">
 
-<i class="fa-solid fa-upload"></i>
+                            <i class="fa-solid fa-upload"></i>
 
-Upload Screenshot
+                            Upload Screenshot
 
-</a>
+                        </a>
 
-</div>
+                    </div>
 
-</div>
+                </div>
 
-</div>
+            </div>
 
-<hr>
+            <hr>
 
-<!-- ================= ORDER DETAILS ================= -->
+            <!-- ================= ORDER DETAILS ================= -->
 
-<div class="order-section">
+            <div class="order-section">
 
-<h2>Order Details</h2>
+                <h2>Order Details</h2>
 
-<form id="orderForm">
+                <form id="orderForm">
 
-<input
-type="hidden"
-name="access_key"
-value="1f937280-f43a-482b-b121-466444023e0f">
+                    <input type="hidden" name="access_key" value="1f937280-f43a-482b-b121-466444023e0f">
 
-<input
-type="hidden"
-name="orderData"
-id="orderData">
+                    <input type="hidden" name="orderData" id="orderData">
 
-<input
-type="hidden"
-name="total"
-id="totalAmount">
+                    <input type="hidden" name="total" id="totalAmount">
 
-<div class="form-group">
+                    <div class="form-group">
 
-<label>Your Order</label>
+                        <label>Your Order</label>
 
-<div id="order-summary">
+                        <div id="order-summary">
 
-<!-- JS se automatically fill hoga -->
+                            <!-- JS se automatically fill hoga -->
 
-</div>
+                        </div>
 
-</div>
+                    </div>
 
-<!-- ================= CUSTOMER DETAILS ================= -->
+                    <!-- ================= CUSTOMER DETAILS ================= -->
 
-<div class="form-group">
+                    <div class="form-group">
 
-<label>Full Name</label>
+                        <label>Full Name</label>
 
-<input
-type="text"
-name="name"
-placeholder="Enter Full Name"
-value="<%= currentUser && currentUser.address ? currentUser.address.fullName : '' %>"
-required>
+                        <input type="text" name="name" placeholder="Enter Full Name"
+                            value="<%= currentUser && currentUser.address ? currentUser.address.fullName : '' %>"
+                            required>
 
-</div>
+                    </div>
 
-<div class="form-group">
+                    <div class="form-group">
 
-<label>Mobile Number</label>
+                        <label>Mobile Number</label>
 
-<input
-type="tel"
-name="phone"
-placeholder="Enter Mobile Number"
-value="<%= currentUser && currentUser.address ? currentUser.address.phone : '' %>"
-required>
+                        <input type="tel" name="phone" placeholder="Enter Mobile Number"
+                            value="<%= currentUser && currentUser.address ? currentUser.address.phone : '' %>" required>
 
-</div>
+                    </div>
 
-<div class="form-group">
+                    <div class="form-group">
 
-<label>Delivery Address</label>
+                        <label>Delivery Address</label>
 
-<textarea
-name="address"
-rows="4"
-placeholder="Enter Complete Address"
-required><%= currentUser && currentUser.address ? currentUser.address.addressLine : '' %></textarea>
+                        <textarea name="address" rows="4" placeholder="Enter Complete Address"
+                            required><%= currentUser && currentUser.address ? currentUser.address.addressLine : '' %></textarea>
 
-</div>
+                    </div>
 
-<!-- ================= PAYMENT METHOD ================= -->
+                    <!-- ================= PAYMENT METHOD ================= -->
 
-<div class="form-group">
+                    <div class="form-group">
 
-<label>Payment Method</label>
+                        <label>Payment Method</label>
 
-<select name="paymentMethod" required>
+                        <select name="paymentMethod" required>
 
-<option value="">Select Payment Method</option>
+                            <option value="">Select Payment Method</option>
 
-<option value="Cash on Delivery">
-Cash on Delivery
-</option>
+                            <option value="Cash on Delivery">
+                                Cash on Delivery
+                            </option>
 
-<option value="UPI">
-UPI Payment
-</option>
+                            <option value="UPI">
+                                UPI Payment
+                            </option>
 
-</select>
+                        </select>
 
-</div>
+                    </div>
 
-<!-- ================= TOTAL ================= -->
+                    <!-- ================= TOTAL ================= -->
 
-<div class="grand-total">
+                    <div class="grand-total">
 
-<h3>
+                        <h3>
 
-Total Amount :
-<span id="grandTotal">₹0</span>
+                            Total Amount :
+                            <span id="grandTotal">₹0</span>
 
-</h3>
+                        </h3>
 
-</div>
+                    </div>
 
-<!-- ================= PLACE ORDER ================= -->
+                    <!-- ================= PLACE ORDER ================= -->
 
-<button
-type="submit"
-class="order-btn">
+                    <button type="submit" class="order-btn">
 
-<i class="fa-solid fa-bag-shopping"></i>
+                        <i class="fa-solid fa-bag-shopping"></i>
 
-Place Order
+                        Place Order
 
-</button>
+                    </button>
 
-</form>
+                </form>
 
-</div>
+            </div>
 
-<%- include("../partials/footer") %>
+            <%- include("../partials/footer") %>
 
-<script>
+                <script>
 
-// ================= PAYMENT =================
+                    // ================= PAYMENT =================
 
-function openPhonePe(){
+                    function openPhonePe() {
 
-    window.location.href =
-    "upi://pay?pa=7667880272@postbank&pn=Ankur%20Kumar&cu=INR";
+                        window.location.href =
+                            "upi://pay?pa=7667880272@postbank&pn=Ankur%20Kumar&cu=INR";
 
-}
+                    }
 
-function openWhatsApp(){
+                    function openWhatsApp() {
 
-    window.location.href =
-    "https://wa.me/917667880272?text=Hello%20I%20am%20sending%20payment%20screenshot";
+                        window.location.href =
+                            "https://wa.me/917667880272?text=Hello%20I%20am%20sending%20payment%20screenshot";
 
-}
+                    }
 
 
-// ================= LOAD ORDER =================
+                    // ================= LOAD ORDER =================
 
-const order = JSON.parse(localStorage.getItem("order")) || [];
+                    const order = JSON.parse(localStorage.getItem("order")) || [];
 
-const container = document.getElementById("order-summary");
+                    const container = document.getElementById("order-summary");
 
-const hiddenOrder = document.getElementById("orderData");
+                    const hiddenOrder = document.getElementById("orderData");
 
-const hiddenTotal = document.getElementById("totalAmount");
+                    const hiddenTotal = document.getElementById("totalAmount");
 
-let total = 0;
+                    let total = 0;
 
-if(order.length===0){
+                    if (order.length === 0) {
 
-    container.innerHTML="<p>Your bag is empty.</p>";
+                        container.innerHTML = "<p>Your bag is empty.</p>";
 
-}else{
+                    } else {
 
-    order.forEach(item=>{
+                        order.forEach(item => {
 
-        const subtotal = Number(item.price) * Number(item.quantity);
+                            const subtotal = Number(item.price) * Number(item.quantity);
 
-        total += subtotal;
+                            total += subtotal;
 
-        container.innerHTML += `
+                            container.innerHTML += `
 
         <div class="summary-item">
 
@@ -284,76 +254,76 @@ if(order.length===0){
 
         `;
 
-    });
+                        });
 
-}
+                    }
 
-document.getElementById("grandTotal").innerHTML="₹"+total;
+                    document.getElementById("grandTotal").innerHTML = "₹" + total;
 
-hiddenTotal.value=total;
+                    hiddenTotal.value = total;
 
-hiddenOrder.value=JSON.stringify(order);
+                    hiddenOrder.value = JSON.stringify(order);
 
 
-// ================= PLACE ORDER =================
+                    // ================= PLACE ORDER =================
 
-document.getElementById("orderForm").addEventListener("submit",async function(e){
+                    document.getElementById("orderForm").addEventListener("submit", async function (e) {
 
-e.preventDefault();
+                        e.preventDefault();
 
-const formData=new FormData(this);
+                        const formData = new FormData(this);
 
-try{
+                        try {
 
-await fetch("/cart/save-address",{
+                            await fetch("/cart/save-address", {
 
-method:"POST",
+                                method: "POST",
 
-body:formData
+                                body: formData
 
-});
+                            });
 
-await fetch("https://api.web3forms.com/submit",{
+                            await fetch("https://api.web3forms.com/submit", {
 
-method:"POST",
+                                method: "POST",
 
-body:formData
+                                body: formData
 
-});
+                            });
 
-const response=await fetch("/place-order",{
+                            const response = await fetch("/place-order", {
 
-method:"POST",
+                                method: "POST",
 
-body:formData
+                                body: formData
 
-});
+                            });
 
-const result=await response.json();
+                            const result = await response.json();
 
-if(result.success){
+                            if (result.success) {
 
-localStorage.removeItem("order");
+                                localStorage.removeItem("order");
 
-alert("Order Placed Successfully ✅");
+                                alert("Order Placed Successfully ✅");
 
-window.location.href="/my-orders";
+                                window.location.href = "/my-orders";
 
-}else{
+                            } else {
 
-alert("Order Failed ❌");
+                                alert("Order Failed ❌");
 
-}
+                            }
 
-}catch(err){
+                        } catch (err) {
 
-alert("Something Went Wrong");
+                            alert("Something Went Wrong");
 
-}
+                        }
 
-});
+                    });
 
-</script>
+                </script>
 
 </body>
 
