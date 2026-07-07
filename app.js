@@ -14,6 +14,8 @@ const Order = require("./models/order");
 const authRoutes = require("./routes/authRoutes");
 const Review = require("./models/review");
 const nodemailer = require("nodemailer");
+const adminRoutes = require("./routes/admin");
+
 
 
 
@@ -75,6 +77,8 @@ app.use(passport.session());
 app.use("/cart", cartRoutes);
 
 
+
+
 // app.use(session({
 //     secret: "mysupersecret",
 //     resave: false,
@@ -115,7 +119,7 @@ app.use(express.json());
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads'))); // ⚠️ Render पर temporary
-
+app.use("/admin", adminRoutes);
 // =========================================================
 // Routes
 // =========================================================
@@ -327,6 +331,18 @@ app.get("/save", (req, res) => {
 // Signup
 app.get("/signup", (req, res) => {
   res.render("listings/signup.ejs");
+});
+app.get("/dashboard", (req, res) => {
+  res.render("admin/dashboard.ejs");
+});
+app.get("/user", (req, res) => {
+  res.render("admin/user.ejs");
+});
+app.get("/order", (req, res) => {
+  res.render("admin/order.ejs");
+});
+app.get("/adminLogin.ejs", (req, res) => {
+  res.render("admin/adminLogin.ejs");
 });
 
 
@@ -583,7 +599,9 @@ app.post('/login', passport.authenticate('local', {
   failureRedirect: '/login',
   failureFlash: true
 }), (req, res) => {
+ 
   req.flash('success', 'Welcome back to Vatika Restaurant!');
+  
   const redirectUrl = req.session.returnTo || '/';
   delete req.session.returnTo;
   res.redirect(redirectUrl);

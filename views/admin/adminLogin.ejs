@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Login</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#ff6b35,#ff9800);
+
+}
+
+.login-box{
+
+    width:380px;
+    background:#fff;
+    padding:40px;
+    border-radius:15px;
+    box-shadow:0 10px 30px rgba(0,0,0,.25);
+
+}
+
+.login-box h2{
+
+    text-align:center;
+    margin-bottom:10px;
+    color:#333;
+
+}
+
+.login-box p{
+
+    text-align:center;
+    color:#777;
+    margin-bottom:30px;
+
+}
+
+.input-box{
+
+    margin-bottom:20px;
+
+}
+
+.input-box input{
+
+    width:100%;
+    padding:14px;
+    border:1px solid #ddd;
+    border-radius:8px;
+    font-size:16px;
+    outline:none;
+
+}
+
+.input-box input:focus{
+
+    border-color:#ff6b35;
+
+}
+
+button{
+
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:8px;
+    background:#ff6b35;
+    color:white;
+    font-size:17px;
+    cursor:pointer;
+    transition:.3s;
+
+}
+
+button:hover{
+
+    background:#e85a2c;
+
+}
+
+.icon{
+
+    font-size:65px;
+    text-align:center;
+    margin-bottom:15px;
+
+}
+
+.footer{
+
+    text-align:center;
+    margin-top:20px;
+    color:#888;
+    font-size:14px;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="login-box">
+
+<div class="icon">🔐</div>
+
+<h2>Admin Panel</h2>
+
+<p>Restaurant Management System</p>
+
+<form action="/admin/login" method="POST">
+
+<div class="input-box">
+
+<input
+type="password"
+name="password"
+placeholder="Enter Admin Password"
+required>
+
+</div>
+
+<button type="submit">
+
+Login
+
+</button>
+
+</form>
+
+<div class="footer">
+
+Only Authorized Admin
+
+</div>
+
+</div>
+
+</body>
+</html>
