@@ -461,6 +461,13 @@ app.post("/signup", async (req, res) => {
         subject: "Restaurant Signup OTP",
         text: `Your Signup OTP is ${otp}`,
     });
+    req.session.signupData={
+username,
+email,
+password,
+otp,
+otpExpires:Date.now()+300000
+};
 
     res.redirect("/verify-signup");
 
