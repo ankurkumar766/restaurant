@@ -455,19 +455,30 @@ app.post("/signup", async (req, res) => {
         },
     });
 
+    // await transporter.sendMail({
+    //     from: process.env.GMAIL_USER,
+    //     to: email,
+    //     subject: "Restaurant Signup OTP",
+    //     text: `Your Signup OTP is ${otp}`,
+    // });
+  try {
+
     await transporter.sendMail({
         from: process.env.GMAIL_USER,
         to: email,
         subject: "Restaurant Signup OTP",
         text: `Your Signup OTP is ${otp}`,
     });
-    req.session.signupData={
-username,
-email,
-password,
-otp,
-otpExpires:Date.now()+300000
-};
+
+    console.log("Mail Sent");
+
+} catch(err){
+
+    console.error("Mail Error:", err);
+
+    return res.status(500).send(err.message);
+
+}
 
     res.redirect("/verify-signup");
 
