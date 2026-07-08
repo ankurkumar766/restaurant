@@ -417,6 +417,8 @@ app.post("/listings/:id/reviews", async (req, res) => {
 
 // });
 
+const { Resend } = require("resend");
+const resend = new Resend(process.env.RESEND_API_KEY);
 app.post("/signup", async (req, res) => {
 
     const { email, username, password } = req.body;
@@ -447,40 +449,40 @@ app.post("/signup", async (req, res) => {
     otpExpires: Date.now() + 5 * 60 * 1000 // 5 minutes
 };
 
-    const transporter = nodemailer.createTransport({
-        service: "gmail",
-        auth: {
-            user: process.env.GMAIL_USER,
-            pass: process.env.GMAIL_PASS,
-        },
-    });
+    try {
 
-    // await transporter.sendMail({
-    //     from: process.env.GMAIL_USER,
-    //     to: email,
-    //     subject: "Restaurant Signup OTP",
-    //     text: `Your Signup OTP is ${otp}`,
-    // });
-  try {
-
-    await transporter.sendMail({
-        from: process.env.GMAIL_USER,
+    await resend.emails.send({
+        from: "onboarding@resend.dev",
         to: email,
-        subject: "Restaurant Signup OTP",
-        text: `Your Signup OTP is ${otp}`,
+        subject: "vatika Restuarant Signup OTP",
+        html: `
+        <div style="font-family:Arial,sans-serif;padding:20px">
+            <h2>Restaurant Signup OTP</h2>
+
+            <p>Your OTP is:</p>
+
+            <h1 style="letter-spacing:8px;color:#16a34a;">
+                ${otp}
+            </h1>
+
+            <p>This OTP will expire in <b>5 minutes</b>.</p>
+
+            <p>Please do not share this OTP with anyone.</p>
+        </div>
+        `
     });
 
-    console.log("Mail Sent");
+    console.log("OTP Email Sent");
 
-} catch(err){
+    res.redirect("/verify-signup");
 
-    console.error("Mail Error:", err);
+} catch (err) {
+
+    console.error("Resend Error:", err);
 
     return res.status(500).send(err.message);
 
 }
-
-    res.redirect("/verify-signup");
 
 });
 
@@ -584,24 +586,44 @@ app.post("/resend-signup-otp", async (req, res) => {
     req.session.signupData.otp = otp;
     req.session.signupData.otpExpires = Date.now() + 5 * 60 * 1000;
 
-    const transporter = nodemailer.createTransport({
-        service: "gmail",
-        auth: {
-            user: process.env.GMAIL_USER,
-            pass: process.env.GMAIL_PASS,
-        },
-    });
+   try {
 
-    await transporter.sendMail({
-        from: process.env.GMAIL_USER,
+    await resend.emails.send({
+        from: "onboarding@resend.dev",
         to: req.session.signupData.email,
         subject: "New Signup OTP",
-        text: `Your new OTP is ${otp}. It is valid for 5 minutes.`,
+        html: `
+        <div style="font-family:Arial,sans-serif;padding:20px">
+
+            <h2>New OTP Requested</h2>
+
+            <p>Your new OTP is:</p>
+
+            <h1 style="letter-spacing:8px;color:#16a34a;">
+                ${otp}
+            </h1>
+
+            <p>This OTP is valid for <b>5 minutes</b>.</p>
+
+            <p>If you didn't request this OTP, please ignore this email.</p>
+
+        </div>
+        `
     });
 
     req.flash("success", "New OTP sent to your email.");
 
     res.redirect("/verify-signup");
+
+} catch (err) {
+
+    console.error("Resend Error:", err);
+
+    req.flash("error", "Failed to send OTP. Please try again.");
+
+    res.redirect("/verify-signup");
+
+}
 });
 // });
 

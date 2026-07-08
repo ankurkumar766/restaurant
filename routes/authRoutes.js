@@ -24,20 +24,44 @@ router.post("/forgot", async (req, res) => {
     await user.save();
 
     // Configure transporter using env vars
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: process.env.GMAIL_USER,
-        pass: process.env.GMAIL_PASS,
-      },
+    const { Resend } = require("resend");
+    const resend = new Resend(process.env.RESEND_API_KEY);
+   try {
+
+    await resend.emails.send({
+        from: "onboarding@resend.dev",
+        to: user.email,
+        subject: "OTP for Password Reset",
+        html: `
+        <div style="font-family:Arial,sans-serif;padding:20px">
+
+            <h2>Password Reset OTP</h2>
+
+            <p>Your OTP is:</p>
+
+            <h1 style="letter-spacing:8px;color:#dc2626;">
+                ${otp}
+            </h1>
+
+            <p>This OTP is valid for <b>10 minutes</b>.</p>
+
+            <p>If you did not request a password reset, please ignore this email.</p>
+
+        </div>
+        `
     });
 
-    await transporter.sendMail({
-      from: process.env.GMAIL_USER,
-      to: user.email,
-      subject: "OTP for Password Reset",
-      text: `Your OTP is ${otp}. It is valid for 10 minutes.`,
-    });
+    console.log("Password Reset OTP Sent");
+
+} catch (err) {
+
+    console.error("Resend Error:", err);
+
+    req.flash("error", "Unable to send OTP. Please try again.");
+
+    return res.redirect("/forgot-password");
+
+}
 
     return res.render("listings/verifyOtp.ejs", {
       email: user.email,
