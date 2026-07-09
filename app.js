@@ -19,6 +19,7 @@ const adminRoutes = require("./routes/admin");
 
 
 
+
 // ...
 // const MONGO_URI = process.env.MONGO_URI || "mongodb://127.0.0.1:27017/restaurants";
 const dbUrl = process.env.ATLASDB_URI;
@@ -119,7 +120,7 @@ app.use(express.json());
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads'))); // ⚠️ Render पर temporary
-app.use("/admin", adminRoutes);
+
 // =========================================================
 // Routes
 // =========================================================
@@ -134,11 +135,6 @@ app.get("/", async (req, res) => {
 app.get("/listings/new", (req, res) => {
   res.render("listings/new.ejs");
 });
-
-
-
-
-
 
 // Order route
 app.post("/place-order", upload.none(), async (req, res) => {
@@ -234,6 +230,7 @@ app.get("/listings/:id/edit", async (req, res) => {
   }
   res.render("listings/edit.ejs", { listing });
 });
+app.use("/admin", adminRoutes);
 
 // Updated route with file upload
 app.put("/listings/:id", upload.single("image"), async (req, res) => {
@@ -373,258 +370,47 @@ app.post("/listings/:id/reviews", async (req, res) => {
 
 
 
-// app.post('/signup', async (req, res, next) => {
-//   try {
-
-//     const { email, username, password } = req.body;
-
-    
-//     const emailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
-
-// if(!emailRegex.test(email)){
-//   req.flash("error","Only valid Gmail addresses are allowed!");
-//   return res.redirect("/signup");
-// }
-
-//     const newUser = new User({ email, username });
-
-//     const registeredUser = await User.register(newUser, password);
-
-//     req.login(registeredUser, err => {
-//       if (err) return next(err);
-
-//       req.flash('success', 'Welcome to  Restaurant!');
-//       res.redirect('/');
-//     });
-
-//   } 
-//   // catch (e) {
-//   //   req.flash('error', e.message);
-//   //   res.redirect('/signup');
-//   // }
-//   catch (e) {
-
-//   // if(e.code === 11000){
-//   //   req.flash("error","Email already registered!");
-//   //   return res.redirect("/signup");
-//   // }
-
-//   req.flash("error", e.message);
-//   res.redirect("/signup");
-// }
-
-
-
-// });
-
-const { Resend } = require("resend");
-const resend = new Resend(process.env.RESEND_API_KEY);
-app.post("/signup", async (req, res) => {
+app.post('/signup', async (req, res, next) => {
+  try {
 
     const { email, username, password } = req.body;
 
+    
     const emailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
 
-    if (!emailRegex.test(email)) {
-        req.flash("error", "Only Gmail Allowed!");
-        return res.redirect("/signup");
-    }
-
-    const oldUser = await User.findOne({ email });
-
-    if (oldUser) {
-        req.flash("error", "Email Already Registered!");
-        return res.redirect("/signup");
-    }
-
-    // OTP
-    const otp = Math.floor(100000 + Math.random() * 900000).toString();
-
-    // Session me data save
-   req.session.signupData = {
-    username,
-    email,
-    password,
-    otp,
-    otpExpires: Date.now() + 5 * 60 * 1000 // 5 minutes
-};
-
-    try {
-
-    await resend.emails.send({
-        from: "onboarding@resend.dev",
-        to: email,
-        subject: "vatika Restuarant Signup OTP",
-        html: `
-        <div style="font-family:Arial,sans-serif;padding:20px">
-            <h2>Restaurant Signup OTP</h2>
-
-            <p>Your OTP is:</p>
-
-            <h1 style="letter-spacing:8px;color:#16a34a;">
-                ${otp}
-            </h1>
-
-            <p>This OTP will expire in <b>5 minutes</b>.</p>
-
-            <p>Please do not share this OTP with anyone.</p>
-        </div>
-        `
-    });
-
-    console.log("OTP Email Sent");
-
-    res.redirect("/verify-signup");
-
-} catch (err) {
-
-    console.error("Resend Error:", err);
-
-    return res.status(500).send(err.message);
-
+if(!emailRegex.test(email)){
+  req.flash("error","Only valid Gmail addresses are allowed!");
+  return res.redirect("/signup");
 }
 
-});
-
-app.get("/verify-signup", (req, res) => {
-
-    if (!req.session.signupData) {
-        req.flash("error", "Please Signup First!");
-        return res.redirect("/signup");
-    }
-
-    res.render("listings/verifySignup");
-
-});
-
-app.post("/verify-signup", async (req, res, next) => {
-  
-
-    const { otp } = req.body;
-
-    if (!req.session.signupData) {
-
-        req.flash("error", "Session Expired!");
-
-        return res.redirect("/signup");
-
-    }
-
-   if (otp !== req.session.signupData.otp) {
-
-    req.flash("error", "Invalid OTP!");
-
-    return res.redirect("/verify-signup");
-}
-
-if (Date.now() > req.session.signupData.otpExpires) {
-
-    req.flash("error", "OTP Expired! Please request a new OTP.");
-
-    return res.redirect("/verify-signup");
-}
-
-    const { username, email, password } = req.session.signupData;
-
-    const newUser = new User({
-        username,
-        email,
-        isVerified: true,
-    });
+    const newUser = new User({ email, username });
 
     const registeredUser = await User.register(newUser, password);
-     const transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-        user: process.env.GMAIL_USER,
-        pass: process.env.GMAIL_PASS,
-    },
-});
-
-await transporter.sendMail({
-    from: process.env.GMAIL_USER,
-    to: email,
-    subject: "🎉 Welcome to Restaurant",
-
-    html: `
-    <div style="font-family:Arial;padding:20px">
-
-        <h2>Welcome ${username} 🎉</h2>
-
-        <p>Your account has been successfully created.</p>
-
-        <p>Thank you for joining our Restaurant.</p>
-
-        <h3>Enjoy Delicious Food 🍕🍔🍟</h3>
-
-    </div>
-    `
-});
-    req.session.signupData = null;
 
     req.login(registeredUser, err => {
+      if (err) return next(err);
 
-        if (err) return next(err);
-
-        req.flash("success", "Signup Successful!");
-
-        res.redirect("/");
-
+      req.flash('success', 'Welcome to  Restaurant!');
+      res.redirect('/');
     });
 
-});
+  } 
+  catch (e) {
+ 
+  if(e.code === 11000){
+    req.flash("error","Email already registered!");
+    return res.redirect("/signup");
+  }
 
-app.post("/resend-signup-otp", async (req, res) => {
-
-    if (!req.session.signupData) {
-        req.flash("error", "Session Expired!");
-        return res.redirect("/signup");
-    }
-
-    const otp = Math.floor(100000 + Math.random() * 900000).toString();
-
-    req.session.signupData.otp = otp;
-    req.session.signupData.otpExpires = Date.now() + 5 * 60 * 1000;
-
-   try {
-
-    await resend.emails.send({
-        from: "onboarding@resend.dev",
-        to: req.session.signupData.email,
-        subject: "New Signup OTP",
-        html: `
-        <div style="font-family:Arial,sans-serif;padding:20px">
-
-            <h2>New OTP Requested</h2>
-
-            <p>Your new OTP is:</p>
-
-            <h1 style="letter-spacing:8px;color:#16a34a;">
-                ${otp}
-            </h1>
-
-            <p>This OTP is valid for <b>5 minutes</b>.</p>
-
-            <p>If you didn't request this OTP, please ignore this email.</p>
-
-        </div>
-        `
-    });
-
-    req.flash("success", "New OTP sent to your email.");
-
-    res.redirect("/verify-signup");
-
-} catch (err) {
-
-    console.error("Resend Error:", err);
-
-    req.flash("error", "Failed to send OTP. Please try again.");
-
-    res.redirect("/verify-signup");
-
+  req.flash("error", e.message);
+  res.redirect("/signup");
 }
+
+
+
 });
+
+
 // });
 
 // Login

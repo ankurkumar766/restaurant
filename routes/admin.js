@@ -151,6 +151,19 @@ router.get("/user", async (req, res) => {
     });
 
 });
+router.delete("/users/:id", async (req, res) => {
+
+    if (!req.session.isAdmin) {
+        return res.redirect("/admin");
+    }
+
+    await User.findByIdAndDelete(req.params.id);
+
+    req.flash("success", "User Deleted Successfully");
+
+    res.redirect("/admin/user");
+
+});
 router.get("/order", async (req, res) => {
 
     if (!req.session.isAdmin) {
