@@ -44,7 +44,7 @@
 
                     </div>
                 </div>
-                <ul>
+                <!-- <ul>
                     <li>
                         <%= listing.title %>
                     </li>
@@ -57,7 +57,36 @@
                     </li>
 
 
-                </ul>
+                </ul> -->
+                <ul>
+
+    <li>
+        <%= listing.title %>
+    </li>
+
+    <br>
+
+    <li>
+        <%= listing.description %>
+    </li>
+
+    <li style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+
+        <span style="font-size:22px;font-weight:bold;color:#16a34a;">
+            ₹<%= listing.price.toLocaleString("en-IN") %>
+        </span>
+
+        <span style="text-decoration:line-through;color:#777;font-size:16px;">
+            ₹<%= Math.round(listing.price * 1.20).toLocaleString("en-IN") %>
+        </span>
+
+        <span style="background:#61e535;color:#fff;padding:3px 8px;border-radius:15px;font-size:12px;font-weight:bold;">
+            20% OFF
+        </span>
+
+    </li>
+
+</ul>
 
 
                 <% if(!currentUser){ %>

@@ -68,6 +68,12 @@ router.get("/dashboard", async (req, res) => {
     }
 
     const totalUsers = await User.countDocuments();
+   const unreadOrders = await Order.countDocuments({
+    $or: [
+        { isSeen: false },
+        { isSeen: { $exists: false } }
+    ]
+});
 
     const totalMenu = await Listing.countDocuments();
 
@@ -104,6 +110,7 @@ router.get("/dashboard", async (req, res) => {
         totalReviews,
 
         totalOrders,
+        unreadOrders,
 
         revenue,
 
@@ -164,7 +171,19 @@ router.delete("/users/:id", async (req, res) => {
     res.redirect("/admin/user");
 
 });
+
 router.get("/order", async (req, res) => {
+   await Order.updateMany(
+    {
+        $or: [
+            { isSeen: false },
+            { isSeen: { $exists: false } }
+        ]
+    },
+    {
+        $set: { isSeen: true }
+    }
+);
 
     if (!req.session.isAdmin) {
         return res.redirect("/admin");

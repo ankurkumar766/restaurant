@@ -18,6 +18,28 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
 </head>
 
 <body>
+    <div class="topbar">
+
+    <h2>Dashboard</h2>
+
+    <div class="admin-actions">
+
+       <a href="/admin/order" class="notification">
+    <i class="fas fa-bell"></i>
+
+    <% if(unreadOrders > 0){ %>
+        <span class="badge"><%= unreadOrders %></span>
+    <% } %>
+</a>
+
+        <div class="admin-profile">
+            <i class="fas fa-user-circle"></i>
+            Admin
+        </div>
+
+    </div>
+
+</div>
 
 <div class="dashboard">
 
@@ -124,24 +146,6 @@ Analytics
     <!-- Main -->
 
     <div class="main-content">
-
-        <div class="topbar">
-
-            <h2>
-
-                Dashboard
-
-            </h2>
-
-            <div class="admin-profile">
-
-                <i class="fas fa-user-circle"></i>
-
-                Admin
-
-            </div>
-
-        </div>
 
         <div class="welcome">
 
