@@ -19,7 +19,11 @@ body{
 /* ===========================
 Dashboard Layout
 =========================== */
-
+.topbar a:hover{
+    background:#2563eb !important;
+    color:#fff !important;
+    transform:scale(1.08);
+}
 .dashboard{
     display:flex;
     min-height:100vh;

@@ -56,7 +56,18 @@
 
                                             <p class="price">
                                                 ₹ <span class="item-price">
-                                                    <%= item.price %>
+                                                    <!-- <%= item.price %> -->
+                                                       <span style="font-size:22px;font-weight:bold;color:#16a34a;">
+            ₹<%= item.price.toLocaleString("en-IN") %>
+        </span>
+
+        <span style="text-decoration:line-through;color:#777;font-size:16px;">
+            ₹<%= Math.round(item.price * 1.20).toLocaleString("en-IN") %>
+        </span>
+
+        <span style="background:#61e535;color:#fff;padding:3px 8px;border-radius:15px;font-size:12px;font-weight:bold;">
+            20% OFF
+        </span>
                                                 </span>
                                             </p>
 
