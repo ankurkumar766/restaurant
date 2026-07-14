@@ -293,10 +293,13 @@
                                                             </div>
 
                                                             <div class="f-info-links">
-                                                                <a href="/privacy">Privacy</a>&nbsp;
-                                                                <a href="/terms">Terms</a>
+                                                                <a href="/policy">Privacy</a>&nbsp;
+                                                                <a href="/term">Terms</a>
                                                                 <a href="/listings/<%= listing._id %>/edit">-</a>
-                                                                <a href="/adminLogin.ejs">---</a>
+                                                                <!-- <a href="/adminLogin.ejs">---</a> -->
+                                                                <a href="<%= isAdmin ? '/admin/dashboard' : '/admin' %>">
+                                                                              Admin
+                                                                </a>
                                                             </div>
                                                         </div>
                                                     </footer>

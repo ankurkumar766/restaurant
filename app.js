@@ -269,7 +269,12 @@ const relatedListings = await Listing.find({
   _id: { $ne: id }
 }).limit(6);
 
-    res.render("listings/show", { listing, relatedListings });
+    // res.render("listings/show", { listing, relatedListings });
+    res.render("listings/show", {
+    listing,
+    relatedListings,
+    isAdmin: req.session.isAdmin
+});
 });
 
 
