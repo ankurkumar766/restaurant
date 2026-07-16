@@ -15,6 +15,7 @@ const authRoutes = require("./routes/authRoutes");
 const Review = require("./models/review");
 const nodemailer = require("nodemailer");
 const adminRoutes = require("./routes/admin");
+const sendTelegramMessage = require("./utils/telegram");
 
 
 
@@ -144,31 +145,57 @@ app.post("/place-order", upload.none(), async (req, res) => {
       return res.status(401).json({ success: false, message: "Please login first" });
     }
 
-    // Items collect करना
-    const items = [];
-    Object.keys(req.body).forEach(key => {
-      if (key.startsWith("food_")) {
-        const index = key.split("_")[1];
-        const foodName = req.body[`food_${index}`];
-        const price = req.body[`price_${index}`];
-        if (foodName && price) items.push({ foodName, price });
-      }
-    });
+    
+    const items = JSON.parse(req.body.orderData || "[]").map(item => ({
+    foodName: item.title,
+    price: Number(item.price)
+}));
 
+   
     const order = new Order({
-      user: req.user._id,
-      items,
-      name: req.body.name,
-      phone: req.body.phone,
-      address: req.body.address,
-      paymentMethod: req.body.paymentMethod,
-      totalPrice: req.body.totalPrice
-    });
+  user: req.user._id,
+  items,
+  name: req.body.name,
+  phone: req.body.phone,
+  address: req.body.address,
+  paymentMethod: req.body.paymentMethod,
+  
+  totalPrice: Number(req.body.total)
+});
 
-    await order.save();
-    console.log("✅ Order saved:", order);
+    // await order.save();
+    // console.log("✅ Order saved:", order);
 
-    res.status(200).json({ success: true });
+    // res.status(200).json({ success: true });
+   await order.save();
+
+const orderItems = order.items
+    .map(item => `• ${item.foodName} - ₹${item.price}`)
+    .join("\n");
+
+await sendTelegramMessage(
+`🛒 <b>New Order Received</b>
+
+👤 Customer: ${req.user.username}
+
+📱 Phone: ${order.phone}
+
+📍 Address:
+${order.address}
+
+💳 Payment: ${order.paymentMethod}
+
+🍔 Items:
+${orderItems}
+
+💰 Total: ₹${order.totalPrice}
+
+🕒 ${new Date().toLocaleString("en-IN")}`
+);
+
+console.log("✅ Order saved:", order);
+
+res.status(200).json({ success: true });
   } catch (err) {
     console.log(err);
     res.status(500).json({ success: false, error: "Error placing order" });
@@ -393,12 +420,27 @@ if(!emailRegex.test(email)){
 
     const registeredUser = await User.register(newUser, password);
 
-    req.login(registeredUser, err => {
-      if (err) return next(err);
+    // req.login(registeredUser, err => {
+    //   if (err) return next(err);
 
-      req.flash('success', 'Welcome to  Restaurant!');
-      res.redirect('/');
-    });
+    //   req.flash('success', 'Welcome to  Restaurant!');
+    //   res.redirect('/');
+    // });
+    req.login(registeredUser, async (err) => {
+  if (err) return next(err);
+
+  await sendTelegramMessage(
+`🆕 <b>New User Registered</b>
+
+👤 Name: ${registeredUser.username}
+📧 Email: ${registeredUser.email}
+
+🕒 ${new Date().toLocaleString("en-IN")}`
+  );
+
+  req.flash("success", "Welcome to Restaurant!");
+  res.redirect("/");
+});
 
   } 
   catch (e) {
@@ -414,8 +456,19 @@ if(!emailRegex.test(email)){
 
 
 
+
 });
 
+
+// });
+
+
+
+// app.get("/telegram-test", async (req, res) => {
+
+//     await sendTelegramMessage("✅ Telegram Bot Working");
+
+//     res.send("Telegram Test Successful");
 
 // });
 
