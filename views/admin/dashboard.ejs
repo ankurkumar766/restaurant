@@ -259,11 +259,25 @@ Analytics
 
 <td>
 
-<span class="status delivered">
+<% if(order.status === "Pending"){ %>
 
-Paid
-
+<span class="badge bg-warning text-dark">
+    🟡 Pending
 </span>
+
+<% } else if(order.status === "Out for Delivery"){ %>
+
+<span class="badge bg-primary">
+    🚚 Out for Delivery
+</span>
+
+<% } else { %>
+
+<span class="badge bg-success">
+    ✅ Delivered
+</span>
+
+<% } %>
 
 </td>
 

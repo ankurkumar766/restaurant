@@ -25,6 +25,30 @@
             <p><strong>Payment:</strong> <%= order.paymentMethod %></p>
             <p><strong>Total Price:</strong> ₹<%= order.totalPrice %></p>
 
+            <p>
+    <strong>Status:</strong>
+
+    <% if(order.status === "Pending"){ %>
+
+        <span class="badge bg-warning text-dark">
+            🟡 Pending
+        </span>
+
+    <% } else if(order.status === "Out for Delivery"){ %>
+
+        <span class="badge bg-primary">
+            🚚 Out for Delivery
+        </span>
+
+    <% } else { %>
+
+        <span class="badge bg-success">
+            ✅ Delivered
+        </span>
+
+    <% } %>
+</p>
+
             <h6>Items:</h6>
             <ul>
               <% order.items.forEach(item => { %>

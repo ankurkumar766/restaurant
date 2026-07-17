@@ -100,6 +100,7 @@ Logout
 <th>Payment</th>
 
 <th>Date</th>
+<th>Status</th>
 
 <th>Action</th>
 
@@ -156,6 +157,76 @@ No Orders Found
 </td>
 
 <td>
+    <%= new Date(order.createdAt).toLocaleDateString() %>
+</td>
+
+<td>
+
+    <% if(order.status === "Pending"){ %>
+
+        <span class="badge bg-warning text-dark">
+            🟡 Pending
+        </span>
+
+    <% } else if(order.status === "Out for Delivery"){ %>
+
+        <span class="badge bg-primary">
+            🚚 Out for Delivery
+        </span>
+
+    <% } else { %>
+
+        <span class="badge bg-success">
+            ✅ Delivered
+        </span>
+
+    <% } %>
+
+</td>
+
+<td>
+
+    <% if(order.status === "Pending"){ %>
+
+        <form action="/admin/order/<%= order._id %>/out-for-delivery"
+              method="POST"
+              style="display:inline;">
+
+            <button class="btn btn-primary btn-sm">
+                🚚 Out for Delivery
+            </button>
+
+        </form>
+
+    <% } else if(order.status === "Out for Delivery"){ %>
+
+        <form action="/admin/order/<%= order._id %>/delivered"
+              method="POST"
+              style="display:inline;">
+
+            <button class="btn btn-success btn-sm">
+                ✅ Delivered
+            </button>
+
+        </form>
+
+    <% } %>
+
+    <form
+        action="/admin/order/<%= order._id %>/delete"
+        method="POST"
+        style="display:inline;"
+        onsubmit="return confirm('Delete this order?')">
+
+        <button class="btn btn-danger btn-sm">
+            <i class="fas fa-trash"></i>
+        </button>
+
+    </form>
+
+</td>
+
+<!-- <td>
 
 <%= new Date(order.createdAt).toLocaleDateString() %>
 
@@ -186,7 +257,7 @@ class="btn btn-danger btn-sm">
 
 </form>
 
-</td>
+</td> -->
 
 </tr>
 

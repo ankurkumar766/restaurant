@@ -6,6 +6,7 @@ const User = require("../models/user");
 const Listing = require("../models/listing");
 const Review = require("../models/review");
 const Order = require("../models/order");
+const sendEmail = require("../utils/sendEmail");
 
 router.get("/", (req, res) => {
 
@@ -13,21 +14,7 @@ router.get("/", (req, res) => {
 
 });
 
-// router.post("/login", (req, res) => {
 
-//     const adminPassword = "123456";
-
-//     if(req.body.password === adminPassword){
-
-//         req.session.isAdmin = true;
-
-//         return res.redirect("/admin/dashboard");
-
-//     }
-
-//     res.send("Wrong Password");
-
-// });
 router.post("/login", (req, res) => {
 
     console.log("BODY =", req.body);
@@ -330,6 +317,93 @@ router.get("/analytics", async (req, res) => {
         todayRevenue
 
     });
+
+});
+
+router.post("/order/:id/out-for-delivery", async (req, res) => {
+
+    if (!req.session.isAdmin) {
+        return res.redirect("/admin");
+    }
+
+    try {
+
+       const order = await Order.findByIdAndUpdate(
+    req.params.id,
+    { status: "Out for Delivery" },
+    { new: true }
+).populate("user");
+
+await sendEmail(
+    order.user.email,
+    "🚚 Your Order is Out for Delivery",
+`Hello ${order.name},
+
+Your order is now Out for Delivery.
+
+Thank you for ordering with us.
+
+Team Restaurant`
+);
+        req.flash("success", "Order is now Out for Delivery.");
+
+        res.redirect("/admin/order");
+
+    } catch (err) {
+
+        console.log(err);
+
+        req.flash("error", "Unable to update order status.");
+
+        res.redirect("/admin/order");
+
+    }
+
+});
+router.post("/order/:id/delivered", async (req, res) => {
+
+    if (!req.session.isAdmin) {
+        return res.redirect("/admin");
+    }
+
+    try {
+
+       const order = await Order.findByIdAndUpdate(
+    req.params.id,
+    { status: "Delivered" },
+    { new: true }
+).populate("user");
+
+await sendEmail(
+    order.user.email,
+    "✅ Your Order Has Been Delivered",
+`Hello ${order.name},
+
+Your order has been delivered successfully.
+
+We hope you enjoyed your meal.
+
+Thank you for ordering with us.
+
+⭐⭐⭐⭐⭐
+Please visit again.
+
+Team Restaurant`
+);
+
+        req.flash("success", "Order Delivered Successfully.");
+
+        res.redirect("/admin/order");
+
+    } catch (err) {
+
+        console.log(err);
+
+        req.flash("error", "Unable to update order status.");
+
+        res.redirect("/admin/order");
+
+    }
 
 });
 

@@ -16,6 +16,7 @@ const Review = require("./models/review");
 const nodemailer = require("nodemailer");
 const adminRoutes = require("./routes/admin");
 const sendTelegramMessage = require("./utils/telegram");
+const sendEmail = require("./utils/sendEmail");
 
 
 
@@ -168,6 +169,23 @@ app.post("/place-order", upload.none(), async (req, res) => {
 
     // res.status(200).json({ success: true });
    await order.save();
+
+   await sendEmail(
+    req.user.email,
+    "🍔 Your Order Has Been Placed",
+
+`Hello ${order.name},
+
+Thank you for your order.
+
+Order Status: Pending
+
+We have received your order and will start preparing it soon.
+
+Thank you for choosing our restaurant.
+
+Team Restaurant`
+);
 
 const orderItems = order.items
     .map(item => `• ${item.foodName} - ₹${item.price}`)
