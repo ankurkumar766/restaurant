@@ -2,328 +2,130 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Payment</title>
+<meta charset="UTF-8">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="/css/footer.css">
-    <link rel="stylesheet" href="/css/marquee.css">
-    <link rel="stylesheet" href="/css/address.css">
-    <link rel="stylesheet" href="/css/nav.css">
+<title>Delivery Address</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+<link rel="stylesheet" href="/css/nav.css">
+
+<link rel="stylesheet" href="/css/footer.css">
+
+<link rel="stylesheet" href="/css/addres.css">
+
 </head>
 
 <body>
 
-    <%- include("../partials/marquee") %>
+<%- include("../partials/nav") %>
 
-        <!-- ================= PAYMENT ================= -->
-        <%- include("../partials/nav") %>
+<div class="container mt-5">
 
-            <div class="payment-section">
+<div class="address-box">
 
-                <h2>Choose Payment Method</h2>
+<h2>
 
-                <div class="payment-card">
+<i class="fa-solid fa-location-dot"></i>
 
-                    <div class="qr-box">
+Delivery Address
 
-                        <img src="/css/images/qr.jpg" class="qr">
+</h2>
 
-                    </div>
+<form id="addressForm">
 
-                    <div class="upi-details">
+<input
+type="hidden"
+id="latitude"
+name="latitude">
 
-                        <h3>Scan & Pay</h3>
+<input
+type="hidden"
+id="longitude"
+name="longitude">
 
-                        <p><b>UPI ID</b></p>
+<div class="form-group">
 
-                        <div class="upi-id">
+<label>Full Name</label>
 
-                            7667880272@ybl
+<input
+type="text"
+name="name"
 
-                        </div>
+value="<%= currentUser && currentUser.address ? currentUser.address.fullName : '' %>"
 
-                        <div class="payment-buttons">
+required>
 
-                            <button type="button" class="pay-btn phonepe" onclick="openPhonePe()">
+</div>
 
-                                <i class="fa-solid fa-mobile-screen-button"></i>
+<div class="form-group">
 
-                                PhonePe
+<label>Phone Number</label>
 
-                            </button>
+<input
+type="text"
+name="phone"
 
-                            <button type="button" class="pay-btn whatsapp" onclick="openWhatsApp()">
+value="<%= currentUser && currentUser.address ? currentUser.address.phone : '' %>"
 
-                                <i class="fa-brands fa-whatsapp"></i>
+required>
 
-                                WhatsApp
+</div>
 
-                            </button>
+<div class="form-group">
 
-                        </div>
+<label>Delivery Address</label>
 
-                        <a href="https://forms.gle/r5UYrCbEHFmVqCTY6" target="_blank" class="upload-btn">
+<textarea
+name="address"
 
-                            <i class="fa-solid fa-upload"></i>
+rows="4"
 
-                            Upload Screenshot
+required><%= currentUser && currentUser.address ? currentUser.address.addressLine : '' %></textarea>
 
-                        </a>
+</div>
 
-                    </div>
+<div class="form-group">
 
-                </div>
+<button
+type="button"
+id="verifyLocation"
+class="btn btn-primary">
 
-            </div>
+📍 Verify Live Location
 
-            <hr>
+</button>
 
-            <!-- ================= ORDER DETAILS ================= -->
+</div>
 
-            <div class="order-section">
+<p id="locationMessage"></p>
 
-                <h2>Order Details</h2>
+<button
+type="submit"
 
-                <form id="orderForm">
+id="continueBtn"
 
-                    <input type="hidden" name="access_key" value="1f937280-f43a-482b-b121-466444023e0f">
+class="btn btn-success"
 
-                    <input type="hidden" name="orderData" id="orderData">
+disabled>
 
-                    <input type="hidden" name="total" id="totalAmount">
+Continue To Payment →
 
-                    <div class="form-group">
+</button>
 
-                        <label>Your Order</label>
+</form>
 
-                        <div id="order-summary">
+</div>
 
-                            <!-- JS se automatically fill hoga -->
+</div>
 
-                        </div>
+<%- include("../partials/footer") %>
 
-                    </div>
-
-                    <!-- ================= CUSTOMER DETAILS ================= -->
-
-                    <div class="form-group">
-
-                        <label>Full Name</label>
-
-                        <input type="text" name="name" placeholder="Enter Full Name"
-                            value="<%= currentUser && currentUser.address ? currentUser.address.fullName : '' %>"
-                            required>
-
-                    </div>
-
-                    <div class="form-group">
-
-                        <label>Mobile Number</label>
-
-                        <input type="tel" name="phone" placeholder="Enter Mobile Number"
-                            value="<%= currentUser && currentUser.address ? currentUser.address.phone : '' %>" required>
-
-                    </div>
-
-                    <div class="form-group">
-
-                        <label>Delivery Address</label>
-
-                        <textarea name="address" rows="4" placeholder="Enter Complete Address"
-                            required><%= currentUser && currentUser.address ? currentUser.address.addressLine : '' %></textarea>
-
-                    </div>
-
-                    <!-- ================= PAYMENT METHOD ================= -->
-
-                    <div class="form-group">
-
-                        <label>Payment Method</label>
-
-                        <select name="paymentMethod" required>
-
-                            <option value="">Select Payment Method</option>
-
-                            <option value="Cash on Delivery">
-                                Cash on Delivery
-                            </option>
-
-                            <option value="UPI">
-                                UPI Payment
-                            </option>
-
-                        </select>
-
-                    </div>
-
-                    <!-- ================= TOTAL ================= -->
-
-                    <div class="grand-total">
-
-                        <h3>
-
-                            Total Amount :
-                            <span id="grandTotal">₹0</span>
-
-                        </h3>
-
-                    </div>
-
-                    <!-- ================= PLACE ORDER ================= -->
-
-                    <button type="submit" class="order-btn">
-
-                        <i class="fa-solid fa-bag-shopping"></i>
-
-                        Place Order
-
-                    </button>
-
-                </form>
-
-            </div>
-
-            <%- include("../partials/footer") %>
-
-                <script>
-
-                    // ================= PAYMENT =================
-
-                    function openPhonePe() {
-
-                        window.location.href =
-                            "upi://pay?pa=7667880272@postbank&pn=Ankur%20Kumar&cu=INR";
-
-                    }
-
-                    function openWhatsApp() {
-
-                        window.location.href =
-                            "https://wa.me/917667880272?text=Hello%20I%20am%20sending%20payment%20screenshot";
-
-                    }
-
-
-                    // ================= LOAD ORDER =================
-
-                    const order = JSON.parse(localStorage.getItem("order")) || [];
-
-                    const container = document.getElementById("order-summary");
-
-                    const hiddenOrder = document.getElementById("orderData");
-
-                    const hiddenTotal = document.getElementById("totalAmount");
-
-                    let total = 0;
-
-                    if (order.length === 0) {
-
-                        container.innerHTML = "<p>Your bag is empty.</p>";
-
-                    } else {
-
-                        order.forEach(item => {
-
-                            const subtotal = Number(item.price) * Number(item.quantity);
-
-                            total += subtotal;
-
-                            container.innerHTML += `
-
-        <div class="summary-item">
-
-            <div class="summary-left">
-
-                <h4>${item.title}</h4>
-
-                <p>₹${item.price}</p>
-
-            </div>
-
-            <div class="summary-right">
-
-                Qty : ${item.quantity}
-
-            </div>
-
-        </div>
-
-        `;
-
-                        });
-
-                    }
-
-                    document.getElementById("grandTotal").innerHTML = "₹" + total;
-
-                    hiddenTotal.value = total;
-
-                    hiddenOrder.value = JSON.stringify(order);
-
-
-                    // ================= PLACE ORDER =================
-
-                    document.getElementById("orderForm").addEventListener("submit", async function (e) {
-
-                        e.preventDefault();
-
-                        const formData = new FormData(this);
-
-                        try {
-
-                            await fetch("/cart/save-address", {
-
-                                method: "POST",
-
-                                body: formData
-
-                            });
-
-                            await fetch("https://api.web3forms.com/submit", {
-
-                                method: "POST",
-
-                                body: formData
-
-                            });
-
-                            const response = await fetch("/place-order", {
-
-                                method: "POST",
-
-                                body: formData
-
-                            });
-
-                            const result = await response.json();
-
-                            if (result.success) {
-
-                                localStorage.removeItem("order");
-
-                                alert("Order Placed Successfully ✅");
-
-                                window.location.href = "/my-orders";
-
-                            } else {
-
-                                alert("Order Failed ❌");
-
-                            }
-
-                        } catch (err) {
-
-                            alert("Something Went Wrong");
-
-                        }
-
-                    });
-
-                </script>
+<script src="/js/address.js"></script>
 
 </body>
 

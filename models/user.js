@@ -24,15 +24,28 @@ const userSchema = new Schema({
         default:false
     },
 
-    address:{
+    // address:{
 
-        fullName:String,
+    //     fullName:String,
 
-        phone:String,
+    //     phone:String,
 
-        addressLine:String
+    //     addressLine:String
 
-    }
+    // }
+    address: {
+
+    fullName: String,
+
+    phone: String,
+
+    addressLine: String,
+
+    latitude: Number,
+
+    longitude: Number
+
+}
 
 });
 userSchema.plugin(passportLocalMongoose, { usernameField: 'email' });

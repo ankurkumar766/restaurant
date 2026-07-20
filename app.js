@@ -139,13 +139,135 @@ app.get("/listings/new", (req, res) => {
   res.render("listings/new.ejs");
 });
 
+function getDistance(lat1, lon1, lat2, lon2) {
+
+    const R = 6371;
+
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+
+    const dLon = (lon2 - lon1) * Math.PI / 180;
+
+    const a =
+
+        Math.sin(dLat / 2) *
+
+        Math.sin(dLat / 2) +
+
+        Math.cos(lat1 * Math.PI / 180) *
+
+        Math.cos(lat2 * Math.PI / 180) *
+
+        Math.sin(dLon / 2) *
+
+        Math.sin(dLon / 2);
+
+    const c =
+
+        2 *
+
+        Math.atan2(
+
+            Math.sqrt(a),
+
+            Math.sqrt(1 - a)
+
+        );
+
+    return R * c;
+
+}
+
+app.post("/check-location", (req, res) => {
+
+    const { lat, lng } = req.body;
+
+    // Upper Hatia, Ranchi (testing)
+
+const domchanchLat = 23.2976;
+
+const domchanchLng = 85.3099;
+
+    const distance = getDistance(
+
+        Number(lat),
+
+        Number(lng),
+
+        domchanchLat,
+
+        domchanchLng
+
+    );
+
+    if (distance <= 8) {
+
+        return res.json({
+
+            allowed: true,
+
+            distance
+
+        });
+
+    }
+
+    return res.json({
+
+        allowed: false,
+
+        distance
+
+    });
+
+});
+
 // Order route
 app.post("/place-order", upload.none(), async (req, res) => {
   try {
-    if (!req.user) {
-      return res.status(401).json({ success: false, message: "Please login first" });
-    }
+   if (!req.user) {
 
+    return res.status(401).json({
+
+        success: false,
+
+        message: "Please login first"
+
+    });
+
+}
+
+const user = await User.findById(req.user._id);
+
+if (!user.address) {
+
+    return res.status(400).json({
+
+        success: false,
+
+        error: "Please add your address first."
+
+    });
+
+}
+
+const distance = getDistance(
+    Number(user.address.latitude),
+    Number(user.address.longitude),
+    23.318,
+    85.307
+);
+
+if (distance > 8) {
+
+    return res.status(400).json({
+
+        success: false,
+
+        error: "Sorry! Delivery Available Only In Domchanch."
+
+    });
+
+}
     
     const items = JSON.parse(req.body.orderData || "[]").map(item => ({
     foodName: item.title,
@@ -153,21 +275,35 @@ app.post("/place-order", upload.none(), async (req, res) => {
 }));
 
    
-    const order = new Order({
-  user: req.user._id,
-  items,
-  name: req.body.name,
-  phone: req.body.phone,
-  address: req.body.address,
-  paymentMethod: req.body.paymentMethod,
+//     const order = new Order({
+//   user: req.user._id,
+//   items,
+//   name: req.body.name,
+//   phone: req.body.phone,
+//   address: req.body.address,
+//   paymentMethod: req.body.paymentMethod,
   
-  totalPrice: Number(req.body.total)
+//   totalPrice: Number(req.body.total)
+// });
+const order = new Order({
+
+    user:req.user._id,
+
+    items,
+
+    name:user.address.fullName,
+
+    phone:user.address.phone,
+
+    address:user.address.addressLine,
+
+    paymentMethod:req.body.paymentMethod,
+
+    totalPrice:Number(req.body.total)
+
 });
 
-    // await order.save();
-    // console.log("✅ Order saved:", order);
-
-    // res.status(200).json({ success: true });
+    
    await order.save();
 
    await sendEmail(
@@ -323,11 +459,7 @@ const relatedListings = await Listing.find({
 });
 
 
-// app.get("/listings/:id/buy", async (req, res) => {
-//   let { id } = req.params;
-//   const listing = await Listing.findById(id);
-//   res.render("listings/buy.ejs", { listing });
-// });
+
 app.get("/listings/:id/cancle", async (req, res) => {
   let { id } = req.params;
   const listing = await Listing.findById(id);
@@ -342,6 +474,9 @@ app.get("/listings/:id/cart", async (req, res) => {
 
 app.get("/about", (req, res) => {
   res.render("listings/about.ejs");
+});
+app.get("/payment", (req, res) => {
+  res.render("listings/payment.ejs");
 });
 
 // app.get("/address", (req, res) => {
@@ -482,13 +617,7 @@ if(!emailRegex.test(email)){
 
 
 
-// app.get("/telegram-test", async (req, res) => {
 
-//     await sendTelegramMessage("✅ Telegram Bot Working");
-
-//     res.send("Telegram Test Successful");
-
-// });
 
 // Login
 app.get("/login", (req, res) => {

@@ -2,25 +2,13 @@ const express = require("express");
 const router = express.Router();
 const Listing = require("../models/listing");
 const User=require("../models/user");
+const multer = require("multer");
+const upload = multer();
 
-// Add to cart
-router.post("/:id", async (req, res) => {
-    const listing = await Listing.findById(req.params.id);
 
-    if(!req.session.cart){
-        req.session.cart = [];
-    }
 
-    req.session.cart.push(listing);
 
-    res.redirect("/cart");
-});
 
-// Show cart
-// router.get("/", (req, res) => {
-//     const cart = req.session.cart || [];
-//     res.render("listings/cart.ejs", { cart });
-// });
 router.get("/", (req, res) => {
 
     const cart = req.session.cart || [];
@@ -43,30 +31,64 @@ router.post("/remove/:index", (req, res) => {
 
     res.redirect("/cart");
 });
-router.post("/save-address",async(req,res)=>{
+// router.post("/save-address",async(req,res)=>{
 
-    if(!req.user){
+//     if(!req.user){
 
-        return res.redirect("/login");
+//         return res.redirect("/login");
 
+//     }
+
+//     const user=await User.findById(req.user._id);
+
+//     user.address={
+
+//         fullName:req.body.name,
+
+//         phone:req.body.phone,
+
+//         addressLine:req.body.address
+
+//     }
+
+//     await user.save();
+
+//     res.redirect("/cart");
+
+// });
+
+router.post("/save-address", upload.none(), async (req, res) => {
+    console.log(req.body);
+
+    if (!req.user) {
+        return res.status(401).json({ success: false });
     }
 
-    const user=await User.findById(req.user._id);
+    const user = await User.findById(req.user._id);
 
-    user.address={
-
-        fullName:req.body.name,
-
-        phone:req.body.phone,
-
-        addressLine:req.body.address
-
-    }
+    user.address = {
+        fullName: req.body.name,
+        phone: req.body.phone,
+        addressLine: req.body.address,
+        latitude: Number(req.body.latitude),
+        longitude: Number(req.body.longitude)
+    };
 
     await user.save();
 
-    res.redirect("/cart");
+    res.json({ success: true });
+});
+// Add to cart
+router.post("/:id", async (req, res) => {
+    const listing = await Listing.findById(req.params.id);
 
+    if(!req.session.cart){
+        req.session.cart = [];
+    }
+
+    req.session.cart.push(listing);
+
+    res.redirect("/cart");
 });
 
 // Checkout page

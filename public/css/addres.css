@@ -1,0 +1,221 @@
+/* address.css */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #f5f6fa;
+    font-family: "Segoe UI", sans-serif;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+/* Address Box */
+
+.address-box {
+    width: 100%;
+    max-width: 650px;
+    margin: auto;
+    background: #fff;
+    padding: 35px;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+}
+
+.address-box h2 {
+    text-align: center;
+    color: #ff4d4d;
+    margin-bottom: 30px;
+    font-size: 30px;
+    font-weight: 700;
+}
+
+.address-box h2 i {
+    margin-right: 10px;
+}
+
+/* Form */
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 17px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 14px 16px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    outline: none;
+    font-size: 16px;
+    transition: 0.3s;
+    background: #fafafa;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: #ff4d4d;
+    background: #fff;
+    box-shadow: 0 0 8px rgba(255, 77, 77, 0.25);
+}
+
+textarea {
+    resize: none;
+}
+
+/* Buttons */
+
+.btn {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 17px;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.btn-primary {
+    background: #0d6efd;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #0b5ed7;
+}
+
+.btn-success {
+    background: #28a745;
+    color: white;
+    margin-top: 10px;
+}
+
+.btn-success:hover {
+    background: #218838;
+}
+
+.btn:disabled {
+    background: #bdbdbd;
+    cursor: not-allowed;
+}
+
+/* Location Message */
+
+#locationMessage {
+    text-align: center;
+    margin: 15px 0;
+    font-size: 15px;
+    font-weight: 600;
+    color: #198754;
+    min-height: 20px;
+}
+
+/* ========================= */
+/* Tablet */
+/* ========================= */
+
+@media (max-width: 768px) {
+
+    .container {
+        padding: 15px;
+        margin: 25px auto;
+    }
+
+    .address-box {
+        padding: 25px;
+    }
+
+    .address-box h2 {
+        font-size: 26px;
+    }
+
+    .form-group label {
+        font-size: 16px;
+    }
+
+    .form-group input,
+    .form-group textarea {
+        font-size: 15px;
+        padding: 13px;
+    }
+
+    .btn {
+        font-size: 16px;
+        padding: 14px;
+    }
+
+}
+
+/* ========================= */
+/* Mobile */
+/* ========================= */
+
+@media (max-width: 480px) {
+
+    .container {
+        padding: 10px;
+        margin: 20px auto;
+    }
+
+    .address-box {
+        padding: 20px 16px;
+        border-radius: 12px;
+    }
+
+    .address-box h2 {
+        font-size: 22px;
+        line-height: 30px;
+    }
+
+    .form-group {
+        margin-bottom: 18px;
+    }
+
+    .form-group label {
+        font-size: 15px;
+    }
+
+    .form-group input,
+    .form-group textarea {
+        padding: 12px;
+        font-size: 14px;
+        border-radius: 8px;
+    }
+
+    .btn {
+        padding: 13px;
+        font-size: 15px;
+        border-radius: 8px;
+    }
+
+    #locationMessage {
+        font-size: 14px;
+    }
+
+}
+
+/* Large Desktop */
+
+@media (min-width: 1400px) {
+
+    .address-box {
+        max-width: 700px;
+    }
+
+}
