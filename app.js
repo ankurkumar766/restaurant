@@ -17,6 +17,7 @@ const nodemailer = require("nodemailer");
 const adminRoutes = require("./routes/admin");
 const sendTelegramMessage = require("./utils/telegram");
 const sendEmail = require("./utils/sendEmail");
+const aiRoutes = require("./routes/ai");
 
 
 
@@ -123,6 +124,7 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads'))); // ⚠️ Render पर temporary
 app.use("/", authRoutes);
+app.use("/ai", aiRoutes);
 
 // =========================================================
 // Routes
@@ -275,16 +277,7 @@ if (distance > 8) {
 }));
 
    
-//     const order = new Order({
-//   user: req.user._id,
-//   items,
-//   name: req.body.name,
-//   phone: req.body.phone,
-//   address: req.body.address,
-//   paymentMethod: req.body.paymentMethod,
-  
-//   totalPrice: Number(req.body.total)
-// });
+
 const order = new Order({
 
     user:req.user._id,
@@ -477,6 +470,9 @@ app.get("/about", (req, res) => {
 });
 app.get("/payment", (req, res) => {
   res.render("listings/payment.ejs");
+});
+app.get("/chat", (req, res) => {
+  res.render("listings/chat.ejs");
 });
 
 // app.get("/address", (req, res) => {
