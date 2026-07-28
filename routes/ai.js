@@ -28,7 +28,7 @@ router.post("/chat", async (req, res) => {
 
         res.status(500).json({
             success: false,
-            reply: "AI Error"
+            reply: "Sorry, I am unable to process your request at the moment. "
         });
 
     }

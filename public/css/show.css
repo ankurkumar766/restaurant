@@ -81,49 +81,71 @@ max-height: 400px;
   background-color: #218838;         /* Darker green */
   text-decoration: none;
 }
-.can-btn {
-    background-color: #ff0000;
-    color: white;
-    padding: 10px 24px;
-     border: none;
-  border-radius: 6px;
-  font-size: 16px;
-  font-weight: bold;
-  text-decoration: none;
-  display: inline-block;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    
+/* Bottom Action Bar */
+
+/* Desktop */
+
+.action-buttons{
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin: 25px 0;
+    width: fit-content;
+}
+
+.action-buttons form{
+    margin: 0;
+}
+
+.add,
+.can-btn{
+    min-width: 180px;
+    height: 52px;
+    padding: 0 30px;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all .25s ease;
+}
+
+/* Add Button */
+
+.add{
+    border: none;
+    background: #ef4f5f;
+    color: #fff;
+    box-shadow: 0 8px 20px rgba(239,79,95,.25);
+}
+
+.add:hover{
+    background: #e03546;
+    transform: translateY(-2px);
+}
+
+/* Cancel */
+
+.can-btn{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    background: #fff;
+    color: #696969;
+    border: 1px solid #d9d9d9;
 }
 
 .can-btn:hover{
-    background-color: #218838;
-    text-decoration: none;
-}
-.add{
-     background-color: rgb(255, 28, 85);
-    color: white;
-    padding: 10px 24px;
-     border: none;
-  border-radius: 6px;
-  font-size: 16px;
-  font-weight: bold;
-  text-decoration: none;
-  display: inline-block;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-
-}
-.add:hover{
-    background-color: #218838;
-    color: thistle;
-    cursor: pointer;
+    background: #f8f8f8;
+    color: #ef4f5f;
+    border-color: #ef4f5f;
 }
 
+/* Body bottom space */
 
-
+body{
+    padding-bottom:95px;
+}
 
 
 
@@ -467,6 +489,40 @@ font-size:22px;
 
 font-size:15px;
 
+}
+
+}
+@media(max-width:768px){
+
+.action-buttons{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: #fff;
+    padding: 12px;
+    display: flex;
+    gap: 10px;
+    box-shadow: 0 -4px 15px rgba(0,0,0,.12);
+    border-top: 1px solid #eee;
+    z-index: 999;
+}
+
+.action-buttons form{
+    flex: 1;
+}
+
+.add,
+.can-btn{
+    width: 100%;
+    min-width: auto;
+    height: 48px;
+    border-radius: 10px;
+    font-size: 15px;
+}
+
+body{
+    padding-bottom:80px;
 }
 
 }

@@ -2,39 +2,192 @@ const ai = require("./gemini");
 const SYSTEM_PROMPT = require("./prompt");
 const tools = require("./tools");
 const memory = require("./memory");
+const Listing = require("../models/listing");
 
 async function chat(userId, message) {
 
     memory.saveMessage(userId, "user", message);
 
     let reply = "";
-    const lower = message.toLowerCase();
 
-    // ================= MENU =================
+    const text = message.trim();
+    const lower = text.toLowerCase();
 
-    if (message.startsWith("@menu")) {
+    // ==========================
+    // GREETINGS
+    // ==========================
+
+    if (
+        [
+            "hi",
+            "hello",
+            "hey",
+            "hii",
+            "helo",
+            "good morning",
+            "good afternoon",
+            "good evening"
+        ].includes(lower)
+    ) {
+
+        reply = `👋 Hello! Welcome to Vatika Restaurant.
+
+I'm your AI Assistant.
+
+I can help you with:
+
+🍔 Menu
+🔍 Search Food
+🎁 Offers
+📦 Track Orders
+📞 Contact
+
+How can I help you today?`;
+
+    }
+
+    // ==========================
+    // THANK YOU
+    // ==========================
+
+    else if (
+        lower === "thanks" ||
+        lower === "thank you" ||
+        lower === "thx"
+    ) {
+
+        reply =
+            "😊 You're welcome! Enjoy your meal. Let me know if you need anything else.";
+
+    }
+
+    // ==========================
+    // BYE
+    // ==========================
+
+    else if (
+        lower === "bye" ||
+        lower === "goodbye" ||
+        lower === "see you"
+    ) {
+
+        reply =
+            "👋 Thank you for visiting Vatika Restaurant. Have a wonderful day.";
+
+    }
+
+    // ==========================
+    // HELP
+    // ==========================
+
+    else if (
+        lower.includes("help")
+    ) {
+
+        reply = `
+🤖 I can help you with:
+
+🍔 menu
+
+🔍 search pizza
+
+🎁 offers
+
+📞 contact
+
+📦 order status
+
+💰 food under ₹200
+
+🥗 veg food
+
+🍗 chicken food
+
+🍕 pizza
+
+🍔 burger
+
+Example:
+
+menu
+
+search burger
+
+track order
+
+offers
+`;
+
+    }
+
+    // ==========================
+    // MENU
+    // ==========================
+
+    else if (
+        lower === "menu" ||
+        lower.includes("show menu") ||
+        lower.includes("food menu") ||
+        lower.includes("menu please")
+    ) {
 
         const menu = await tools.getMenu();
 
-        reply = JSON.stringify(menu, null, 2);
+        if (typeof menu === "string") {
+
+            reply = menu;
+
+        } else {
+
+            reply = menu.map(food =>
+
+                `🍽 ${food.title}
+₹${food.price}
+${food.category}`
+
+            ).join("\n\n");
+
+        }
 
     }
 
-    // ================= SEARCH =================
+    // ==========================
+    // SEARCH
+    // ==========================
 
-    else if (message.startsWith("@search")) {
+    else if (
+        lower.startsWith("search ")
+    ) {
 
-        const keyword = message.replace("@search", "").trim();
+        const keyword = text.substring(7).trim();
 
-        const result = await tools.searchFood(keyword);
+        const foods = await tools.searchFood(keyword);
 
-        reply = JSON.stringify(result, null, 2);
+        if (typeof foods === "string") {
+
+            reply = foods;
+
+        } else {
+
+            reply = foods.map(food =>
+
+                `🍔 ${food.title}
+₹${food.price}`
+
+            ).join("\n\n");
+
+        }
 
     }
 
-    // ================= OFFERS =================
+    // ==========================
+    // OFFERS
+    // ==========================
 
-    else if (message.startsWith("@offers")) {
+    else if (
+        lower.includes("offer") ||
+        lower.includes("discount")
+    ) {
 
         const offers = await tools.getOffers();
 
@@ -42,9 +195,15 @@ async function chat(userId, message) {
 
     }
 
-    // ================= CONTACT =================
+    // ==========================
+    // CONTACT
+    // ==========================
 
-    else if (message.startsWith("@contact")) {
+    else if (
+        lower.includes("contact") ||
+        lower.includes("phone") ||
+        lower.includes("address")
+    ) {
 
         const contact = await tools.getContact();
 
@@ -56,33 +215,9 @@ async function chat(userId, message) {
 
     }
 
-    // ================= HELP =================
-
-    else if (message.startsWith("@help")) {
-
-        reply = `
-🤖 Available Commands
-
-@menu
-
-@search pizza
-
-@offers
-
-@contact
-
-@help
-
-You can also ask:
-
-• Where is my order?
-• Track my order
-• Order status
-`;
-
-    }
-
-    // ================= ORDER =================
+    // ==========================
+    // ORDER STATUS
+    // ==========================
 
     else if (
 
@@ -94,7 +229,7 @@ You can also ask:
 
         const objectIdRegex = /[0-9a-fA-F]{24}/;
 
-        const match = message.match(objectIdRegex);
+        const match = text.match(objectIdRegex);
 
         if (!match) {
 
@@ -114,43 +249,268 @@ Example:
 
     }
 
-    // ================= ONLY ORDER ID =================
+    // ==========================
+    // ONLY ORDER ID
+    // ==========================
 
-    else if (/^[0-9a-fA-F]{24}$/.test(message.trim())) {
+    else if (
+        /^[0-9a-fA-F]{24}$/.test(text)
+    ) {
 
-        reply = await tools.getOrderStatus(message.trim());
+        reply = await tools.getOrderStatus(text);
 
     }
 
-    // ================= GEMINI =================
+   
+    // BUDGET SEARCH
+    // ==========================
+
+    else if (
+        lower.includes("under") ||
+        lower.includes("below") ||
+        lower.includes("less than")
+    ) {
+
+        const match = text.match(/\d+/);
+
+        if (match) {
+
+            const maxPrice = Number(match[0]);
+
+            const foods = await Listing.find({
+                price: { $lte: maxPrice }
+            });
+
+            if (!foods.length) {
+
+                reply = `😔 No food found under ₹${maxPrice}.`;
+
+            } else {
+
+                reply = `🍽 Food under ₹${maxPrice}\n\n`;
+
+                foods.forEach(food => {
+
+                    reply += `🍔 ${food.title}
+₹${food.price}
+
+`;
+
+                });
+
+            }
+
+        } else {
+
+            reply = "Please specify a budget.\nExample: food under 200";
+
+        }
+
+    }
+
+    // ==========================
+    // VEG
+    // ==========================
+
+    else if (
+        lower.includes("veg")
+    ) {
+
+        const foods = await Listing.find({
+            category: /veg/i
+        });
+
+        if (!foods.length) {
+
+            reply = "🥗 No Veg food available.";
+
+        } else {
+
+            reply = "🥗 Veg Menu\n\n";
+
+            foods.forEach(food => {
+
+                reply += `• ${food.title} - ₹${food.price}\n`;
+
+            });
+
+        }
+
+    }
+
+    // ==========================
+    // BURGER
+    // ==========================
+
+    else if (
+        lower.includes("burger")
+    ) {
+
+        const foods = await Listing.find({
+            title: /burger/i
+        });
+
+        if (!foods.length) {
+
+            reply = "🍔 No Burger available.";
+
+        } else {
+
+            reply = "🍔 Burger Menu\n\n";
+
+            foods.forEach(food => {
+
+                reply += `• ${food.title} - ₹${food.price}\n`;
+
+            });
+
+        }
+
+    }
+
+    // ==========================
+    // PIZZA
+    // ==========================
+
+    else if (
+        lower.includes("pizza")
+    ) {
+
+        const foods = await Listing.find({
+            title: /pizza/i
+        });
+
+        if (!foods.length) {
+
+            reply = "🍕 No Pizza available.";
+
+        } else {
+
+            reply = "🍕 Pizza Menu\n\n";
+
+            foods.forEach(food => {
+
+                reply += `• ${food.title} - ₹${food.price}\n`;
+
+            });
+
+        }
+
+    }
+
+    // ==========================
+    // CHICKEN
+    // ==========================
+
+    else if (
+        lower.includes("chicken")
+    ) {
+
+        const foods = await Listing.find({
+            title: /chicken/i
+        });
+
+        if (!foods.length) {
+
+            reply = "🍗 No Chicken item available.";
+
+        } else {
+
+            reply = "🍗 Chicken Menu\n\n";
+
+            foods.forEach(food => {
+
+                reply += `• ${food.title} - ₹${food.price}\n`;
+
+            });
+
+        }
+
+    }
+
+    // ==========================
+    // TODAY SPECIAL
+    // ==========================
+
+    else if (
+        lower.includes("special")
+    ) {
+
+        const foods = await Listing.find().limit(5);
+
+        reply = "⭐ Today's Specials\n\n";
+
+        foods.forEach(food => {
+
+            reply += `🍽 ${food.title} - ₹${food.price}\n`;
+
+        });
+
+    }
+
+    // ==========================
+    // GEMINI
+    // ==========================
 
     else {
 
         const history = memory.getHistory(userId);
 
         const prompt = `
+
 ${SYSTEM_PROMPT}
 
-Conversation:
+Conversation
 
 ${history.map(h => `${h.role}: ${h.message}`).join("\n")}
 
 User:
+
 ${message}
+
+Assistant:
 `;
 
-        const response = await ai.models.generateContent({
+        try {
 
-          model: "gemini-3.5-flash",
+            const response = await ai.models.generateContent({
 
-            contents: prompt
+                  model: "gemini-3.5-flash",
 
-        });
+                contents: prompt
 
-        reply =
-            response.text ||
-            response.candidates?.[0]?.content?.parts?.[0]?.text ||
-            "No response";
+            });
+
+            reply =
+                response.text ||
+                response.candidates?.[0]?.content?.parts?.[0]?.text ||
+                "Sorry, I couldn't understand that.";
+
+        }
+
+        catch (err) {
+
+            console.log("Gemini Error:", err.message);
+
+            reply = `😊 Sorry, I couldn't understand your request.
+
+You can ask me:
+
+🍔 Menu
+
+🔍 Search Pizza
+
+🎁 Offers
+
+📦 Track Order
+
+📞 Contact
+
+💰 Food under ₹200
+
+🥗 Veg Food`;
+
+        }
 
     }
 
