@@ -83,11 +83,7 @@ app.use("/cart", cartRoutes);
 
 
 
-// app.use(session({
-//     secret: "mysupersecret",
-//     resave: false,
-//     saveUninitialized: true
-// }));
+
 
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
@@ -183,44 +179,28 @@ app.post("/check-location", (req, res) => {
 
     const { lat, lng } = req.body;
 
-    // Upper Hatia, Ranchi (testing)
-
-const domchanchLat = 23.2976;
-
-const domchanchLng = 85.3099;
+    // Domchanch, Koderma
+    const domchanchLat = 24.47438;
+    const domchanchLng = 85.68874;
 
     const distance = getDistance(
-
         Number(lat),
-
         Number(lng),
-
         domchanchLat,
-
         domchanchLng
-
     );
 
-    if (distance <= 8) {
-
+    if (distance <= 5) {
         return res.json({
-
             allowed: true,
-
             distance
-
         });
-
     }
 
     return res.json({
-
         allowed: false,
-
         distance
-
     });
-
 });
 
 // Order route
@@ -427,15 +407,11 @@ app.put("/listings/:id", upload.single("image"), async (req, res) => {
   req.flash("success", "Listing updated!");
   res.redirect(`/listings/${id}`);
 });
-
-
 app.get("/listings/:id", async (req, res) => {
     const { id } = req.params;
 
     // const listing = await Listing.findById(id);
     const listing = await Listing.findById(id).populate("reviews");
-
-    
     const keyword = listing.title.split(" ").pop();
 
 const relatedListings = await Listing.find({
@@ -450,16 +426,11 @@ const relatedListings = await Listing.find({
     isAdmin: req.session.isAdmin
 });
 });
-
-
-
 app.get("/listings/:id/cancle", async (req, res) => {
   let { id } = req.params;
   const listing = await Listing.findById(id);
   res.render("listings/cancle.ejs", { listing });
 });
-
-
 app.get("/listings/:id/cart", async (req, res) => {
   const cart = await Cart.findOne({ userId: req.user._id });
   res.render("listings/cart.ejs", { cart });
@@ -474,10 +445,6 @@ app.get("/payment", (req, res) => {
 app.get("/chat", (req, res) => {
   res.render("listings/chat.ejs");
 });
-
-// app.get("/address", (req, res) => {
-//   res.render("listings/address.ejs");
-// });
 app.get("/address", (req, res) => {
 
     const cart = req.session.cart || [];
@@ -517,15 +484,15 @@ app.get("/dashboard", (req, res) => {
 app.get("/user", (req, res) => {
   res.render("admin/user.ejs");
 });
+app.get("/orderHistory", (req, res) => {
+  res.render("admin/orderHistory.ejs");
+});
 app.get("/order", (req, res) => {
   res.render("admin/order.ejs");
 });
 app.get("/adminLogin.ejs", (req, res) => {
   res.render("admin/adminLogin.ejs");
 });
-
-
-
 app.post("/listings/:id/reviews", async (req, res) => {
 
     if (!req.user) {
@@ -569,12 +536,7 @@ if(!emailRegex.test(email)){
 
     const registeredUser = await User.register(newUser, password);
 
-    // req.login(registeredUser, err => {
-    //   if (err) return next(err);
-
-    //   req.flash('success', 'Welcome to  Restaurant!');
-    //   res.redirect('/');
-    // });
+    
     req.login(registeredUser, async (err) => {
   if (err) return next(err);
 

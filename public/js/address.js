@@ -56,6 +56,31 @@ verifyBtn.addEventListener("click", () => {
 
             const data = await response.json();
 
+            // ===============================
+// Auto Fill Address
+// ===============================
+
+try {
+
+    const geo = await fetch(
+        `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}`
+    );
+
+    const geoData = await geo.json();
+
+    if (geoData.display_name) {
+
+        document.getElementById("address").value =
+            geoData.display_name;
+
+    }
+
+} catch (err) {
+
+    console.log("Unable to fetch address", err);
+
+}
+
             if (data.allowed) {
 
                 locationVerified = true;

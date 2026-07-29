@@ -80,11 +80,16 @@ required>
 
 <label>Delivery Address</label>
 
-<textarea
+<!-- <textarea
 name="address"
 
 rows="4"
 
+required><%= currentUser && currentUser.address ? currentUser.address.addressLine : '' %></textarea> -->
+<textarea
+id="address"
+name="address"
+rows="4"
 required><%= currentUser && currentUser.address ? currentUser.address.addressLine : '' %></textarea>
 
 </div>
