@@ -111,30 +111,45 @@ background:#f6f6f6;
 .hero{
     width:100%;
     height:550px;
-
-    background:
-    linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.45)),
-    url("https://images.unsplash.com/photo-1504674900247-0877df9cc836");
-
-    background-size:cover;
-    background-position:center;
+    position:relative;
+    overflow:hidden;
 
     display:flex;
     justify-content:center;
     align-items:center;
     text-align:center;
+
+    background-size:cover;
+    background-position:center;
+    animation: slider 15s infinite ease-in-out;
 }
 
-.overlay h1{
-    font-size:60px;
-    color:white;
-    font-weight:700;
+.hero::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:rgba(0,0,0,.45);
 }
 
-.overlay p{
-    color:white;
-    font-size:22px;
-    margin:20px 0;
+.overlay{
+    position:relative;
+    z-index:2;
+    color: white;
+}
+
+@keyframes slider{
+
+    0%,30%{
+        background-image:url("/images/food1.jfif");
+    }
+
+    33%,63%{
+        background-image:url("/images/food2.jfif");
+    }
+
+    66%,100%{
+        background-image:url("/images/food3.jfif");
+    }
 }
 
 .btn-order{
