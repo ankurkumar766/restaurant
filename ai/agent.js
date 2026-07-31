@@ -312,31 +312,31 @@ Example:
     // VEG
     // ==========================
 
-    else if (
-        lower.includes("veg")
-    ) {
+   else if (lower.includes("veg")) {
 
-        const foods = await Listing.find({
-            category: /veg/i
-        });
+    reply = `🥗 Veg Menu
 
-        if (!foods.length) {
+1. maggi - 25
+2. Maggi masala -45
+3.veg pasta- 90
+4. cheese pasta-125
+5. Chole Bhature - 35
+6. Veg Biryani - ₹180
+7. veg pakoda - ₹80
+8. Dal Tadka full - ₹220
+9. plane roti
+10. dosa
+11. Rice
+12. pizza
+13. Burger
+14.paneer
+15.noodles
+16. Biryani
+And many more items available in our restaurant. you can go home page and check the menu by seaching the food you want.
 
-            reply = "🥗 No Veg food available.";
+`;
 
-        } else {
-
-            reply = "🥗 Veg Menu\n\n";
-
-            foods.forEach(food => {
-
-                reply += `• ${food.title} - ₹${food.price}\n`;
-
-            });
-
-        }
-
-    }
+}
 
     // ==========================
     // BURGER
@@ -492,13 +492,13 @@ Assistant:
 
             console.log("Gemini Error:", err.message);
 
-            reply = `😊 Sorry, I couldn't understand your request.
+            reply = `😊 Sorry, Currently i am not connected to the Gemini API or internet.
 
-You can ask me:
+ Now,You can ask me:
 
 🍔 Menu
 
-🔍 Search Pizza
+🔍 Search dishes
 
 🎁 Offers
 
