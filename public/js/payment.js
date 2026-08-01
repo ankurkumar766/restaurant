@@ -1,9 +1,10 @@
- function openPhonePe() {
+                     function openPhonePe() {
+    const total = document.getElementById("totalAmount").value;
 
-                        window.location.href =
-                            "upi://pay?pa=7667880272@postbank&pn=Ankur%20Kumar&cu=INR";
+    const upiLink = `upi://pay?pa=7667880272-2@ybl&pn=Ankur%20Kumar&am=${total}&cu=INR`;
 
-                    }
+    window.location.href = upiLink;
+}
 
                     function openWhatsApp() {
 
