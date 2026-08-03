@@ -74,21 +74,22 @@
         <%= listing.description %>
     </li>
 
-    <li style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+  <div class="size-buttons">
+    <button type="button" id="halfBtn" class="size-btn active">
+        Half
+    </button>
 
-        <span style="font-size:22px;font-weight:bold;color:#16a34a;">
-            ₹<%= listing.price.toLocaleString("en-IN") %>
-        </span>
+    <button type="button" id="fullBtn" class="size-btn">
+        Full
+    </button>
+</div>
+<li style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
 
-        <span style="text-decoration:line-through;color:#777;font-size:16px;">
-            ₹<%= Math.round(listing.price * 1.20).toLocaleString("en-IN") %>
-        </span>
+    <span id="foodPrice" style="font-size:22px;font-weight:bold;color:#16a34a;">
+        ₹<%= listing.halfPrice.toLocaleString("en-IN") %>
+    </span>
 
-        <span style="background:#61e535;color:#fff;padding:3px 8px;border-radius:15px;font-size:12px;font-weight:bold;">
-            20% OFF
-        </span>
-
-    </li>
+</li>
 
 </ul>
 
@@ -107,11 +108,27 @@
 
 <div class="action-buttons">
 
-    <form action="/cart/<%= listing._id %>" method="POST">
-        <button class="add">
-            Add to Bag 🛒
-        </button>
-    </form>
+   <form action="/cart/<%= listing._id %>" method="POST">
+
+    <input
+        type="hidden"
+        name="variation"
+        id="variation"
+        value="Half"
+    >
+
+    <input
+        type="hidden"
+        name="price"
+        id="selectedPrice"
+        value="<%= listing.halfPrice %>"
+    >
+
+    <button class="add">
+        Add to Bag 🛒
+    </button>
+
+</form>
 
     <a href="/listings/<%= listing._id %>/cancle" class="can-btn">
         Cancel
@@ -313,6 +330,60 @@
                                                             </div>
                                                         </div>
                                                     </footer>
+
+                                                    <script>
+
+const halfBtn = document.getElementById("halfBtn");
+const fullBtn = document.getElementById("fullBtn");
+
+const foodPrice = document.getElementById("foodPrice");
+
+const variation = document.getElementById("variation");
+const selectedPrice = document.getElementById("selectedPrice");
+
+halfBtn.addEventListener("click", () => {
+
+    foodPrice.innerHTML = "₹<%= listing.halfPrice.toLocaleString('en-IN') %>";
+
+    variation.value = "Half";
+    selectedPrice.value = "<%= listing.halfPrice %>";
+
+    halfBtn.classList.remove("btn-outline-danger");
+    halfBtn.classList.add("btn-danger");
+
+    fullBtn.classList.remove("btn-danger");
+    fullBtn.classList.add("btn-outline-danger");
+
+});
+
+fullBtn.addEventListener("click", () => {
+
+    foodPrice.innerHTML = "₹<%= listing.fullPrice.toLocaleString('en-IN') %>";
+
+    variation.value = "Full";
+    selectedPrice.value = "<%= listing.fullPrice %>";
+
+    fullBtn.classList.remove("btn-outline-danger");
+    fullBtn.classList.add("btn-danger");
+
+    halfBtn.classList.remove("btn-danger");
+    halfBtn.classList.add("btn-outline-danger");
+
+});
+halfBtn.addEventListener("click", () => {
+    halfBtn.classList.add("active");
+    fullBtn.classList.remove("active");
+});
+
+fullBtn.addEventListener("click", () => {
+    fullBtn.classList.add("active");
+    halfBtn.classList.remove("active");
+});
+
+
+
+</script>
+
 </body>
 
 </html>

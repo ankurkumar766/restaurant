@@ -53,23 +53,27 @@
                                             <h3>
                                                 <%= item.title %>
                                             </h3>
+                                            <p class="variation">
+    <strong>Size:</strong> <%= item.variation %>
+</p>
 
-                                            <p class="price">
-                                                ₹ <span class="item-price">
-                                                    <!-- <%= item.price %> -->
-                                                       <span style="font-size:22px;font-weight:bold;color:#16a34a;">
-            ₹<%= item.price.toLocaleString("en-IN") %>
-        </span>
+                                           <p class="price">
 
-        <span style="text-decoration:line-through;color:#777;font-size:16px;">
-            ₹<%= Math.round(item.price * 1.20).toLocaleString("en-IN") %>
-        </span>
+    <span class="item-price"
+        style="font-size:22px;font-weight:bold;color:#16a34a;">
+        ₹<%= item.price.toLocaleString("en-IN") %>
+    </span>
 
-        <span style="background:#61e535;color:#fff;padding:3px 8px;border-radius:15px;font-size:12px;font-weight:bold;">
-            20% OFF
-        </span>
-                                                </span>
-                                            </p>
+    <span class="old-price"
+        style="text-decoration:line-through;color:#777;font-size:16px;">
+        ₹<%= Math.round(item.price * 1.20).toLocaleString("en-IN") %>
+    </span>
+
+    <span style="background:#61e535;color:#fff;padding:3px 8px;border-radius:15px;font-size:12px;font-weight:bold;">
+        20% OFF
+    </span>
+
+</p>
 
                                             <div class="qty-box">
 
@@ -144,77 +148,85 @@
 
 
 
-                                <script>
+                               <script>
 
-                                    // ================= Quantity =================
+    // ================= Quantity =================
 
-                                    function changeQty(btn, change) {
+    function changeQty(btn, change) {
 
-                                        const price = Number(btn.dataset.price);
+        const price = Number(btn.dataset.price);
 
-                                        const card = btn.closest(".cart-card");
+        const card = btn.closest(".cart-card");
 
-                                        const qty = card.querySelector(".qty");
-                                        const priceTag = card.querySelector(".item-price");
-                                        const subtotal = card.querySelector(".item-total");
+        const qty = card.querySelector(".qty");
+        const priceTag = card.querySelector(".item-price");
+        const oldPrice = card.querySelector(".old-price");
+        const subtotal = card.querySelector(".item-total");
 
-                                        let value = parseInt(qty.innerText);
+        let value = parseInt(qty.innerText);
 
-                                        value += change;
+        value += change;
 
-                                        if (value < 1) {
-                                            value = 1;
-                                        }
+        if (value < 1) {
+            value = 1;
+        }
 
-                                        qty.innerText = value;
+        qty.innerText = value;
 
-                                        const newPrice = price * value;
+        const newPrice = price * value;
 
-                                        priceTag.innerText = newPrice;
-                                        subtotal.innerText = newPrice;
+        // Current Price
+        priceTag.innerText = "₹" + newPrice.toLocaleString("en-IN");
 
-                                        // Grand Total
-                                        let grand = 0;
+        // Old Price (20% extra)
+        oldPrice.innerText = "₹" + Math.round(newPrice * 1.20).toLocaleString("en-IN");
 
-                                        document.querySelectorAll(".item-total").forEach(item => {
-                                            grand += Number(item.innerText);
-                                        });
+        // Subtotal
+        subtotal.innerText = newPrice.toLocaleString("en-IN");
 
-                                        document.querySelector(".total").innerHTML = "Total: ₹ " + grand;
+        // Grand Total
+        let grand = 0;
 
-                                        document.getElementById("grandTotal").innerText = grand;
+        document.querySelectorAll(".item-total").forEach(item => {
+            grand += Number(item.innerText.replace(/,/g, ""));
+        });
 
-                                    }
+        document.querySelector(".total").innerHTML = "Total: ₹ " + grand.toLocaleString("en-IN");
+
+        document.getElementById("grandTotal").innerText = grand.toLocaleString("en-IN");
+
+    }
 
 
-                                    // ================= Proceed To Payment =================
+    // ================= Proceed To Payment =================
 
-                                    function proceedToPayment() {
+    function proceedToPayment() {
 
-                                        const order = [];
+        const order = [];
 
-                                        document.querySelectorAll(".cart-card").forEach(card => {
+        document.querySelectorAll(".cart-card").forEach(card => {
 
-                                            order.push({
+            order.push({
 
-                                                title: card.querySelector("h3").innerText,
+                title: card.querySelector("h3").innerText,
 
-                                                // Original price of one item
-                                                price: Number(card.querySelector(".qty-btn").dataset.price),
+                variation: card.querySelector(".variation").innerText.replace("Size:", "").trim(),
 
-                                                quantity: Number(card.querySelector(".qty").innerText)
+                price: Number(card.querySelector(".qty-btn").dataset.price),
 
-                                            });
+                quantity: Number(card.querySelector(".qty").innerText)
 
-                                        });
+            });
 
-                                        localStorage.setItem("order", JSON.stringify(order));
+        });
 
-                                        window.location.href = "/address";
+        localStorage.setItem("order", JSON.stringify(order));
 
-                                    }
+        window.location.href = "/address";
 
-                                </script>
+    }
+
+</script>
 
 
 </body>

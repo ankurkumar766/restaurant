@@ -102,7 +102,8 @@ Add Food
 
 <th>Food Name</th>
 
-<th>Price</th>
+<th>Half Price</th>
+<th>Full Price</th>
 
 <th>Category</th>
 
@@ -150,11 +151,9 @@ style="object-fit:cover;border-radius:8px;">
 
 </td>
 
-<td>
+<td>₹ <%= listing.halfPrice %></td>
 
-₹ <%= listing.price %>
-
-</td>
+<td>₹ <%= listing.fullPrice %></td>
 
 <td>
 

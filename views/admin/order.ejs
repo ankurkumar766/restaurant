@@ -136,7 +136,29 @@ No Orders Found
 
 <td>
 
-<%= order.items.map(item=>item.foodName).join(", ") %>
+<% order.items.forEach(item => { %>
+
+<div style="margin-bottom:10px;">
+
+    <strong><%= item.foodName %></strong><br>
+
+    🍽 Size:
+    <span class="badge bg-info text-dark">
+        <%= item.variation %>
+    </span>
+
+    <br>
+
+    🔢 Qty:
+    <strong><%= item.quantity %></strong>
+
+    <br>
+
+    💰 ₹<%= item.price %>
+
+</div>
+
+<% }) %>
 
 </td>
 
@@ -229,38 +251,7 @@ No Orders Found
 
 </td>
 
-<!-- <td>
 
-<%= new Date(order.createdAt).toLocaleDateString() %>
-
-</td>
-
-<td>
-
-<a
-href="/admin/order/<%= order._id %>"
-class="btn btn-primary btn-sm">
-
-<i class="fas fa-eye"></i>
-
-</a>
-
-<form
-action="/admin/order/<%= order._id %>/delete"
-method="POST"
-style="display:inline;"
-onsubmit="return confirm('Delete this order?')">
-
-<button
-class="btn btn-danger btn-sm">
-
-<i class="fas fa-trash"></i>
-
-</button>
-
-</form>
-
-</td> -->
 
 </tr>
 

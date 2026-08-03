@@ -38,27 +38,30 @@
 
                             total += subtotal;
 
-                            container.innerHTML += `
+                          container.innerHTML += `
 
-        <div class="summary-item">
+<div class="summary-item">
 
-            <div class="summary-left">
+    <div class="summary-left">
 
-                <h4>${item.title}</h4>
+        <h4>${item.title}</h4>
 
-                <p>₹${item.price}</p>
+      <p>
+    <b>Size:</b> ${item.variation}<br>
+    <b>Price:</b> ₹${item.price}
+</p>
 
-            </div>
+    </div>
 
-            <div class="summary-right">
+    <div class="summary-right">
 
-                Qty : ${item.quantity}
+        Qty : ${item.quantity}
 
-            </div>
+    </div>
 
-        </div>
+</div>
 
-        `;
+`;
 
                         });
 
@@ -81,13 +84,13 @@
 
                         try {
 
-                            await fetch("/cart/save-address", {
+                            // await fetch("/cart/save-address", {
 
-                                method: "POST",
+                            //     method: "POST",
 
-                                body: formData
+                            //     body: formData
 
-                            });
+                            // });
 
                             await fetch("https://api.web3forms.com/submit", {
 
@@ -105,21 +108,21 @@
 
                             });
 
-                            const result = await response.json();
+                           const result = await response.json();
 
-                            if (result.success) {
+console.log(result);
 
-                                localStorage.removeItem("order");
+if (result.success) {
 
-                                alert("Order Placed Successfully ✅");
+    localStorage.removeItem("order");
+    alert("Order Placed Successfully ✅");
+    window.location.href = "/my-orders";
 
-                                window.location.href = "/my-orders";
+} else {
 
-                            } else {
+    alert(result.error || result.message);
 
-                                alert("Order Failed ❌");
-
-                            }
+}
 
                         } catch (err) {
 

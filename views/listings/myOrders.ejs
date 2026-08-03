@@ -48,14 +48,36 @@
 
     <% } %>
 </p>
+<h6>🍽 Ordered Items:</h6>
 
-            <h6>Items:</h6>
-            <ul>
-              <% order.items.forEach(item => { %>
-                <li><%= item.foodName %> - ₹<%= item.price %></li>
-                 
-              <% }) %>
-            </ul>
+<ul class="list-group">
+
+  <% order.items.forEach(item => { %>
+
+    <li class="list-group-item">
+
+      <strong><%= item.foodName %></strong><br>
+
+      🍽 Size :
+      <span class="badge bg-info text-dark">
+        <%= item.variation %>
+      </span>
+
+      <br>
+
+      🔢 Quantity :
+      <strong><%= item.quantity %></strong>
+
+      <br>
+
+      💰 Price :
+      <strong>₹<%= item.price %></strong>
+
+    </li>
+
+  <% }) %>
+
+</ul>
 
             <small class="text-muted">
               Ordered on: <%= order.createdAt.toLocaleString() %>

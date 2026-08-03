@@ -78,7 +78,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
-app.use("/cart", cartRoutes);
+
 
 
 
@@ -121,6 +121,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads'))); // ⚠️ Render पर temporary
 app.use("/", authRoutes);
 app.use("/ai", aiRoutes);
+app.use("/cart", cartRoutes);
 
 // =========================================================
 // Routes
@@ -221,41 +222,39 @@ app.post("/place-order", upload.none(), async (req, res) => {
 const user = await User.findById(req.user._id);
 
 if (!user.address) {
-
     return res.status(400).json({
-
         success: false,
-
         error: "Please add your address first."
-
     });
-
 }
 
 const distance = getDistance(
     Number(user.address.latitude),
     Number(user.address.longitude),
-    23.318,
-    85.307
+    24.47438,
+    85.68874
 );
 
+console.log("User Latitude :", user.address.latitude);
+console.log("User Longitude:", user.address.longitude);
+console.log("Distance:", distance);
+
 if (distance > 8) {
-
     return res.status(400).json({
-
         success: false,
-
         error: "Sorry! Delivery Available Only In Domchanch."
-
     });
-
 }
     
-    const items = JSON.parse(req.body.orderData || "[]").map(item => ({
+   const items = JSON.parse(req.body.orderData || "[]").map(item => ({
     foodName: item.title,
+
+    variation: item.variation || "Half",
+
+    quantity: Number(item.quantity) || 1,
+
     price: Number(item.price)
 }));
-
    
 
 const order = new Order({
@@ -297,8 +296,13 @@ Team Restaurant`
 );
 
 const orderItems = order.items
-    .map(item => `• ${item.foodName} - ₹${item.price}`)
-    .join("\n");
+    .map(item =>
+        `• ${item.foodName}
+   Size: ${item.variation}
+   Qty: ${item.quantity}
+   Price: ₹${item.price}`
+    )
+    .join("\n\n");
 
 await sendTelegramMessage(
 `🛒 <b>New Order Received</b>
@@ -323,12 +327,19 @@ ${orderItems}
 console.log("✅ Order saved:", order);
 
 res.status(200).json({ success: true });
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ success: false, error: "Error placing order" });
-  }
-});
 
+} catch (err) {
+
+    console.error("PLACE ORDER ERROR:");
+    console.error(err);
+
+    res.status(500).json({
+        success: false,
+        error: err.message
+    });
+
+}
+});
 // My Orders
 app.get("/my-orders", async (req, res) => {
   try {
@@ -345,8 +356,7 @@ app.get("/my-orders", async (req, res) => {
 // Handle new listing with image upload
 app.post("/listings", upload.single("image"), async (req, res) => {
   try {
-    const { title, description, price } = req.body;
-    
+    const { title, description, halfPrice, fullPrice } = req.body;
 
     const filePath = "/uploads/" + req.file.filename;
 
@@ -357,10 +367,16 @@ app.post("/listings", upload.single("image"), async (req, res) => {
         filename: req.file.filename,
         url: filePath,
       },
-      price,
+
+      halfPrice,
+      fullPrice,
+
+      // Temporary (abhi ke liye)
+      price: halfPrice,
     });
 
     await newListing.save();
+
     req.flash("success", "New listing created!");
     res.redirect("/");
   } catch (err) {
@@ -390,9 +406,17 @@ app.use("/admin", adminRoutes);
 // Updated route with file upload
 app.put("/listings/:id", upload.single("image"), async (req, res) => {
   const { id } = req.params;
-  const { title, description, price } = req.body;
+  const { title, description, halfPrice, fullPrice } = req.body;
 
-  const updateData = { title, description, price };
+  const updateData = {
+    title,
+    description,
+    halfPrice,
+    fullPrice,
+
+    // Temporary (jab tak poori website shift nahi hoti)
+    price: halfPrice,
+  };
 
   // Agar user ne nayi image upload ki
   if (req.file) {

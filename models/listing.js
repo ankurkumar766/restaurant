@@ -7,21 +7,37 @@ const listingSchema = new Schema({
         type: String,
         required: true,
     },
+
     description: String,
+
     image: {
         url: String,
         filename: String,
     },
+
+    // Purana field (abhi rehne do)
     price: Number,
-   
+
+    // Naye fields
+    halfPrice: {
+        type: Number,
+        default: 0,
+    },
+
+    fullPrice: {
+        type: Number,
+        default: 0,
+    },
+
     location: String,
     country: String,
+
     reviews: [
-    {
-        type: Schema.Types.ObjectId,
-        ref: "Review",
-    },
-],
+        {
+            type: Schema.Types.ObjectId,
+            ref: "Review",
+        },
+    ],
 });
 
 const Listing = mongoose.model("Listing", listingSchema);

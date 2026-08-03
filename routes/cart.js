@@ -56,13 +56,25 @@ router.post("/save-address", upload.none(), async (req, res) => {
 });
 // Add to cart
 router.post("/:id", async (req, res) => {
+
     const listing = await Listing.findById(req.params.id);
 
-    if(!req.session.cart){
+    if (!req.session.cart) {
         req.session.cart = [];
     }
 
-    req.session.cart.push(listing);
+    const cartItem = {
+        _id: listing._id,
+        title: listing.title,
+        description: listing.description,
+        image: listing.image,
+
+        variation: req.body.variation,   // Half ya Full
+
+        price: Number(req.body.price),   // Selected price
+    };
+
+    req.session.cart.push(cartItem);
 
     res.redirect("/cart");
 });
@@ -75,8 +87,4 @@ router.get("/checkout", (req, res) => {
     res.render("listings/checkout.ejs", { total });
 
 });
-
-
-
-
 module.exports = router;

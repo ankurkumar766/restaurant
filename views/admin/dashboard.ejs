@@ -254,7 +254,33 @@ Analytics
 
 <td><%= order.name %></td>
 
-<td><%= order.items.map(item => item.foodName).join(", ") %></td>
+<td>
+
+<% order.items.forEach(item => { %>
+
+<div style="margin-bottom:10px;">
+
+    <strong><%= item.foodName %></strong><br>
+
+    🍽 Size:
+    <span class="badge bg-info text-dark">
+        <%= item.variation %>
+    </span>
+
+    <br>
+
+    🔢 Qty:
+    <strong><%= item.quantity %></strong>
+
+    <br>
+
+    💰 ₹<%= item.price %>
+
+</div>
+
+<% }) %>
+
+</td>
 
 <td>₹ <%= order.totalPrice %></td>
 

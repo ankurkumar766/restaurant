@@ -37,12 +37,31 @@
      </div>
 
 
-      <!-- Price -->
-      <div class="mb-3">
-        <label for="price" class="form-label">Price</label>
-        <input type="number" name="price" id="price" class="form-control" 
-               value="<%= listing.price %>" required>
-      </div>
+     <!-- Half Price -->
+<div class="mb-3">
+  <label for="halfPrice" class="form-label">Half Price</label>
+  <input
+      type="number"
+      name="halfPrice"
+      id="halfPrice"
+      class="form-control"
+      value="<%= listing.halfPrice %>"
+      required
+  >
+</div>
+
+<!-- Full Price -->
+<div class="mb-3">
+  <label for="fullPrice" class="form-label">Full Price</label>
+  <input
+      type="number"
+      name="fullPrice"
+      id="fullPrice"
+      class="form-control"
+      value="<%= listing.fullPrice %>"
+      required
+  >
+</div>
 
       <button type="submit" class="btn btn-success">Save Changes</button>
       <a href="/listings/<%= listing._id %>" class="btn btn-secondary">Cancel</a>
