@@ -220,21 +220,31 @@ No Orders Found
 
         </form>
 
+   
     <% } else if(order.status === "Out for Delivery"){ %>
 
-        <form action="/admin/order/<%= order._id %>/delivered"
-              method="POST"
-              style="display:inline;">
+<form
+action="/admin/order/<%= order._id %>/verify-otp"
+method="POST"
+style="display:flex;gap:5px;">
 
-            <button class="btn btn-success btn-sm">
-                ✅ Delivered
-            </button>
+<input
+type="text"
+name="otp"
+placeholder="Enter OTP"
+required
+class="form-control form-control-sm">
 
-          
+<button
+class="btn btn-success btn-sm">
 
-        </form>
+Verify OTP
 
-    <% } %>
+</button>
+
+</form>
+
+<% } %>
 
     <form
         action="/admin/order/<%= order._id %>/delete"

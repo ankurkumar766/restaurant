@@ -139,41 +139,6 @@
 <% } %>
 
 <hr>
-                                <h2 class="related-title">Related Menu 🍔</h2>
-                                <!-- <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-4 mt-3"> -->
-
-
-                                <div class="related-container">
-
-                                    <% relatedListings.forEach(item=> { %>
-
-                                        <a href="/listings/<%= item._id %>" class="related-card-link">
-
-                                            <div class="related-card">
-
-                                                <img src="<%= item.image.url %>" class="related-img">
-
-                                                <div class="related-body">
-
-                                                    <h5>
-                                                        <%= item.title %>
-                                                    </h5>
-
-                                                    <p>₹ <%= item.price.toLocaleString("en-IN") %>
-                                                    </p>
-
-                                                </div>
-
-
-                                            </div>
-                                            <!-- </div> -->
-
-                                        </a>
-
-                                        <% }) %>
-
-                                </div>
-                                <hr>
 
                                 <div class="review-section">
 
@@ -291,7 +256,43 @@
 
                                                 </p>
 
-                                                <% } %><br><br>
+                                                <% } %>
+                                                
+                                <h2 class="related-title">Related Menu 🍔</h2>
+                                <!-- <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-4 mt-3"> -->
+
+
+                                <div class="related-container">
+
+                                    <% relatedListings.forEach(item=> { %>
+
+                                        <a href="/listings/<%= item._id %>" class="related-card-link">
+
+                                            <div class="related-card">
+
+                                                <img src="<%= item.image.url %>" class="related-img">
+
+                                                <div class="related-body">
+
+                                                    <h5>
+                                                        <%= item.title %>
+                                                    </h5>
+
+                                                    <p>₹ <%= item.price.toLocaleString("en-IN") %>
+                                                    </p>
+
+                                                </div>
+
+
+                                            </div>
+                                            <!-- </div> -->
+
+                                        </a>
+
+                                        <% }) %>
+
+                                </div>
+                                <hr><br><br>
                                                     <footer>
                                                         <div class="f-info">
                                                             <div class="f-info-socials">

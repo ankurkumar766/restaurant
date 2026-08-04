@@ -40,6 +40,15 @@ const orderSchema = new mongoose.Schema({
     enum: ["Pending", "Out for Delivery", "Delivered"],
     default: "Pending"
   },
+  deliveryOTP: {
+    type: String,
+    default: null
+},
+
+otpVerified: {
+    type: Boolean,
+    default: false
+},
 
   createdAt: {
     type: Date,
