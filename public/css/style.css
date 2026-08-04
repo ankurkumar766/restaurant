@@ -258,6 +258,33 @@ background:#f6f6f6;
     object-fit:cover;
 
 }
+.size-buttons{
+    display:flex;
+    gap:8px;
+    margin:12px 0;
+}
+
+.size-btn{
+    border:2px solid #dc3545;
+    background:#fff;
+    color:#dc3545;
+    padding:5px 16px;
+    border-radius:20px;
+    cursor:pointer;
+    font-size:14px;
+    font-weight:600;
+    transition:.3s;
+}
+
+.size-btn:hover{
+    background:#dc3545;
+    color:#fff;
+}
+
+.size-btn.active{
+    background:#dc3545;
+    color:#fff;
+}
 
 
 /* ================= Mobile Responsive ================= */

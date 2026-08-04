@@ -56,6 +56,7 @@ router.post("/save-address", upload.none(), async (req, res) => {
 });
 // Add to cart
 router.post("/:id", async (req, res) => {
+     console.log(req.body); 
 
     const listing = await Listing.findById(req.params.id);
 

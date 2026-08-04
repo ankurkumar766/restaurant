@@ -138,10 +138,29 @@ Logout
 
                         <h5 class="card-title"><%= listing.title %></h5>
 
-                        <h4 class="price">
-                            ₹ <%= listing.price.toLocaleString("en-IN") %>
-                        </h4>
-                        <p>half</p>
+                       <div class="size-buttons">
+
+  <button
+    type="button"
+    class="size-btn active"
+    data-half="<%= listing.halfPrice %>"
+    data-full="<%= listing.fullPrice %>">
+    Half
+</button>
+
+<button
+    type="button"
+    class="size-btn"
+    data-half="<%= listing.halfPrice %>"
+    data-full="<%= listing.fullPrice %>">
+    Full
+</button>
+
+</div>
+
+<h4 class="price">
+    ₹ <span class="food-price"><%= listing.halfPrice %></span>
+</h4>
 
                         <div class="d-flex justify-content-between mt-3">
 
@@ -155,14 +174,34 @@ Logout
                                          </button>
                             </form>
                            <% } %>
+
+
+
+                           
                             
-                         <% if(currentUser){ %>
-                            <form action="/cart/<%= listing._id %>" method="POST" class="d-inline">
-                                <button type="submit" class="btn btn-success">
-                                    <i class="fa-solid fa-cart-shopping"></i>
-                                         </button>
-                            </form>
-                           <% } %>
+                        <!-- <% if(currentUser){ %>
+
+<form action="/cart/<%= listing._id %>" method="POST" class="d-inline cart-form">
+
+    <input
+        type="hidden"
+        name="variation"
+        class="variationInput"
+        value="Half">
+
+    <input
+        type="hidden"
+        name="price"
+        class="priceInput"
+        value="<%= listing.halfPrice %>">
+
+    <button type="submit" class="btn btn-success">
+        <i class="fa-solid fa-cart-shopping"></i>
+    </button>
+
+</form>
+
+<% } %> -->
                         </div>
 
                     </div>
@@ -371,6 +410,28 @@ document.addEventListener("touchend",()=>{
 });
 
 
+</script>
+
+<script>
+document.querySelectorAll(".size-btn").forEach(btn => {
+
+    btn.addEventListener("click", function () {
+
+        const card = this.closest(".listing-card");
+
+        card.querySelectorAll(".size-btn").forEach(b => b.classList.remove("active"));
+
+        this.classList.add("active");
+
+        const price = this.innerText.trim() === "Half"
+            ? this.dataset.half
+            : this.dataset.full;
+
+        card.querySelector(".food-price").innerText = price;
+
+    });
+
+});
 </script>
 
 </body>
