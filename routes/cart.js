@@ -5,11 +5,14 @@ const User=require("../models/user");
 const multer = require("multer");
 const upload = multer();
 
-
-
-
-
+router.get("/clear", (req, res) => {
+    req.session.cart = [];
+    res.send("Cart Cleared");
+});
 router.get("/", (req, res) => {
+
+    console.log("SESSION CART:");
+    console.log(req.session.cart);
 
     const cart = req.session.cart || [];
 

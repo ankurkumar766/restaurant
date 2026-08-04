@@ -138,28 +138,28 @@ Logout
 
                         <h5 class="card-title"><%= listing.title %></h5>
 
-                       <div class="size-buttons">
+                     <div class="size-buttons">
 
-  <button
-    type="button"
-    class="size-btn active"
-    data-half="<%= listing.halfPrice %>"
-    data-full="<%= listing.fullPrice %>">
-    Half
-</button>
+    <button
+        type="button"
+        class="size-btn active"
+        data-type="Half"
+        data-price="<%= listing.halfPrice %>">
+        Half
+    </button>
 
-<button
-    type="button"
-    class="size-btn"
-    data-half="<%= listing.halfPrice %>"
-    data-full="<%= listing.fullPrice %>">
-    Full
-</button>
+    <button
+        type="button"
+        class="size-btn"
+        data-type="Full"
+        data-price="<%= listing.fullPrice %>">
+        Full
+    </button>
 
 </div>
 
 <h4 class="price">
-    ₹ <span class="food-price"><%= listing.halfPrice %></span>
+    ₹<span class="food-price"><%= listing.halfPrice %></span>
 </h4>
 
                         <div class="d-flex justify-content-between mt-3">
@@ -179,9 +179,9 @@ Logout
 
                            
                             
-                        <!-- <% if(currentUser){ %>
+                       <% if(currentUser){ %>
 
-<form action="/cart/<%= listing._id %>" method="POST" class="d-inline cart-form">
+<form action="/cart/<%= listing._id %>" method="POST" class="cart-form">
 
     <input
         type="hidden"
@@ -201,7 +201,7 @@ Logout
 
 </form>
 
-<% } %> -->
+<% } %>
                         </div>
 
                     </div>
@@ -413,25 +413,34 @@ document.addEventListener("touchend",()=>{
 </script>
 
 <script>
-document.querySelectorAll(".size-btn").forEach(btn => {
 
-    btn.addEventListener("click", function () {
+document.querySelectorAll(".listing-card").forEach(card => {
 
-        const card = this.closest(".listing-card");
+    const buttons = card.querySelectorAll(".size-btn");
+    const foodPrice = card.querySelector(".food-price");
+    const variationInput = card.querySelector(".variationInput");
+    const priceInput = card.querySelector(".priceInput");
 
-        card.querySelectorAll(".size-btn").forEach(b => b.classList.remove("active"));
+    buttons.forEach(btn => {
 
-        this.classList.add("active");
+        btn.addEventListener("click", function () {
 
-        const price = this.innerText.trim() === "Half"
-            ? this.dataset.half
-            : this.dataset.full;
+            buttons.forEach(b => b.classList.remove("active"));
 
-        card.querySelector(".food-price").innerText = price;
+            this.classList.add("active");
+
+            foodPrice.innerText = this.dataset.price;
+
+            variationInput.value = this.dataset.type;
+
+            priceInput.value = this.dataset.price;
+
+        });
 
     });
 
 });
+
 </script>
 
 </body>
