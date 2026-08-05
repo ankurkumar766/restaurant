@@ -320,47 +320,6 @@ router.get("/analytics", async (req, res) => {
 
 });
 
-// router.post("/order/:id/out-for-delivery", async (req, res) => {
-
-//     if (!req.session.isAdmin) {
-//         return res.redirect("/admin");
-//     }
-
-//     try {
-
-//        const order = await Order.findByIdAndUpdate(
-//     req.params.id,
-//     { status: "Out for Delivery" },
-//     { new: true }
-// ).populate("user");
-
-// await sendEmail(
-//     order.user.email,
-//     "🚚 Your Order is Out for Delivery",
-// `Hello ${order.name},
-
-// Your order is now Out for Delivery.
-
-// Thank you for ordering with us.
-
-// Team Restaurant`
-// );
-//         req.flash("success", "Order is now Out for Delivery.");
-
-//         res.redirect("/admin/order");
-
-//     } catch (err) {
-
-//         console.log(err);
-
-//         req.flash("error", "Unable to update order status.");
-
-//         res.redirect("/admin/order");
-
-//     }
-
-// });
-
 router.post("/order/:id/out-for-delivery", async (req, res) => {
 
     if (!req.session.isAdmin) {
@@ -369,39 +328,24 @@ router.post("/order/:id/out-for-delivery", async (req, res) => {
 
     try {
 
-        const otp = Math.floor(
-            100000 + Math.random() * 900000
-        ).toString();
+       const order = await Order.findByIdAndUpdate(
+    req.params.id,
+    { status: "Out for Delivery" },
+    { new: true }
+).populate("user");
 
-        const order = await Order.findById(req.params.id)
-            .populate("user");
-
-        order.status = "Out for Delivery";
-        order.deliveryOTP = otp;
-
-        await order.save();
-
-        await sendEmail(
-            order.user.email,
-            "🚚 Your Order is Out for Delivery",
-
+await sendEmail(
+    order.user.email,
+    "🚚 Your Order is Out for Delivery",
 `Hello ${order.name},
 
 Your order is now Out for Delivery.
 
-Delivery OTP : ${otp}
-
-Please share this OTP only after receiving your order.
-
 Thank you for ordering with us.
 
 Team Restaurant`
-        );
-
-        req.flash(
-            "success",
-            "Order is now Out for Delivery."
-        );
+);
+        req.flash("success", "Order is now Out for Delivery.");
 
         res.redirect("/admin/order");
 
@@ -409,15 +353,15 @@ Team Restaurant`
 
         console.log(err);
 
-        req.flash(
-            "error",
-            "Unable to update order status."
-        );
+        req.flash("error", "Unable to update order status.");
 
         res.redirect("/admin/order");
+
     }
 
 });
+
+
 router.post("/order/:id/delivered", async (req, res) => {
 
     if (!req.session.isAdmin) {
@@ -465,64 +409,6 @@ Team Restaurant`
 
 });
 
-router.post("/order/:id/verify-otp", async (req, res) => {
-
-    if (!req.session.isAdmin) {
-        return res.redirect("/admin");
-    }
-
-    try {
-
-        const order = await Order.findById(req.params.id);
-
-        if (!order) {
-
-            req.flash("error","Order Not Found");
-
-            return res.redirect("/admin/order");
-
-        }
-
-        if (order.deliveryOTP === req.body.otp) {
-
-            order.status = "Delivered";
-
-            order.deliveryOTP = null;
-
-            order.otpVerified = true;
-
-            await order.save();
-
-            req.flash(
-                "success",
-                "OTP Verified Successfully."
-            );
-
-        } else {
-
-            req.flash(
-                "error",
-                "Wrong Delivery OTP."
-            );
-
-        }
-
-        res.redirect("/admin/order");
-
-    } catch (err) {
-
-        console.log(err);
-
-        req.flash(
-            "error",
-            "Something went wrong."
-        );
-
-        res.redirect("/admin/order");
-
-    }
-
-});
 
 
 module.exports = router;

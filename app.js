@@ -257,6 +257,10 @@ if (distance > 8) {
 }));
    
 
+const otp = Math.floor(
+    1000 + Math.random() * 9000
+).toString();
+
 const order = new Order({
 
     user:req.user._id,
@@ -271,8 +275,9 @@ const order = new Order({
 
     paymentMethod:req.body.paymentMethod,
 
-    totalPrice:Number(req.body.total)
+    totalPrice:Number(req.body.total),
 
+    deliveryOTP: otp
 });
 
     

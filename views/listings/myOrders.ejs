@@ -48,6 +48,21 @@
 
     <% } %>
 </p>
+<% if(order.status !== "Delivered"){ %>
+
+<div class="alert alert-warning mt-2">
+
+<b>🔐 Delivery OTP :</b>
+
+<h4 class="mb-0"><%= order.deliveryOTP %></h4>
+
+<small>
+Show this OTP to the delivery boy.
+</small>
+
+</div>
+
+<% } %>
 <h6>🍽 Ordered Items:</h6>
 
 <ul class="list-group">

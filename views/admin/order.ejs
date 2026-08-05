@@ -103,6 +103,8 @@ Logout
 <th>Status</th>
 
 <th>Action</th>
+<th>Delivery OTP</th>
+
 
 </tr>
 
@@ -223,22 +225,12 @@ No Orders Found
    
     <% } else if(order.status === "Out for Delivery"){ %>
 
-<form
-action="/admin/order/<%= order._id %>/verify-otp"
-method="POST"
-style="display:flex;gap:5px;">
+<form action="/admin/order/<%= order._id %>/delivered"
+      method="POST">
 
-<input
-type="text"
-name="otp"
-placeholder="Enter OTP"
-required
-class="form-control form-control-sm">
+<button class="btn btn-success btn-sm">
 
-<button
-class="btn btn-success btn-sm">
-
-Verify OTP
+✅ Delivered
 
 </button>
 
@@ -259,6 +251,19 @@ Verify OTP
     </form>
     
 
+</td>
+<td>
+    <div class="mt-2">
+
+<b>OTP :</b>
+
+<span class="badge bg-danger">
+
+<%= order.deliveryOTP %>
+
+</span>
+
+</div>
 </td>
 
 
