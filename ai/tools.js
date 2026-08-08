@@ -14,7 +14,7 @@ async function getMenu() {
     return foods.map(food => ({
         title: food.title,
         price: food.price,
-        category: food.category || "Food"
+        category: food.category || "Food" 
     }));
 
 }
@@ -58,8 +58,8 @@ async function getOffers() {
 async function getContact() {
 
     return {
-        phone: "+91-9876543210",
-        email: "support@restaurant.com",
+        phone: "+91-7667880272",
+        email: "ankurkumar89632@gmail.com",
         address: "Your Restaurant Address"
     };
 

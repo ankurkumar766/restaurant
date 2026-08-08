@@ -30,7 +30,7 @@ async function chat(userId, message) {
         ].includes(lower)
     ) {
 
-        reply = `👋 Hello! Welcome to Vatika Restaurant.
+        reply = `👋 Hello! Welcome to AR Restaurant.
 
 I'm your AI Assistant.
 
@@ -72,7 +72,7 @@ How can I help you today?`;
     ) {
 
         reply =
-            "👋 Thank you for visiting Vatika Restaurant. Have a wonderful day.";
+            "👋 Thank you for visiting AR Restaurant. Have a wonderful day.";
 
     }
 
