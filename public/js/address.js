@@ -1,162 +1,152 @@
-// ===============================
-// Delivery Location Verification
-// ===============================
+// =====================================================
+// ADDRESS FORM
+// =====================================================
 
-let locationVerified = false;
-
-const verifyBtn = document.getElementById("verifyLocation");
+const addressForm = document.getElementById("addressForm");
 
 const continueBtn = document.getElementById("continueBtn");
 
 const message = document.getElementById("locationMessage");
 
-verifyBtn.addEventListener("click", () => {
-
-    if (!navigator.geolocation) {
-
-        alert("Geolocation is not supported.");
-
-        return;
-
-    }
-
-    verifyBtn.innerHTML = "Checking Location...";
-
-    navigator.geolocation.getCurrentPosition(
-
-        async (position) => {
-
-            const lat = position.coords.latitude;
-
-            const lng = position.coords.longitude;
-
-            document.getElementById("latitude").value = lat;
-
-            document.getElementById("longitude").value = lng;
-
-            const response = await fetch("/check-location", {
-
-                method: "POST",
-
-                headers: {
-
-                    "Content-Type": "application/json"
-
-                },
-
-                body: JSON.stringify({
-
-                    lat,
-
-                    lng
-
-                })
-
-            });
-
-            const data = await response.json();
-
-            // ===============================
-// Auto Fill Address
-// ===============================
-
-try {
-
-    const geo = await fetch(
-        `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}`
-    );
-
-    const geoData = await geo.json();
-
-    if (geoData.display_name) {
-
-        document.getElementById("address").value =
-            geoData.display_name;
-
-    }
-
-} catch (err) {
-
-    console.log("Unable to fetch address", err);
-
-}
-
-            if (data.allowed) {
-
-                locationVerified = true;
-
-                continueBtn.disabled = false;
-
-                message.innerHTML =
-                "✅ Delivery Available";
-
-                message.style.color = "green";
-
-            } else {
-
-                locationVerified = false;
-
-                continueBtn.disabled = true;
-
-                message.innerHTML =
-                "❌ Sorry! Delivery Available Only In Domchanch, Koderma.";
-
-                message.style.color = "red";
-
-            }
-
-            verifyBtn.innerHTML = "📍 Verify Live Location";
-
-        },
-
-        () => {
-
-            alert("Please Allow Location Permission.");
-
-            verifyBtn.innerHTML = "📍 Verify Live Location";
-
-        }
-
-    );
-
-});
 
 
-// ===============================
-// Address Form Submit
-// ===============================
-
-document.getElementById("addressForm")
-
-.addEventListener("submit", async function (e) {
+addressForm.addEventListener("submit", async function (e) {
 
     e.preventDefault();
 
-    if (!locationVerified) {
 
-        alert("Please Verify Your Live Location.");
+    const address =
+        document.getElementById("address").value.trim();
+
+
+
+    // ================================================
+    // Empty address check
+    // ================================================
+
+    if (!address) {
+
+        message.innerHTML =
+            "❌ Please enter your delivery address.";
+
+        message.style.color = "red";
 
         return;
 
     }
 
-    const formData = new FormData(this);
 
-    const response = await fetch("/cart/save-address", {
 
-        method: "POST",
+    // ================================================
+    // Button loading
+    // ================================================
 
-        body: formData
+    continueBtn.disabled = true;
 
-    });
+    continueBtn.innerHTML =
+        "Checking Delivery Area...";
 
-    if (response.ok) {
 
-        window.location.href = "/payment";
 
-    } else {
+    message.innerHTML =
+        "Checking your delivery address...";
 
-        alert("Unable To Save Address");
+    message.style.color = "#555";
+
+
+
+    try {
+
+
+        const formData =
+            new FormData(addressForm);
+
+
+
+        // ================================================
+        // SEND ADDRESS TO SERVER
+        // ================================================
+
+        const response = await fetch(
+            "/cart/save-address",
+            {
+                method: "POST",
+                body: formData
+            }
+        );
+
+
+
+        const data = await response.json();
+
+
+
+        // ================================================
+        // SUCCESS
+        // ================================================
+
+        if (response.ok && data.success) {
+
+
+            message.innerHTML =
+                "✅ Delivery available at your address.";
+
+            message.style.color = "green";
+
+
+
+            setTimeout(() => {
+
+                window.location.href =
+                    "/payment";
+
+            }, 500);
+
+
+        }
+
+
+        // ================================================
+        // DELIVERY NOT AVAILABLE
+        // ================================================
+
+        else {
+
+
+            message.innerHTML =
+                "❌ " +
+                (
+                    data.error ||
+                    "Sorry! Delivery is not available at this address."
+                );
+
+            message.style.color = "red";
+
+
+            continueBtn.disabled = false;
+
+            continueBtn.innerHTML =
+                "Continue To Payment →";
+
+        }
+
+
+    } catch (error) {
+
+
+        console.log(error);
+
+
+        message.innerHTML =
+            "❌ Something went wrong. Please try again.";
+
+        message.style.color = "red";
+
+
+        continueBtn.disabled = false;
+
+        continueBtn.innerHTML =
+            "Continue To Payment →";
 
     }
 

@@ -2,231 +2,649 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Bag</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>My Cart</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+    <!-- Existing CSS -->
     <link rel="stylesheet" href="/css/footer.css">
     <link rel="stylesheet" href="/css/marquee.css">
-
-    <link rel="stylesheet" href="/css/card.css">
     <link rel="stylesheet" href="/css/nav.css">
+
+    <!-- Cart CSS -->
+    <link rel="stylesheet" href="/css/card.css">
+
+    <!-- Favicon -->
+    <link rel="icon"
+        type="image/x-icon"
+        href="/images/rest.png">
 
 </head>
 
+
 <body>
+
+
+    <!-- Existing marquee -->
     <%- include("../partials/marquee") %>
-        <%- include("../partials/nav") %>
-
-            <div class="container">
-
-                <h1>Your Bag 🛒</h1>
-
-                <% let total=0; cart.forEach(item=> {
-                    total += item.price;
-                    });
-                    %>
-
-                    <h2 class="total">Total: ₹ <%= total %>
-                    </h2>
-
-                    <% if(cart.length===0){ %>
-
-                        <p class="empty">Cart is empty</p>
-
-                        <% } else { %>
-
-                            <div class="cart-container">
-
-                                <% cart.forEach((item, index)=> { %>
-
-                                    <div class="cart-card">
-
-                                        <!-- Left Image -->
-                                        <div class="cart-image">
-                                            <img src="<%= item.image.url %>" alt="<%= item.title %>">
-                                        </div>
-
-                                        <!-- Right Details -->
-                                        <div class="cart-details">
-
-                                            <h3>
-                                                <%= item.title %>
-                                            </h3>
-                                            <p class="variation">
-    <strong>Size:</strong> <%= item.variation %>
-</p>
-
-                                           <p class="price">
-
-    <span class="item-price"
-        style="font-size:22px;font-weight:bold;color:#16a34a;">
-        ₹<%= item.price.toLocaleString("en-IN") %>
-    </span>
-
-    <span class="old-price"
-        style="text-decoration:line-through;color:#777;font-size:16px;">
-        ₹<%= Math.round(item.price * 1.20).toLocaleString("en-IN") %>
-    </span>
-
-    <span style="background:#61e535;color:#fff;padding:3px 8px;border-radius:15px;font-size:12px;font-weight:bold;">
-        20% OFF
-    </span>
-
-</p>
-
-                                            <div class="qty-box">
-
-                                                <button type="button" class="qty-btn" data-price="<%= item.price %>"
-                                                    onclick="changeQty(this,-1)">
-                                                    -
-                                                </button>
-
-                                                <span class="qty">1</span>
-
-                                                <button type="button" class="qty-btn" data-price="<%= item.price %>"
-                                                    onclick="changeQty(this,1)">
-                                                    +
-                                                </button>
-
-                                            </div>
-
-                                            <p class="subtotal">
-                                                Subtotal :
-                                                ₹ <span class="item-total">
-                                                    <%= item.price %>
-                                                </span>
-                                            </p>
-
-                                            <form action="/cart/remove/<%= index %>" method="POST">
-
-                                                <button class="delete-btn">
-                                                    <i class="fa-solid fa-trash"></i> Delete
-                                                </button>
-
-                                            </form>
-
-                                        </div>
-
-                                    </div>
-
-                                    <% }) %>
-
-                            </div>
-
-                            <% } %>
 
 
-                                <!-- Checkout Section -->
-
-                                <div class="checkout-box">
-
-                                    <div class="checkout-left">
-
-                                        <h2>Your Total Amount</h2>
-
-                                        <h1>₹ <span id="grandTotal">
-                                                <%= total %>
-                                            </span></h1>
-
-                                    </div>
-
-                                    <div class="checkout-right">
-                                        <a href="/address">
-                                            <button type="button" class="checkout-btn" onclick="proceedToPayment()">
-
-                                                Proceed to Payment →
-
-                                            </button>
-
-                                    </div>
-
-                                </div>
+    <!-- Existing navbar -->
+    <%- include("../partials/nav") %>
 
 
 
+    <%
+        let total = 0;
+
+        cart.forEach(item => {
+            total += Number(item.price);
+        });
+    %>
 
 
 
-                               <script>
+    <!-- =====================================================
+                            MAIN
+    ===================================================== -->
 
-    // ================= Quantity =================
+    <main class="cart-page">
 
-    function changeQty(btn, change) {
 
-        const price = Number(btn.dataset.price);
+        <!-- ================= TITLE ================= -->
 
-        const card = btn.closest(".cart-card");
+        <h1 class="cart-title">
+            My Cart
+        </h1>
 
-        const qty = card.querySelector(".qty");
-        const priceTag = card.querySelector(".item-price");
-        const oldPrice = card.querySelector(".old-price");
-        const subtotal = card.querySelector(".item-total");
 
-        let value = parseInt(qty.innerText);
 
-        value += change;
+        <!-- ================= YOUR ITEMS ================= -->
 
-        if (value < 1) {
-            value = 1;
+        <h2 class="your-items-title">
+            Your Items
+        </h2>
+
+
+
+        <!-- ================= CART ITEMS ================= -->
+
+        <% if(cart.length === 0) { %>
+
+
+            <div class="empty-cart">
+
+                <i class="fa-solid fa-cart-shopping"></i>
+
+                <p>
+                    Your cart is empty
+                </p>
+
+            </div>
+
+
+        <% } else { %>
+
+
+            <div class="cart-items-container">
+
+
+                <% cart.forEach((item, index) => { %>
+
+
+                    <!-- =================================================
+                                    SINGLE ITEM
+                    ================================================= -->
+
+                    <div class="cart-item"
+                        data-index="<%= index %>"
+                        data-price="<%= item.price %>">
+
+
+                        <!-- IMAGE -->
+
+                        <div class="cart-item-image">
+
+                            <img
+                                src="<%= item.image.url %>"
+                                alt="<%= item.title %>"
+                            >
+
+                        </div>
+
+
+
+                        <!-- DETAILS -->
+
+                        <div class="cart-item-details">
+
+
+                            <!-- TITLE -->
+
+                            <h3 class="cart-item-title">
+
+                                <%= item.title %>
+
+                            </h3>
+
+
+
+                            <!-- VARIATION -->
+
+                            <p class="cart-variation">
+
+                                Variation:
+                                <%= item.variation %>
+
+                            </p>
+
+
+
+                            <!-- PRICE -->
+
+                            <p class="cart-item-price">
+
+                                ₹<span class="single-price">
+
+                                    <%= Number(item.price).toLocaleString("en-IN", {
+                                        minimumFractionDigits: 2
+                                    }) %>
+
+                                </span>
+
+                            </p>
+
+
+                        </div>
+
+
+
+                        <!-- =================================================
+                                    QUANTITY
+                        ================================================= -->
+
+                        <div class="quantity-wrapper">
+
+
+                            <button
+                                type="button"
+                                class="quantity-minus"
+                                onclick="changeQty(this, -1)"
+                            >
+
+                                −
+
+                            </button>
+
+
+                            <span class="quantity">
+
+                                1
+
+                            </span>
+
+
+                            <button
+                                type="button"
+                                class="quantity-plus"
+                                onclick="changeQty(this, 1)"
+                            >
+
+                                +
+
+                            </button>
+
+
+                        </div>
+
+
+                    </div>
+
+
+                <% }) %>
+
+
+            </div>
+
+
+        <% } %>
+
+
+
+        <!-- =====================================================
+                            CART SUMMARY
+        ===================================================== -->
+
+
+        <% if(cart.length > 0) { %>
+
+
+            <div class="cart-summary">
+
+
+                <h2>
+                    Cart Summary
+                </h2>
+
+
+                <div class="summary-line">
+
+                    <span>
+                        Subtotal
+                    </span>
+
+                    <span id="summarySubtotal">
+
+                        ₹<%= total.toLocaleString("en-IN", {
+                            minimumFractionDigits: 2
+                        }) %>
+
+                    </span>
+
+                </div>
+
+
+
+                <div class="summary-line">
+
+                    <span>
+                        Delivery
+                    </span>
+
+                    <span>
+                        ₹0.00
+                    </span>
+
+                </div>
+
+
+
+                <div class="summary-divider"></div>
+
+
+
+                <div class="summary-total">
+
+                    <span>
+                        Total Amount
+                    </span>
+
+                    <span id="summaryTotal">
+
+                        ₹<%= total.toLocaleString("en-IN", {
+                            minimumFractionDigits: 2
+                        }) %>
+
+                    </span>
+
+                </div>
+
+
+            </div>
+
+
+        <% } %>
+
+
+    </main>
+
+
+
+    <!-- =====================================================
+                        FIXED CHECKOUT BAR
+    ===================================================== -->
+
+
+    <% if(cart.length > 0) { %>
+
+
+        <div class="checkout-bar">
+
+
+            <!-- TOTAL -->
+
+            <div class="bottom-total">
+
+                <span>
+                    Total
+                </span>
+
+                <strong id="bottomTotal">
+
+                    ₹<%= total.toLocaleString("en-IN", {
+                        minimumFractionDigits: 2
+                    }) %>
+
+                </strong>
+
+            </div>
+
+
+
+            <!-- CHECKOUT -->
+
+            <button
+                type="button"
+                class="proceed-button"
+                onclick="proceedToCheckout()"
+            >
+
+                Proceed to Checkout
+
+            </button>
+
+
+        </div>
+
+
+    <% } %>
+
+
+
+    
+
+
+        <!-- CART -->
+
+       
+
+
+
+
+    <!-- =====================================================
+                            JAVASCRIPT
+    ===================================================== -->
+
+    <script>
+
+
+        // =====================================================
+        // CHANGE QUANTITY
+        // =====================================================
+
+        function changeQty(button, change) {
+
+
+            const cartItem =
+                button.closest(".cart-item");
+
+
+            const quantityElement =
+                cartItem.querySelector(".quantity");
+
+
+            const price =
+                Number(cartItem.dataset.price);
+
+
+            let quantity =
+                Number(quantityElement.innerText);
+
+
+
+            // ================================================
+            // MINUS
+            // ================================================
+
+            if(change === -1) {
+
+
+                // If quantity is already 1
+                // remove item from cart
+
+                if(quantity === 1) {
+
+                    removeCartItem(cartItem);
+
+                    return;
+
+                }
+
+
+                quantity--;
+
+            }
+
+
+
+            // ================================================
+            // PLUS
+            // ================================================
+
+            if(change === 1) {
+
+                quantity++;
+
+            }
+
+
+
+            quantityElement.innerText =
+                quantity;
+
+
+
+            updateCartTotal();
+
         }
 
-        qty.innerText = value;
-
-        const newPrice = price * value;
-
-        // Current Price
-        priceTag.innerText = "₹" + newPrice.toLocaleString("en-IN");
-
-        // Old Price (20% extra)
-        oldPrice.innerText = "₹" + Math.round(newPrice * 1.20).toLocaleString("en-IN");
-
-        // Subtotal
-        subtotal.innerText = newPrice.toLocaleString("en-IN");
-
-        // Grand Total
-        let grand = 0;
-
-        document.querySelectorAll(".item-total").forEach(item => {
-            grand += Number(item.innerText.replace(/,/g, ""));
-        });
-
-        document.querySelector(".total").innerHTML = "Total: ₹ " + grand.toLocaleString("en-IN");
-
-        document.getElementById("grandTotal").innerText = grand.toLocaleString("en-IN");
-
-    }
 
 
-    // ================= Proceed To Payment =================
 
-    function proceedToPayment() {
+        // =====================================================
+        // REMOVE ITEM
+        // =====================================================
 
-        const order = [];
+        function removeCartItem(cartItem) {
 
-        document.querySelectorAll(".cart-card").forEach(card => {
 
-            order.push({
+            const index =
+                cartItem.dataset.index;
 
-                title: card.querySelector("h3").innerText,
 
-                variation: card.querySelector(".variation").innerText.replace("Size:", "").trim(),
+            /*
+             * Existing backend route
+             *
+             * /cart/remove/:index
+             */
 
-                price: Number(card.querySelector(".qty-btn").dataset.price),
+            const form =
+                document.createElement("form");
 
-                quantity: Number(card.querySelector(".qty").innerText)
 
-            });
+            form.method = "POST";
 
-        });
+            form.action =
+                "/cart/remove/" + index;
 
-        localStorage.setItem("order", JSON.stringify(order));
 
-        window.location.href = "/address";
+            document.body.appendChild(form);
 
-    }
 
-</script>
+            form.submit();
+
+        }
+
+
+
+
+        // =====================================================
+        // UPDATE TOTAL
+        // =====================================================
+
+        function updateCartTotal() {
+
+
+            let subtotal = 0;
+
+
+
+            document
+                .querySelectorAll(".cart-item")
+                .forEach(item => {
+
+
+                    const price =
+                        Number(item.dataset.price);
+
+
+                    const quantity =
+                        Number(
+                            item.querySelector(".quantity").innerText
+                        );
+
+
+                    subtotal +=
+                        price * quantity;
+
+
+                });
+
+
+
+            const formatted =
+                subtotal.toLocaleString("en-IN", {
+                    minimumFractionDigits: 2
+                });
+
+
+
+            // Summary subtotal
+
+            const summarySubtotal =
+                document.getElementById(
+                    "summarySubtotal"
+                );
+
+
+            if(summarySubtotal) {
+
+                summarySubtotal.innerText =
+                    "₹" + formatted;
+
+            }
+
+
+
+            // Summary total
+
+            const summaryTotal =
+                document.getElementById(
+                    "summaryTotal"
+                );
+
+
+            if(summaryTotal) {
+
+                summaryTotal.innerText =
+                    "₹" + formatted;
+
+            }
+
+
+
+            // Bottom total
+
+            const bottomTotal =
+                document.getElementById(
+                    "bottomTotal"
+                );
+
+
+            if(bottomTotal) {
+
+                bottomTotal.innerText =
+                    "₹" + formatted;
+
+            }
+
+        }
+
+
+
+
+        // =====================================================
+        // PROCEED TO CHECKOUT
+        // =====================================================
+
+        function proceedToCheckout() {
+
+
+            const order = [];
+
+
+            document
+                .querySelectorAll(".cart-item")
+                .forEach(item => {
+
+
+                    const title =
+                        item
+                            .querySelector(".cart-item-title")
+                            .innerText
+                            .trim();
+
+
+                    const variation =
+                        item
+                            .querySelector(".cart-variation")
+                            .innerText
+                            .replace("Variation:", "")
+                            .trim();
+
+
+                    const price =
+                        Number(item.dataset.price);
+
+
+                    const quantity =
+                        Number(
+                            item
+                                .querySelector(".quantity")
+                                .innerText
+                        );
+
+
+                    order.push({
+
+                        title: title,
+
+                        variation: variation,
+
+                        price: price,
+
+                        quantity: quantity
+
+                    });
+
+
+                });
+
+
+
+            localStorage.setItem(
+                "order",
+                JSON.stringify(order)
+            );
+
+
+
+            window.location.href =
+                "/address";
+
+
+        }
+
+
+    </script>
 
 
 </body>

@@ -3,134 +3,139 @@
 
 <head>
 
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Delivery Address</title>
+    <title>Delivery Address</title>
 
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 
-<link rel="stylesheet" href="/css/nav.css">
+    <link rel="stylesheet" href="/css/nav.css">
 
-<link rel="stylesheet" href="/css/footer.css">
+    <link rel="stylesheet" href="/css/footer.css">
 
-<link rel="stylesheet" href="/css/addres.css">
+    <link rel="stylesheet" href="/css/addres.css">
+
+    <link rel="icon"
+        type="image/x-icon"
+        href="/images/rest.png">
 
 </head>
 
+
 <body>
 
-<%- include("../partials/nav") %>
 
-<div class="container mt-5">
+    <%- include("../partials/nav") %>
 
-<div class="address-box">
 
-<h2>
+    <div class="container mt-5">
 
-<i class="fa-solid fa-location-dot"></i>
+        <div class="address-box">
 
-Delivery Address
+            <h2>
 
-</h2>
+                <i class="fa-solid fa-location-dot"></i>
 
-<form id="addressForm">
+                Delivery Address
 
-<input
-type="hidden"
-id="latitude"
-name="latitude">
+            </h2>
 
-<input
-type="hidden"
-id="longitude"
-name="longitude">
 
-<div class="form-group">
+            <form id="addressForm">
 
-<label>Full Name</label>
 
-<input
-type="text"
-name="name"
+                <!-- ================= FULL NAME ================= -->
 
-value="<%= currentUser && currentUser.address ? currentUser.address.fullName : '' %>"
+                <div class="form-group">
 
-required>
+                    <label>
+                        Full Name
+                    </label>
 
-</div>
+                    <input
+                        type="text"
+                        name="name"
+                        value="<%= currentUser && currentUser.address ? currentUser.address.fullName : '' %>"
+                        required
+                    >
 
-<div class="form-group">
+                </div>
 
-<label>Phone Number</label>
 
-<input
-type="text"
-name="phone"
 
-value="<%= currentUser && currentUser.address ? currentUser.address.phone : '' %>"
+                <!-- ================= PHONE ================= -->
 
-required>
+                <div class="form-group">
 
-</div>
+                    <label>
+                        Phone Number
+                    </label>
 
-<div class="form-group">
+                    <input
+                        type="text"
+                        name="phone"
+                        value="<%= currentUser && currentUser.address ? currentUser.address.phone : '' %>"
+                        required
+                    >
 
-<label>Delivery Address</label>
+                </div>
 
-<!-- <textarea
-name="address"
 
-rows="4"
 
-required><%= currentUser && currentUser.address ? currentUser.address.addressLine : '' %></textarea> -->
-<textarea
-id="address"
-name="address"
-rows="4"
-required><%= currentUser && currentUser.address ? currentUser.address.addressLine : '' %></textarea>
+                <!-- ================= ADDRESS ================= -->
 
-</div>
+                <div class="form-group">
 
-<div class="form-group">
+                    <label>
+                        Delivery Address
+                    </label>
 
-<button
-type="button"
-id="verifyLocation"
-class="btn btn-primary">
+                    <textarea
+                        id="address"
+                        name="address"
+                        rows="4"
+                        placeholder="House No, Street, Area, Domchanch, Koderma"
+                        required
+                    ><%= currentUser && currentUser.address ? currentUser.address.addressLine : '' %></textarea>
 
-📍 Verify Live Location
+                </div>
 
-</button>
 
-</div>
 
-<p id="locationMessage"></p>
+                <!-- ================= MESSAGE ================= -->
 
-<button
-type="submit"
+                <p id="locationMessage"></p>
 
-id="continueBtn"
 
-class="btn btn-success"
 
-disabled>
+                <!-- ================= CONTINUE ================= -->
 
-Continue To Payment →
+                <button
+                    type="submit"
+                    id="continueBtn"
+                    class="btn btn-success"
+                >
 
-</button>
+                    Continue To Payment →
 
-</form>
+                </button>
 
-</div>
 
-</div>
+            </form>
 
-<%- include("../partials/footer") %>
+        </div>
 
-<script src="/js/address.js"></script>
+    </div>
+
+
+    <%- include("../partials/footer") %>
+
+
+    <script src="/js/address.js"></script>
+
 
 </body>
 

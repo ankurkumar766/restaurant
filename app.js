@@ -137,6 +137,68 @@ app.get("/", async (req, res) => {
 app.get("/listings/new", (req, res) => {
   res.render("listings/new.ejs");
 });
+// =====================================================
+// GEOCODE ADDRESS
+// =====================================================
+
+async function geocodeAddress(address) {
+
+    const url =
+        "https://nominatim.openstreetmap.org/search?" +
+        new URLSearchParams({
+
+            q: address,
+
+            format: "jsonv2",
+
+            limit: "1",
+
+            countrycodes: "in"
+
+        });
+
+
+    const response = await fetch(url, {
+
+        headers: {
+
+            "User-Agent":
+                "RestaurantDeliveryWebsite/1.0"
+
+        }
+
+    });
+
+
+    if (!response.ok) {
+
+        throw new Error(
+            "Geocoding service failed"
+        );
+
+    }
+
+
+    const data =
+        await response.json();
+
+
+    if (!data || data.length === 0) {
+
+        return null;
+
+    }
+
+
+    return {
+
+        latitude: Number(data[0].lat),
+
+        longitude: Number(data[0].lon)
+
+    };
+
+}
 
 function getDistance(lat1, lon1, lat2, lon2) {
 
@@ -176,33 +238,6 @@ function getDistance(lat1, lon1, lat2, lon2) {
 
 }
 
-app.post("/check-location", (req, res) => {
-
-    const { lat, lng } = req.body;
-
-    // Domchanch, Koderma
-    const domchanchLat = 24.47438;
-    const domchanchLng = 85.68874;
-
-    const distance = getDistance(
-        Number(lat),
-        Number(lng),
-        domchanchLat,
-        domchanchLng
-    );
-
-    if (distance <= 5) {
-        return res.json({
-            allowed: true,
-            distance
-        });
-    }
-
-    return res.json({
-        allowed: false,
-        distance
-    });
-});
 
 // Order route
 app.post("/place-order", upload.none(), async (req, res) => {
@@ -239,11 +274,18 @@ console.log("User Latitude :", user.address.latitude);
 console.log("User Longitude:", user.address.longitude);
 console.log("Distance:", distance);
 
-if (distance > 8) {
+
+if (distance > 5) {
+
     return res.status(400).json({
+
         success: false,
-        error: "Sorry! Delivery Available Only In Domchanch."
+
+        error:
+            "Sorry! Delivery Available Only Within 5 KM Of Domchanch."
+
     });
+
 }
     
    const items = JSON.parse(req.body.orderData || "[]").map(item => ({
