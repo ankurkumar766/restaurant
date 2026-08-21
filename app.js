@@ -143,31 +143,36 @@ app.get("/listings/new", (req, res) => {
 
 async function geocodeAddress(address) {
 
+    const query =
+        `${address}, Domchanch, Koderma, Jharkhand, India`;
+
+
     const url =
         "https://nominatim.openstreetmap.org/search?" +
         new URLSearchParams({
 
-            q: address,
+            q: query,
 
             format: "jsonv2",
 
-            limit: "1",
+            limit: "5",
 
             countrycodes: "in"
 
         });
 
 
-    const response = await fetch(url, {
+    const response =
+        await fetch(url, {
 
-        headers: {
+            headers: {
 
-            "User-Agent":
-                "RestaurantDeliveryWebsite/1.0"
+                "User-Agent":
+                    "RestaurantDeliveryWebsite/1.0"
 
-        }
+            }
 
-    });
+        });
 
 
     if (!response.ok) {
@@ -192,9 +197,11 @@ async function geocodeAddress(address) {
 
     return {
 
-        latitude: Number(data[0].lat),
+        latitude:
+            Number(data[0].lat),
 
-        longitude: Number(data[0].lon)
+        longitude:
+            Number(data[0].lon)
 
     };
 
