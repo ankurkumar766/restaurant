@@ -3,388 +3,890 @@
 
 <head>
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Details food</title>
-    <!-- Font Awesome CDN include karo -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-        integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="/css/show.css" />
+
+    <title><%= listing.title %> | Restaurants</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/show.css">
     <link rel="stylesheet" href="/css/marquee.css">
-    <link rel="stylesheet" href="/css/nav.css">
-     <link rel="icon" type="image/x-icon" href="/images/rest.png">  
+    <link rel="stylesheet" href="/css/footer.css">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/images/rest.png">
 
 </head>
 
+
 <body>
+
+    <!-- OPTIONAL: YOUR MARQUEE -->
     <%- include("../partials/marquee") %>
-       
-        <!-- <%- include("../partials/nav") %> -->
-          <a href="/" 
-       style="font-size:24px;color:#2563eb;text-decoration:none;
-              width:42px;height:42px;background:#f1f5f9;
-              border-radius:50%;display:flex;
-              align-items:center;justify-content:center;
-              transition:.3s;">
-
-        <i class="fas fa-arrow-left"></i>
-
-    </a>
-            <h3 style="color: blue;">Munu Details:- </h3>
-            <div class="row">
-                <div class="col-8 offest-2">
 
 
-                    <h3>
-                        <%= listing.title %> :
-                    </h3>
-                </div>
-                <div class=" card col-6 offset-2 show-card listing-card">
-                    <img src="<%= listing.image.url %>" class="card-img-top show-img" alt="listing_image">
-                    <div class="card-body">
-                        <p class="card-text">
+    <!-- =========================
+         FOOD HERO SECTION
+    ========================== -->
 
-                            <b>
-                                <%= listing.title %>
-                        </p> </b>
+    <main class="food-page">
+
+        <section class="food-hero">
+
+
+            <!-- BACK BUTTON -->
+
+            <a href="/" class="back-btn">
+
+                <i class="fa-solid fa-arrow-left"></i>
+
+            </a>
+
+
+            <!-- FOOD IMAGE -->
+
+            <div class="hero-image-wrapper">
+
+                <img
+                    src="<%= listing.image.url %>"
+                    alt="<%= listing.title %>"
+                    class="hero-food-image"
+                >
+
+            </div>
+
+
+            <!-- FOOD DETAILS -->
+
+            <div class="food-content">
+
+
+                <div class="food-header">
+
+                    <div>
+
+                        <span class="food-category">
+
+                            <i class="fa-solid fa-utensils"></i>
+
+                            Fresh & Delicious
+
+                        </span>
+
+
+                        <h1>
+                            <%= listing.title %>
+                        </h1>
 
                     </div>
+
+
+                    <div class="food-rating">
+
+                        <i class="fa-solid fa-star"></i>
+
+                        <span>
+                            4.5
+                        </span>
+
+                    </div>
+
                 </div>
-                <!-- <ul>
-                    <li>
-                        <%= listing.title %>
-                    </li>
-
-                    <br />
-                    <li>
-                        <%= listing.description %>
-                    </li>
-                    <li> &#8377; <%= listing.price.toLocaleString("en-IN") %>
-                    </li>
 
 
-                </ul> -->
-                <ul>
+                <!-- DESCRIPTION -->
 
-    <li>
-        <%= listing.title %>
-    </li>
+                <p class="food-description">
 
-    <br>
+                    <%= listing.description %>
 
-    <li>
-        <%= listing.description %>
-    </li>
-
-  <div class="size-buttons">
-    <button type="button" id="halfBtn" class="size-btn active">
-        Half
-    </button>
-
-    <button type="button" id="fullBtn" class="size-btn">
-        Full
-    </button>
-</div>
-<li style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
-
-    <span id="foodPrice" style="font-size:22px;font-weight:bold;color:#16a34a;">
-        ₹<%= listing.halfPrice.toLocaleString("en-IN") %>
-    </span>
-
-</li>
-
-</ul>
+                </p>
 
 
-                <% if(!currentUser){ %>
-                    <!-- <a class="nav-link " href="/signup"><b>Buy Now</b></a> -->
-                    <a href="/signup" class="buy-btn">Buy Now</a>
+                <!-- DIVIDER -->
+
+                <div class="food-divider"></div>
 
 
-                    <h1 style="color: #ff0000;">please signup for buy the food</h1>
+                <!-- SIZE SELECTOR -->
 
-                    <% } %>
+                <div class="size-section">
+
+                    <h3>
+                        Choose your size
+                    </h3>
 
 
-                       <% if(currentUser){ %>
+                    <div class="size-buttons">
 
-<div class="action-buttons">
+                        <button
+                            type="button"
+                            id="halfBtn"
+                            class="size-btn active"
+                        >
 
-   <form action="/cart/<%= listing._id %>" method="POST">
+                            <span class="size-name">
+                                Half
+                            </span>
 
-    <input
-        type="hidden"
-        name="variation"
-        id="variation"
-        value="Half"
-    >
+                            <span class="size-price">
 
-    <input
-        type="hidden"
-        name="price"
-        id="selectedPrice"
-        value="<%= listing.halfPrice %>"
-    >
+                                ₹<%= listing.halfPrice.toLocaleString("en-IN") %>
 
-    <button class="add">
-        Add to Bag 🛒
-    </button>
+                            </span>
 
-</form>
+                        </button>
 
-    <a href="/listings/<%= listing._id %>/cancle" class="can-btn">
-        Cancel
-    </a>
 
-</div>
+                        <button
+                            type="button"
+                            id="fullBtn"
+                            class="size-btn"
+                        >
 
-<% } %>
+                            <span class="size-name">
+                                Full
+                            </span>
 
-<hr>
+                            <span class="size-price">
 
-                                <div class="review-section">
+                                ₹<%= listing.fullPrice.toLocaleString("en-IN") %>
 
-                                    <h2 class="review-heading">
-                                        ⭐ Customer Reviews
-                                    </h2>
+                            </span>
 
-                                    <% if(currentUser){ %>
+                        </button>
 
-                                        <form action="/listings/<%= listing._id %>/reviews" method="POST">
+                    </div>
 
-                                            <div class="mb-4">
+                </div>
 
-                                                <label class="form-label">Your Rating</label>
 
-                                                <div class="star-rating">
+                <!-- PRICE -->
 
-                                                    <input type="radio" id="star5" name="review[rating]" value="5"
-                                                        required>
-                                                    <label for="star5">★</label>
+                <div class="price-section">
 
-                                                    <input type="radio" id="star4" name="review[rating]" value="4">
-                                                    <label for="star4">★</label>
+                    <div>
 
-                                                    <input type="radio" id="star3" name="review[rating]" value="3">
-                                                    <label for="star3">★</label>
+                        <span class="price-text">
+                            Total Price
+                        </span>
 
-                                                    <input type="radio" id="star2" name="review[rating]" value="2">
-                                                    <label for="star2">★</label>
+                        <div id="foodPrice">
 
-                                                    <input type="radio" id="star1" name="review[rating]" value="1">
-                                                    <label for="star1">★</label>
+                            ₹<%= listing.halfPrice.toLocaleString("en-IN") %>
 
-                                                </div>
+                        </div>
 
-                                            </div>
+                    </div>
 
-                                            <div class="mb-3">
 
-                                                <label class="form-label">
-                                                    Write Review
-                                                </label>
+                    <div class="delivery-info">
 
-                                                <textarea name="review[comment]" rows="5" class="form-control"
-                                                    placeholder="Share your experience..." required></textarea>
+                        <i class="fa-solid fa-bolt"></i>
 
-                                            </div>
+                        <span>
+                            Fast Delivery
+                        </span>
 
-                                            <button class="review-btn">
+                    </div>
 
-                                                Submit Review
+                </div>
 
-                                            </button>
 
-                                        </form>
+                <!-- =========================
+                     NOT LOGGED IN
+                ========================== -->
+
+                <% if (!currentUser) { %>
+
+                    <div class="guest-action">
+
+                        <p>
+
+                            <i class="fa-solid fa-circle-info"></i>
+
+                            Login or signup to order this delicious food.
+
+                        </p>
+
+
+                        <a href="/signup" class="order-btn">
+
+                            <i class="fa-solid fa-user-plus"></i>
+
+                            Signup to Order
+
+                        </a>
+
+                    </div>
+
+                <% } %>
+
+
+                <!-- =========================
+                     LOGGED IN
+                ========================== -->
+
+                <% if (currentUser) { %>
+
+                    <div class="action-buttons">
+
+
+                        <!-- ADD TO BAG -->
+
+                        <form
+                            action="/cart/<%= listing._id %>"
+                            method="POST"
+                            class="cart-form"
+                        >
+
+                            <input
+                                type="hidden"
+                                name="variation"
+                                id="variation"
+                                value="Half"
+                            >
+
+
+                            <input
+                                type="hidden"
+                                name="price"
+                                id="selectedPrice"
+                                value="<%= listing.halfPrice %>"
+                            >
+
+
+                            <button
+                                type="submit"
+                                class="add-btn"
+                            >
+
+                                <i class="fa-solid fa-bag-shopping"></i>
+
+                                <span>
+                                    Add to Bag
+                                </span>
+
+                            </button>
+
+                        </form>
+
+
+                        <!-- CANCEL -->
+
+                        <a
+                            href="/listings/<%= listing._id %>/cancle"
+                            class="cancel-btn"
+                        >
+
+                            <i class="fa-solid fa-xmark"></i>
+
+                            <span>
+                                Cancel
+                            </span>
+
+                        </a>
+
+
+                    </div>
+
+                <% } %>
+
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =========================
+             FEATURES
+        ========================== -->
+
+        <section class="food-features">
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+
+                    <i class="fa-solid fa-bowl-food"></i>
+
+                </div>
+
+                <div>
+
+                    <h4>Fresh Food</h4>
+
+                    <p>Prepared with quality ingredients</p>
+
+                </div>
+
+            </div>
+
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+
+                    <i class="fa-solid fa-clock"></i>
+
+                </div>
+
+                <div>
+
+                    <h4>Quick Service</h4>
+
+                    <p>Fast and reliable delivery</p>
+
+                </div>
+
+            </div>
+
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+
+                    <i class="fa-solid fa-shield-heart"></i>
+
+                </div>
+
+                <div>
+
+                    <h4>Quality Assured</h4>
+
+                    <p>Fresh and hygienic preparation</p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =========================
+             REVIEW SECTION
+        ========================== -->
+
+        <section class="reviews-section">
+
+
+            <div class="section-heading">
+
+                <div>
+
+                    <span class="section-tag">
+
+                        CUSTOMER EXPERIENCE
+
+                    </span>
+
+                    <h2>
+
+                        Customer Reviews
+
+                    </h2>
+
+                </div>
+
+
+                <div class="review-summary">
+
+                    <i class="fa-solid fa-star"></i>
+
+                    <strong>4.5</strong>
+
+                    <span>Rating</span>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- WRITE REVIEW -->
+
+            <% if (currentUser) { %>
+
+                <div class="write-review-card">
+
+                    <h3>
+
+                        Share your experience
+
+                    </h3>
+
+
+                    <form
+                        action="/listings/<%= listing._id %>/reviews"
+                        method="POST"
+                    >
+
+
+                        <!-- RATING -->
+
+                        <div class="rating-group">
+
+                            <p>
+                                Rate this food
+                            </p>
+
+
+                            <div class="star-rating">
+
+
+                                <input
+                                    type="radio"
+                                    id="star5"
+                                    name="review[rating]"
+                                    value="5"
+                                    required
+                                >
+
+                                <label for="star5">
+                                    ★
+                                </label>
+
+
+                                <input
+                                    type="radio"
+                                    id="star4"
+                                    name="review[rating]"
+                                    value="4"
+                                >
+
+                                <label for="star4">
+                                    ★
+                                </label>
+
+
+                                <input
+                                    type="radio"
+                                    id="star3"
+                                    name="review[rating]"
+                                    value="3"
+                                >
+
+                                <label for="star3">
+                                    ★
+                                </label>
+
+
+                                <input
+                                    type="radio"
+                                    id="star2"
+                                    name="review[rating]"
+                                    value="2"
+                                >
+
+                                <label for="star2">
+                                    ★
+                                </label>
+
+
+                                <input
+                                    type="radio"
+                                    id="star1"
+                                    name="review[rating]"
+                                    value="1"
+                                >
+
+                                <label for="star1">
+                                    ★
+                                </label>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- COMMENT -->
+
+                        <div class="comment-group">
+
+                            <label for="reviewComment">
+
+                                Your Review
+
+                            </label>
+
+
+                            <textarea
+                                id="reviewComment"
+                                name="review[comment]"
+                                placeholder="Tell us what you liked about this food..."
+                                required
+                            ></textarea>
+
+                        </div>
+
+
+                        <button
+                            type="submit"
+                            class="submit-review-btn"
+                        >
+
+                            <i class="fa-solid fa-paper-plane"></i>
+
+                            Submit Review
+
+                        </button>
+
+
+                    </form>
+
+                </div>
+
+
+            <% } else { %>
+
+
+                <div class="login-review-box">
+
+                    <div class="login-review-icon">
+
+                        <i class="fa-solid fa-lock"></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <h3>
+                            Want to share your experience?
+                        </h3>
+
+                        <p>
+                            Login to write a review.
+                        </p>
+
+                    </div>
+
+
+                    <a href="/login">
+
+                        Login
+
+                    </a>
+
+                </div>
+
+
+            <% } %>
+
+
+
+            <!-- ALL REVIEWS -->
+
+            <div class="reviews-list">
+
+
+                <% if (listing.reviews && listing.reviews.length > 0) { %>
+
+
+                    <% listing.reviews.forEach(review => { %>
+
+                        <article class="review-card">
+
+
+                            <div class="review-top">
+
+                                <div class="review-user">
+
+                                    <div class="user-avatar">
+
+                                        <i class="fa-solid fa-user"></i>
+
+                                    </div>
+
+
+                                    <div>
+
+                                        <h4>
+                                            Customer
+                                        </h4>
+
+                                        <span>
+                                            Verified Review
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="review-stars">
+
+                                    <% for (let i = 1; i <= 5; i++) { %>
+
+                                        <% if (i <= review.rating) { %>
+
+                                            <span class="filled">
+                                                ★
+                                            </span>
 
                                         <% } else { %>
 
-                                            <div class="login-message">
+                                            <span>
+                                                ☆
+                                            </span>
 
-                                                Please Login to Write Review
+                                        <% } %>
 
-                                            </div>
+                                    <% } %>
 
-                                            <% } %>
+                                </div>
+
+                            </div>
+
+
+                            <p class="review-comment">
+
+                                <%= review.comment %>
+
+                            </p>
+
+
+                        </article>
+
+                    <% }) %>
+
+
+                <% } else { %>
+
+
+                    <div class="no-review">
+
+                        <div class="no-review-icon">
+
+                            <i class="fa-regular fa-star"></i>
+
+                        </div>
+
+
+                        <h3>
+                            No reviews yet
+                        </h3>
+
+                        <p>
+                            Be the first person to review this food!
+                        </p>
+
+                    </div>
+
+
+                <% } %>
+
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =========================
+             RELATED MENU
+        ========================== -->
+
+        <section class="related-section">
+
+
+            <div class="section-heading related-heading">
+
+                <div>
+
+                    <span class="section-tag">
+
+                        MORE DELICIOUS OPTIONS
+
+                    </span>
+
+                    <h2>
+
+                        You may also like
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <div class="related-container">
+
+
+                <% if (relatedListings && relatedListings.length > 0) { %>
+
+
+                    <% relatedListings.forEach(item => { %>
+
+
+                        <a
+                            href="/listings/<%= item._id %>"
+                            class="related-card-link"
+                        >
+
+                            <article class="related-card">
+
+
+                                <div class="related-image-box">
+
+                                    <img
+                                        src="<%= item.image.url %>"
+                                        alt="<%= item.title %>"
+                                        class="related-img"
+                                    >
 
                                 </div>
 
 
-                                <h2 class="all-review-title">
-
-                                    Customer Reviews
-
-                                </h2>
-
-                                <% if(listing.reviews.length){ %>
-
-                                    <% listing.reviews.forEach(review=>{ %>
-
-                                        <div class="review-card">
-
-                                            <div class="review-stars">
-
-                                                <% for(let i=1;i<=5;i++){ %>
-
-                                                    <% if(i<=review.rating){ %>
-
-                                                        <span class="filled">★</span>
-
-                                                        <% }else{ %>
-
-                                                            <span>☆</span>
-
-                                                            <% } %>
-
-                                                                <% } %>
-
-                                            </div>
-
-                                            <p class="review-comment">
-
-                                                <%= review.comment %>
-
-                                            </p>
-
-                                        </div>
-
-                                        <% }) %>
-
-                                            <% }else{ %>
-
-                                                <p class="no-review">
-
-                                                    No Reviews Yet.
-
-                                                </p>
-
-                                                <% } %>
-                                                
-                                <h2 class="related-title">Related Menu 🍔</h2>
-                                <!-- <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-4 mt-3"> -->
+                                <div class="related-body">
 
 
-                                <div class="related-container">
+                                    <h3>
 
-                                    <% relatedListings.forEach(item=> { %>
+                                        <%= item.title %>
 
-                                        <a href="/listings/<%= item._id %>" class="related-card-link">
-
-                                            <div class="related-card">
-
-                                                <img src="<%= item.image.url %>" class="related-img">
-
-                                                <div class="related-body">
-
-                                                    <h5>
-                                                        <%= item.title %>
-                                                    </h5>
-
-                                                    <p>₹ <%= item.price.toLocaleString("en-IN") %>
-                                                    </p>
-
-                                                </div>
+                                    </h3>
 
 
-                                            </div>
-                                            <!-- </div> -->
+                                    <p>
 
-                                        </a>
+                                        <%= item.description %>
 
-                                        <% }) %>
+                                    </p>
+
+
+                                    <div class="related-bottom">
+
+                                        <span class="related-price">
+
+                                            ₹<%= item.halfPrice ? item.halfPrice.toLocaleString("en-IN") : item.price.toLocaleString("en-IN") %>
+
+                                        </span>
+
+
+                                        <span class="view-food">
+
+                                            View
+
+                                            <i class="fa-solid fa-arrow-right"></i>
+
+                                        </span>
+
+                                    </div>
+
 
                                 </div>
-                                <hr><br><br>
-                                                    <footer>
-                                                        <div class="f-info">
-                                                            <div class="f-info-socials">
-                                                                <a <i href="https://www.facebook.com/share/19nyENzRAD/"
-                                                                    class="fa-brands fa-facebook"
-                                                                    style="font-size: 24px ;"></i>&nbsp; &nbsp; &nbsp;
-                                                                </a>
-                                                                <a <i
-                                                                    href="https://www.instagram.com/invites/contact/?utm_source=ig_contact_invite&utm_medium=copy_link&utm_content=qpexvi5"
-                                                                    class="fa-brands fa-square-instagram"
-                                                                    style="font-size: 24px ;"></i>&nbsp; &nbsp;&nbsp;
-                                                                </a>
-                                                                <a <i
-                                                                    href="https://youtube.com/@ankurkumar-3?si=JRHq2H5lawvXVejf "
-                                                                    class="fa-brands fa-youtube"
-                                                                    style="font-size: 24px ;"></i></a>
 
-                                                            </div>
-                                                            <div>
-                                                                <p> <i class="fa-solid fa-phone-volume"></i> +91
-                                                                    7667880272</p>
-                                                                <p> <i class="fa-solid fa-envelope"></i>
-                                                                    ankurkumar89632@gmail.com</p>
-                                                            </div>
-                                                            <div class="f-info-brand"> &copy; Wanderlust Private Limited
-                                                            </div>
 
-                                                            <div class="f-info-links">
-                                                                <a href="/policy">Privacy</a>&nbsp;
-                                                                <a href="/term">Terms</a>
-                                                                <a href="/listings/<%= listing._id %>/edit">edit</a>
-                                                                <!-- <a href="/adminLogin.ejs">---</a> -->
-                                                                <a href="<%= isAdmin ? '/admin/dashboard' : '/admin' %>">
-                                                                              Admin
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                    </footer>
+                            </article>
 
-                                                    <script>
+                        </a>
 
-const halfBtn = document.getElementById("halfBtn");
-const fullBtn = document.getElementById("fullBtn");
 
-const foodPrice = document.getElementById("foodPrice");
+                    <% }) %>
 
-const variation = document.getElementById("variation");
-const selectedPrice = document.getElementById("selectedPrice");
 
-halfBtn.addEventListener("click", () => {
+                <% } else { %>
 
-    foodPrice.innerHTML = "₹<%= listing.halfPrice.toLocaleString('en-IN') %>";
+                    <p class="empty-related">
 
-    variation.value = "Half";
-    selectedPrice.value = "<%= listing.halfPrice %>";
+                        More delicious food coming soon!
 
-    halfBtn.classList.remove("btn-outline-danger");
-    halfBtn.classList.add("btn-danger");
+                    </p>
 
-    fullBtn.classList.remove("btn-danger");
-    fullBtn.classList.add("btn-outline-danger");
+                <% } %>
 
-});
 
-fullBtn.addEventListener("click", () => {
+            </div>
 
-    foodPrice.innerHTML = "₹<%= listing.fullPrice.toLocaleString('en-IN') %>";
+        </section>
 
-    variation.value = "Full";
-    selectedPrice.value = "<%= listing.fullPrice %>";
 
-    fullBtn.classList.remove("btn-outline-danger");
-    fullBtn.classList.add("btn-danger");
-
-    halfBtn.classList.remove("btn-danger");
-    halfBtn.classList.add("btn-outline-danger");
-
-});
-halfBtn.addEventListener("click", () => {
-    halfBtn.classList.add("active");
-    fullBtn.classList.remove("active");
-});
-
-fullBtn.addEventListener("click", () => {
-    fullBtn.classList.add("active");
-    halfBtn.classList.remove("active");
-});
+    </main>
 
 
 
-</script>
+    <!-- FOOTER -->
+
+    <%- include("../partials/footer") %>
+
+
+
+    <!-- =========================
+         JAVASCRIPT
+    ========================== -->
+
+    <script>
+
+        const halfBtn = document.getElementById("halfBtn");
+        const fullBtn = document.getElementById("fullBtn");
+
+        const foodPrice = document.getElementById("foodPrice");
+
+        const variation = document.getElementById("variation");
+
+        const selectedPrice =
+            document.getElementById("selectedPrice");
+
+
+        /* HALF */
+
+        halfBtn.addEventListener("click", () => {
+
+            foodPrice.innerHTML =
+                "₹<%= listing.halfPrice.toLocaleString('en-IN') %>";
+
+            variation.value = "Half";
+
+            selectedPrice.value =
+                "<%= listing.halfPrice %>";
+
+            halfBtn.classList.add("active");
+
+            fullBtn.classList.remove("active");
+
+        });
+
+
+
+        /* FULL */
+
+        fullBtn.addEventListener("click", () => {
+
+            foodPrice.innerHTML =
+                "₹<%= listing.fullPrice.toLocaleString('en-IN') %>";
+
+            variation.value = "Full";
+
+            selectedPrice.value =
+                "<%= listing.fullPrice %>";
+
+            fullBtn.classList.add("active");
+
+            halfBtn.classList.remove("active");
+
+        });
+
+    </script>
+
 
 </body>
 

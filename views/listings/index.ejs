@@ -122,6 +122,26 @@ About
                     <div class="card-body">
 
                         <h5 class="card-title"><%= listing.title %></h5>
+                       
+<%
+    let highestRating = null;
+
+    if (listing.reviews && listing.reviews.length > 0) {
+        highestRating = Math.max(
+            ...listing.reviews.map(review => Number(review.rating))
+        );
+    }
+%>
+
+<div class="food-rating">
+    <i class="fa-solid fa-star"></i>
+
+    <span>
+        <%= highestRating !== null ? highestRating : "New" %>
+    </span>
+</div>
+
+                        
 
                      <div class="size-buttons">
 

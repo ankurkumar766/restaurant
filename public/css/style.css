@@ -285,8 +285,26 @@ background:#f6f6f6;
     background:#dc3545;
     color:#fff;
 }
+/* ================= REVIEW RATING CARD ================= */
 
+.food-rating {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    margin: 6px 0 10px;
+}
 
+.food-rating i {
+    color: #ffc107;
+    font-size: 16px;
+}
+
+.food-rating span {
+    font-size: 14px;
+    font-weight: 700;
+    color: #333;
+}
 /* ================= Mobile Responsive ================= */
 
 @media (max-width:768px){

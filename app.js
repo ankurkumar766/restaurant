@@ -126,9 +126,14 @@ app.use("/cart", cartRoutes);
 // =========================================================
 // Routes
 // =========================================================
+
 app.get("/", async (req, res) => {
-  const allListings = await Listing.find({});
+
+  const allListings = await Listing.find({})
+    .populate("reviews");
+
   res.render("listings/index.ejs", { allListings });
+
 });
 
 // =========================================================
