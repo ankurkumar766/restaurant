@@ -462,6 +462,7 @@ app.get("/listings/:id/edit", async (req, res) => {
 });
 app.use("/admin", adminRoutes);
 
+
 // Updated route with file upload
 app.put("/listings/:id", upload.single("image"), async (req, res) => {
   const { id } = req.params;

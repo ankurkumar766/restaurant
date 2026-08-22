@@ -6,12 +6,18 @@ const User = require("../models/user");
 const Listing = require("../models/listing");
 const Review = require("../models/review");
 const Order = require("../models/order");
+
 const sendEmail = require("../utils/sendEmail");
 
 router.get("/", (req, res) => {
 
-    res.render("admin/adminLogin");
+    // Agar pehle se admin login hai
+    if (req.session.isAdmin) {
+        return res.redirect("/admin/dashboard");
+    }
 
+    // Agar login nahi hai
+    res.render("admin/adminLogin");
 });
 
 
@@ -225,6 +231,12 @@ router.get("/menu", async (req, res) => {
 
     });
 
+});
+
+router.get("/edit", async (req, res) => {
+    const listings = await Listing.find({});
+
+    res.render("listings/edit-listings.ejs", { listings });
 });
 router.get("/reviews", async (req, res) => {
 
