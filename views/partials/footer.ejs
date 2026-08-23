@@ -161,25 +161,20 @@
                 <div class="footer-line"></div>
 
 
-                <a href="/listings">
-
-                    <i class="fa-solid fa-chevron-right"></i>
-
-                    Explore Menu
-
-                </a>
+               
 
 
-                <a href="/cart">
+               <a href="<%= currentUser ? '/cart' : '/signup' %>">
 
-                    <i class="fa-solid fa-chevron-right"></i>
+             <i class="fa-solid fa-chevron-right"></i>
 
-                    My Cart
+                My Cart
 
-                </a>
+                 </a>
 
 
-                <a href="/orders">
+                
+                     <a href="<%= currentUser ? '/orders' : '/signup' %>">
 
                     <i class="fa-solid fa-chevron-right"></i>
 
@@ -188,7 +183,8 @@
                 </a>
 
 
-                <a href="/profile">
+                
+                     <a href="<%= currentUser ? '/profile' : '/signup' %>">
 
                     <i class="fa-solid fa-chevron-right"></i>
 

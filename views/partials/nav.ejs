@@ -5,17 +5,17 @@
         <span>Home</span>
     </a>
 
-    <a href="/cart" class="nav-item">
+    <a href="<%= currentUser ? '/cart' : '/signup' %>" class="nav-item">
         <i class="fa-solid fa-cart-shopping"></i>
         <span>Cart</span>
     </a>
 
-    <a href="/my-orders" class="nav-item">
+    <a href="<%= currentUser ? '/my-orders' : '/signup' %>" class="nav-item">
         <i class="fa-solid fa-bag-shopping"></i>
         <span>My Orders</span>
     </a>
 
-    <a href="/profile" class="nav-item">
+    <a href="<%= currentUser ? '/profile' : '/signup' %>" class="nav-item">
         <i class="fa-solid fa-circle-info"></i>
         <span> My Profile</span>
     </a>
