@@ -2,197 +2,730 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Payment page</title>
+    <title>Secure Payment | AR Food</title>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+    <!-- Font Awesome -->
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    >
+
+
+    <!-- Google Font -->
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <!-- CSS -->
+
+    <link rel="stylesheet" href="/css/payment.css">
 
     <link rel="stylesheet" href="/css/footer.css">
+
     <link rel="stylesheet" href="/css/marquee.css">
+
     <link rel="stylesheet" href="/css/address.css">
+
     <link rel="stylesheet" href="/css/nav.css">
-     <link rel="icon" type="image/x-icon" href="/images/rest.png">  
+
+
+    <!-- Favicon -->
+
+    <link
+        rel="icon"
+        type="image/x-icon"
+        href="/images/rest.png"
+    >
+
 </head>
+
 
 <body>
 
+
+    <!-- ================= MARQUEE ================= -->
+
     <%- include("../partials/marquee") %>
 
-        <!-- ================= PAYMENT ================= -->
-        <%- include("../partials/nav") %>
 
-            <div class="payment-section">
+    <!-- ================= NAVBAR ================= -->
 
-                <h2>Choose Payment Method</h2>
+    <%- include("../partials/nav") %>
 
-                <div class="payment-card">
 
-                    <div class="qr-box">
 
-                        <img src="/css/images/qr.jpg" class="qr">
+    <!-- ================= PAGE HEADER ================= -->
+
+    <section class="payment-hero">
+
+        <div class="payment-hero-content">
+
+            <div class="secure-badge">
+
+                <i class="fa-solid fa-shield-halved"></i>
+
+                Secure Checkout
+
+            </div>
+
+
+            <h1>
+
+                Complete Your
+
+                <span>Order</span>
+
+            </h1>
+
+
+            <p>
+
+                Choose your preferred payment method and
+                complete your delicious order.
+
+            </p>
+
+
+            <div class="checkout-steps">
+
+                <div class="step completed">
+
+                    <div class="step-number">
+
+                        <i class="fa-solid fa-check"></i>
 
                     </div>
 
-                    <div class="upi-details">
+                    <span>Cart</span>
 
-                        <h3>Scan & Pay</h3>
+                </div>
 
-                        <p><b>UPI ID</b></p>
 
-                        <div class="upi-id">
+                <div class="step-line active-line"></div>
 
-                            7667880272-2@ybl
+
+                <div class="step completed">
+
+                    <div class="step-number">
+
+                        <i class="fa-solid fa-check"></i>
+
+                    </div>
+
+                    <span>Details</span>
+
+                </div>
+
+
+                <div class="step-line active-line"></div>
+
+
+                <div class="step active">
+
+                    <div class="step-number">
+                        3
+                    </div>
+
+                    <span>Payment</span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ================= MAIN PAYMENT ================= -->
+
+    <main class="payment-main">
+
+        <div class="container">
+
+
+            <div class="checkout-layout">
+
+
+                <!-- ================================= -->
+                <!-- LEFT SIDE : PAYMENT -->
+                <!-- ================================= -->
+
+                <div class="payment-left">
+
+
+
+                    <!-- PAYMENT CARD -->
+
+                    <div class="checkout-card payment-method-card">
+
+
+                        <div class="card-heading">
+
+                            <div class="heading-icon">
+
+                                <i class="fa-solid fa-wallet"></i>
+
+                            </div>
+
+
+                            <div>
+
+                                <span>Payment Method</span>
+
+                                <h2>Scan & Pay Securely</h2>
+
+                            </div>
 
                         </div>
 
-                        <div class="payment-buttons">
 
-                            <button type="button" class="pay-btn phonepe" onclick="openPhonePe()">
 
-                               <i class="fa-solid fa-mobile-screen-button"></i>
-                                        PhonePe
+                        <div class="payment-content">
 
-                            </button>
 
-                            <button type="button" class="pay-btn whatsapp" onclick="openWhatsApp()">
+                            <!-- QR -->
 
-                                <i class="fa-brands fa-whatsapp"></i>
+                            <div class="qr-box">
 
-                                WhatsApp
+                                <div class="qr-header">
 
-                            </button>
+                                    <i class="fa-solid fa-qrcode"></i>
+
+                                    Scan QR Code
+
+                                </div>
+
+
+                                <div class="qr-image-wrapper">
+
+                                    <img
+                                        src="/css/images/qr.jpg"
+                                        class="qr"
+                                        alt="UPI QR Code"
+                                    >
+
+                                </div>
+
+
+                                <p>
+
+                                    Open any UPI app and scan
+                                    this QR code
+
+                                </p>
+
+                            </div>
+
+
+
+                            <!-- UPI DETAILS -->
+
+                            <div class="upi-details">
+
+
+                                <div class="upi-label">
+
+                                    <i class="fa-solid fa-bolt"></i>
+
+                                    Quick & Secure Payment
+
+                                </div>
+
+
+                                <h3>
+
+                                    Pay Using UPI
+
+                                </h3>
+
+
+                                <p class="upi-text">
+
+                                    Send payment directly using
+                                    the UPI ID below.
+
+                                </p>
+
+
+
+                                <!-- UPI ID -->
+
+                                <div class="upi-id-box">
+
+                                    <div>
+
+                                        <span>Your UPI ID</span>
+
+                                        <strong>
+
+                                            7667880272-2@ybl
+
+                                        </strong>
+
+                                    </div>
+
+
+                                    <button
+                                        type="button"
+                                        class="copy-upi"
+                                        onclick="copyUPI()"
+                                    >
+
+                                        <i class="fa-regular fa-copy"></i>
+
+                                    </button>
+
+                                </div>
+
+
+
+                                <!-- PAYMENT BUTTONS -->
+
+                                <div class="payment-buttons">
+
+
+                                    <button
+                                        type="button"
+                                        class="pay-btn phonepe"
+                                        onclick="openPhonePe()"
+                                    >
+
+                                        <i class="fa-solid fa-mobile-screen-button"></i>
+
+                                        <span>
+
+                                            Pay with
+
+                                            <strong>PhonePe</strong>
+
+                                        </span>
+
+                                    </button>
+
+
+
+                                    <button
+                                        type="button"
+                                        class="pay-btn whatsapp"
+                                        onclick="openWhatsApp()"
+                                    >
+
+                                        <i class="fa-brands fa-whatsapp"></i>
+
+                                        <span>
+
+                                            Send Screenshot
+
+                                            <strong>WhatsApp</strong>
+
+                                        </span>
+
+                                    </button>
+
+
+                                </div>
+
+
+
+                                <!-- UPLOAD -->
+
+                                <a
+                                    href="https://forms.gle/r5UYrCbEHFmVqCTY6"
+                                    target="_blank"
+                                    class="upload-btn"
+                                >
+
+                                    <i class="fa-solid fa-cloud-arrow-up"></i>
+
+                                    Upload Payment Screenshot
+
+                                </a>
+
+
+                                <div class="payment-security">
+
+                                    <i class="fa-solid fa-lock"></i>
+
+                                    <span>
+
+                                        Your payment information
+                                        is kept secure.
+
+                                    </span>
+
+                                </div>
+
+
+                            </div>
+
 
                         </div>
 
-                        <a href="https://forms.gle/r5UYrCbEHFmVqCTY6" target="_blank" class="upload-btn">
+                    </div>
 
-                            <i class="fa-solid fa-upload"></i>
 
-                            Upload Screenshot
 
-                        </a>
+                    <!-- PAYMENT NOTE -->
+
+                    <div class="payment-note">
+
+                        <div class="note-icon">
+
+                            <i class="fa-solid fa-circle-info"></i>
+
+                        </div>
+
+
+                        <div>
+
+                            <strong>Payment Screenshot</strong>
+
+                            <p>
+
+                                After completing your UPI payment,
+                                you can upload the screenshot using
+                                the button above or send it directly
+                                through WhatsApp.
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+
+                </div>
+
+
+
+                <!-- ================================= -->
+                <!-- RIGHT SIDE : ORDER -->
+                <!-- ================================= -->
+
+                <div class="payment-right">
+
+
+                    <div class="checkout-card order-card">
+
+
+                        <div class="card-heading">
+
+                            <div class="heading-icon order-icon">
+
+                                <i class="fa-solid fa-bag-shopping"></i>
+
+                            </div>
+
+
+                            <div>
+
+                                <span>Your Order</span>
+
+                                <h2>Order Summary</h2>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <form id="orderForm">
+
+
+                            <!-- Hidden Inputs -->
+
+                            <input
+                                type="hidden"
+                                name="access_key"
+                                value="1f937280-f43a-482b-b121-466444023e0f"
+                            >
+
+
+                            <input
+                                type="hidden"
+                                name="orderData"
+                                id="orderData"
+                            >
+
+
+                            <input
+                                type="hidden"
+                                name="total"
+                                id="totalAmount"
+                            >
+
+
+
+                            <!-- ORDER SUMMARY -->
+
+                            <div class="form-group">
+
+                                <label>
+
+                                    <i class="fa-solid fa-receipt"></i>
+
+                                    Your Items
+
+                                </label>
+
+
+                                <div id="order-summary">
+
+                                    <!-- JS se automatically fill hoga -->
+
+                                </div>
+
+                            </div>
+
+
+
+                            <!-- CUSTOMER DETAILS -->
+
+                            <div class="customer-section">
+
+                                <h3>
+
+                                    <i class="fa-solid fa-user"></i>
+
+                                    Customer Details
+
+                                </h3>
+
+
+                                <div class="form-group">
+
+                                    <label>
+
+                                        Full Name
+
+                                    </label>
+
+
+                                    <div class="input-wrapper">
+
+                                        <i class="fa-solid fa-user"></i>
+
+                                        <input
+                                            type="text"
+                                            name="name"
+                                            placeholder="Enter your full name"
+                                            required
+                                        >
+
+                                    </div>
+
+                                </div>
+
+
+
+                                <!-- Hidden Phone -->
+
+                                <input
+                                    type="hidden"
+                                    name="phone"
+                                    value="<%= currentUser.address.phone %>"
+                                >
+
+
+                                <!-- Hidden Address -->
+
+                                <input
+                                    type="hidden"
+                                    name="address"
+                                    value="<%= currentUser.address.addressLine %>"
+                                >
+
+
+                            </div>
+
+
+
+                            <!-- PAYMENT METHOD -->
+
+                            <div class="form-group payment-select-group">
+
+                                <label>
+
+                                    <i class="fa-solid fa-credit-card"></i>
+
+                                    Select Payment Method
+
+                                </label>
+
+
+                                <div class="select-wrapper">
+
+                                    <i class="fa-solid fa-wallet"></i>
+
+                                    <select
+                                        name="paymentMethod"
+                                        id="paymentMethod"
+                                        required
+                                    >
+
+                                        <option value="">
+
+                                            Select Payment Method
+
+                                        </option>
+
+
+                                        <option value="Cash on Delivery">
+
+                                            💵 Cash on Delivery
+
+                                        </option>
+
+
+                                        <option value="UPI">
+
+                                            ⚡ UPI Payment
+
+                                        </option>
+
+                                    </select>
+
+
+                                    <i class="fa-solid fa-chevron-down arrow"></i>
+
+                                </div>
+
+                            </div>
+
+
+
+                            <!-- GRAND TOTAL -->
+
+                            <div class="grand-total">
+
+                                <div>
+
+                                    <span>
+
+                                        Total Amount
+
+                                    </span>
+
+
+                                    <small>
+
+                                        Including all charges
+
+                                    </small>
+
+                                </div>
+
+
+                                <h3>
+
+                                    ₹<span id="grandTotal">0</span>
+
+                                </h3>
+
+                            </div>
+
+
+
+                            <!-- ORDER BUTTON -->
+
+                            <button
+                                type="submit"
+                                class="order-btn"
+                            >
+
+                                <span>
+
+                                    <i class="fa-solid fa-bag-shopping"></i>
+
+                                    Place Order
+
+                                </span>
+
+
+                                <i class="fa-solid fa-arrow-right"></i>
+
+                            </button>
+
+
+                            <div class="order-secure">
+
+                                <i class="fa-solid fa-shield-halved"></i>
+
+                                Safe & Secure Order
+
+                            </div>
+
+
+                        </form>
+
 
                     </div>
 
                 </div>
 
-            </div>
-           <h4 class="payment-note">
-    You can also upload your payment screenshot on WhatsApp
-</h4>
-
-            <hr>
-
-            <!-- ================= ORDER DETAILS ================= -->
-
-            <div class="order-section">
-
-                <h2>Order Details</h2>
-
-                <form id="orderForm">
-
-                    <input type="hidden" name="access_key" value="1f937280-f43a-482b-b121-466444023e0f">
-
-                    <input type="hidden" name="orderData" id="orderData">
-
-                    <input type="hidden" name="total" id="totalAmount">
-
-                    <div class="form-group">
-
-                        <label>Your Order</label>
-
-                        <div id="order-summary">
-
-                            <!-- JS se automatically fill hoga -->
-
-                        </div>
-
-                    </div>
-
-                    <!-- ================= CUSTOMER DETAILS ================= -->
-
-                    <div class="form-group">
-
-                        <label>Full Name</label>
-
-                        <input type="text" name="name" placeholder="Enter Full Name"
-                           
-                            required>
-
-                    </div>
-                    <div class="form-group">
-                       
-                    <input
-    type="hidden"
-    name="phone"
-    value="<%= currentUser.address.phone %>">
-    </div>
-
-<input
-    type="hidden"
-    name="address"
-    value="<%= currentUser.address.addressLine %>">
-
-                  
-                   
-
-                    <!-- ================= PAYMENT METHOD ================= -->
-
-                    <div class="form-group">
-
-                        <label>Payment Method</label>
-
-                        <select name="paymentMethod" required>
-
-                            <option value="">Select Payment Method</option>
-
-                            <option value="Cash on Delivery">
-                                Cash on Delivery
-                            </option>
-
-                            <option value="UPI">
-                                UPI Payment
-                            </option>
-
-                        </select>
-
-                    </div>
-
-                    <!-- ================= TOTAL ================= -->
-
-                    <div class="grand-total">
-
-                        <h3>
-
-                            Total Amount :
-                            <span id="grandTotal">₹0</span>
-
-                        </h3>
-
-                    </div>
-
-                    <!-- ================= PLACE ORDER ================= -->
-
-                    <button type="submit" class="order-btn">
-
-                        <i class="fa-solid fa-bag-shopping"></i>
-
-                        Place Order
-
-                    </button>
-
-                </form>
 
             </div>
 
-            <%- include("../partials/footer") %>
-            <script src="/js/payment.js"></script>
+        </div>
+
+    </main>
 
 
-              
-                
+
+    <!-- ================= FOOTER ================= -->
+
+    <%- include("../partials/footer") %>
+
+
+
+    <!-- ================= COPY UPI ================= -->
+
+    <script>
+
+        function copyUPI() {
+
+            const upiId = "7667880272-2@ybl";
+
+            navigator.clipboard.writeText(upiId);
+
+            const button =
+                document.querySelector(".copy-upi");
+
+            const original =
+                button.innerHTML;
+
+            button.innerHTML =
+                '<i class="fa-solid fa-check"></i>';
+
+            setTimeout(() => {
+
+                button.innerHTML = original;
+
+            }, 1500);
+
+        }
+
+    </script>
+
+
+
+    <!-- PAYMENT JS -->
+
+    <script src="/js/payment.js"></script>
+
 
 </body>
 
