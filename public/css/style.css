@@ -1,5 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
-
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap");
 
 /* ================= RESET ================= */
 
@@ -11,6 +10,7 @@
 
 html {
     scroll-behavior: smooth;
+    scroll-padding-top: 90px;
 }
 
 body {
@@ -24,31 +24,35 @@ a {
     text-decoration: none;
 }
 
-
 /* ================= NAVBAR ================= */
 
 .navbar {
-    position: sticky;
+    position: fixed;
     top: 0;
-    z-index: 1000;
+    left: 0;
+    width: 100%;
 
-    background: rgba(255, 255, 255, 0.96);
+    z-index: 9999;
+
+    background: rgba(255, 255, 255, 0.97);
+
     backdrop-filter: blur(15px);
 
     padding: 12px 0;
 
-    box-shadow: 0 6px 30px rgba(0, 0, 0, 0.07);
+    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.08);
+
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .nav-container {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 30px;
+    gap: 25px;
 }
 
-
-/* Logo */
+/* ================= LOGO ================= */
 
 .logo {
     display: flex;
@@ -56,6 +60,7 @@ a {
     gap: 10px;
 
     color: #222;
+    flex-shrink: 0;
 }
 
 .logo-icon {
@@ -78,8 +83,7 @@ a {
 
     font-size: 21px;
 
-    box-shadow:
-        0 8px 20px
+    box-shadow: 0 8px 20px
         rgba(255, 90, 31, 0.35);
 }
 
@@ -99,6 +103,7 @@ a {
     margin-top: 5px;
 
     font-size: 9px;
+
     font-weight: 600;
 
     letter-spacing: 1px;
@@ -106,8 +111,7 @@ a {
     color: #888;
 }
 
-
-/* Search */
+/* ================= SEARCH ================= */
 
 .search-box {
     flex: 1;
@@ -115,6 +119,7 @@ a {
     max-width: 520px;
 
     display: flex;
+
     align-items: center;
 
     padding: 12px 20px;
@@ -133,8 +138,7 @@ a {
 
     border-color: #ff6b00;
 
-    box-shadow:
-        0 10px 30px
+    box-shadow: 0 10px 30px
         rgba(255, 107, 0, 0.15);
 }
 
@@ -153,22 +157,25 @@ a {
     margin-left: 12px;
 
     font-size: 14px;
+
+    color: #222;
 }
 
-
-/* Menu */
+/* ================= MENU ================= */
 
 .menu-items {
     display: flex;
     align-items: center;
+
     gap: 20px;
+
+    flex-shrink: 0;
 }
 
 .menu-items a {
-    position: relative;
-
     display: flex;
     align-items: center;
+
     gap: 6px;
 
     color: #333;
@@ -182,7 +189,6 @@ a {
 .menu-items a:hover {
     color: #ff6b00;
 }
-
 
 /* ================= HERO ================= */
 
@@ -199,52 +205,40 @@ a {
     background-size: cover;
     background-position: center;
 
-    animation:
-        heroSlider
-        15s
-        infinite
-        ease-in-out;
+    animation: heroSlider 15s infinite ease-in-out;
 }
-
-
-/* Background Slider */
 
 @keyframes heroSlider {
 
     0%,
     30% {
-        background-image:
-            url("/images/food1.jfif");
+        background-image: url("/images/food1.jfif");
     }
 
     33%,
     63% {
-        background-image:
-            url("/images/food2.jfif");
+        background-image: url("/images/food2.jfif");
     }
 
     66%,
     100% {
-        background-image:
-            url("/images/food3.jfif");
+        background-image: url("/images/food3.jfif");
     }
 
 }
 
-
 .hero-overlay {
     position: absolute;
+
     inset: 0;
 
-    background:
-        linear-gradient(
-            90deg,
-            rgba(0, 0, 0, 0.85),
-            rgba(0, 0, 0, 0.4),
-            rgba(0, 0, 0, 0.15)
-        );
+    background: linear-gradient(
+        90deg,
+        rgba(0, 0, 0, 0.85),
+        rgba(0, 0, 0, 0.45),
+        rgba(0, 0, 0, 0.15)
+    );
 }
-
 
 .hero-content {
     position: relative;
@@ -256,10 +250,11 @@ a {
     max-width: 850px;
 }
 
-
 .hero-badge {
     display: inline-flex;
+
     align-items: center;
+
     gap: 8px;
 
     padding: 9px 18px;
@@ -268,24 +263,19 @@ a {
 
     border-radius: 50px;
 
-    background:
-        rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.15);
 
-    border:
-        1px solid
+    border: 1px solid
         rgba(255, 255, 255, 0.3);
 
     backdrop-filter: blur(10px);
 
     font-size: 13px;
-
-    color: #fff;
 }
 
 .hero-badge i {
     color: #ff9d00;
 }
-
 
 .hero-content h1 {
     font-size: clamp(
@@ -299,8 +289,6 @@ a {
     line-height: 1.1;
 
     margin-bottom: 20px;
-
-    max-width: 800px;
 }
 
 .hero-content h1 span {
@@ -308,7 +296,6 @@ a {
 
     color: #ff9d00;
 }
-
 
 .hero-content p {
     max-width: 620px;
@@ -322,11 +309,11 @@ a {
     margin-bottom: 32px;
 }
 
-
-/* Hero Buttons */
+/* ================= BUTTONS ================= */
 
 .hero-buttons {
     display: flex;
+
     gap: 15px;
 
     margin-bottom: 45px;
@@ -337,6 +324,7 @@ a {
 .btn-order,
 .btn-about {
     display: inline-flex;
+
     align-items: center;
     justify-content: center;
 
@@ -351,46 +339,32 @@ a {
     transition: 0.3s;
 }
 
-
 .btn-order {
-    background:
-        linear-gradient(
-            135deg,
-            #ff5a1f,
-            #ff9d00
-        );
+    background: linear-gradient(
+        135deg,
+        #ff5a1f,
+        #ff9d00
+    );
 
     color: white;
 
-    box-shadow:
-        0 10px 30px
+    box-shadow: 0 10px 30px
         rgba(255, 107, 0, 0.4);
 }
 
 .btn-order:hover {
     color: white;
 
-    transform:
-        translateY(-4px);
-
-    box-shadow:
-        0 18px 40px
-        rgba(255, 107, 0, 0.5);
+    transform: translateY(-4px);
 }
 
-
 .btn-about {
-    border:
-        1px solid
+    border: 1px solid
         rgba(255, 255, 255, 0.5);
 
     color: white;
 
-    background:
-        rgba(255, 255, 255, 0.08);
-
-    backdrop-filter:
-        blur(8px);
+    background: rgba(255, 255, 255, 0.08);
 }
 
 .btn-about:hover {
@@ -398,11 +372,11 @@ a {
     color: #222;
 }
 
-
-/* Hero Features */
+/* ================= HERO FEATURES ================= */
 
 .hero-features {
     display: flex;
+
     gap: 30px;
 
     flex-wrap: wrap;
@@ -410,10 +384,13 @@ a {
 
 .hero-features div {
     display: flex;
+
     align-items: center;
+
     gap: 9px;
 
     font-size: 14px;
+
     font-weight: 600;
 }
 
@@ -423,21 +400,21 @@ a {
     font-size: 20px;
 }
 
-
-/* Slider Indicators */
+/* ================= SLIDER ================= */
 
 .slider-indicators {
     position: absolute;
 
     bottom: 30px;
+
     left: 50%;
 
-    transform:
-        translateX(-50%);
+    transform: translateX(-50%);
 
     z-index: 3;
 
     display: flex;
+
     gap: 8px;
 }
 
@@ -447,8 +424,7 @@ a {
 
     border-radius: 50%;
 
-    background:
-        rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.5);
 }
 
 .slider-indicators .active {
@@ -459,49 +435,41 @@ a {
     background: #ff9d00;
 }
 
-
 /* ================= MENU ================= */
 
 .menu-section {
-    padding:
-        100px 0;
+    padding: 100px 0;
 }
-
-
-/* Section Heading */
 
 .section-heading {
     text-align: center;
 
     max-width: 700px;
 
-    margin:
-        0 auto
-        60px;
+    margin: 0 auto 60px;
 }
-
 
 .section-tag {
     display: inline-flex;
+
     align-items: center;
+
     gap: 7px;
 
-    padding:
-        8px 16px;
+    padding: 8px 16px;
 
     border-radius: 50px;
 
-    background:
-        #fff1e8;
+    background: #fff1e8;
 
     color: #ff6b00;
 
     font-size: 12px;
+
     font-weight: 700;
 
     margin-bottom: 15px;
 }
-
 
 .section-heading h2 {
     font-size: 44px;
@@ -515,7 +483,6 @@ a {
     color: #ff6b00;
 }
 
-
 .section-heading p {
     color: #777;
 
@@ -523,7 +490,6 @@ a {
 
     line-height: 1.7;
 }
-
 
 /* ================= FOOD CARD ================= */
 
@@ -536,24 +502,18 @@ a {
 
     overflow: hidden;
 
-    box-shadow:
-        0 8px 30px
+    box-shadow: 0 8px 30px
         rgba(0, 0, 0, 0.07);
 
     transition: 0.35s ease;
 }
 
 .food-card:hover {
-    transform:
-        translateY(-10px);
+    transform: translateY(-10px);
 
-    box-shadow:
-        0 25px 50px
+    box-shadow: 0 25px 50px
         rgba(0, 0, 0, 0.13);
 }
-
-
-/* Food Image */
 
 .food-image {
     position: relative;
@@ -573,25 +533,20 @@ a {
 }
 
 .food-card:hover .food-image img {
-    transform:
-        scale(1.1);
+    transform: scale(1.08);
 }
-
 
 .food-image-overlay {
     position: absolute;
+
     inset: 0;
 
-    background:
-        linear-gradient(
-            to top,
-            rgba(0, 0, 0, 0.3),
-            transparent
-        );
+    background: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0.3),
+        transparent
+    );
 }
-
-
-/* Rating */
 
 .rating-badge {
     position: absolute;
@@ -599,36 +554,28 @@ a {
     top: 15px;
     left: 15px;
 
+    z-index: 2;
+
     display: flex;
+
     align-items: center;
+
     gap: 5px;
 
-    padding:
-        7px 12px;
+    padding: 7px 12px;
 
     border-radius: 50px;
 
-    background:
-        rgba(255, 255, 255, 0.92);
-
-    backdrop-filter:
-        blur(8px);
+    background: rgba(255, 255, 255, 0.92);
 
     font-size: 13px;
 
     font-weight: 700;
-
-    color: #222;
-
-    z-index: 2;
 }
 
 .rating-badge i {
     color: #ffb400;
 }
-
-
-/* Card Body */
 
 .food-body {
     padding: 22px;
@@ -639,30 +586,14 @@ a {
 
     font-weight: 700;
 
-    margin-bottom: 8px;
+    margin-bottom: 15px;
 
     color: #222;
 }
 
-
-.food-desc {
-    color: #888;
-
-    font-size: 13px;
-
-    line-height: 1.6;
-
-    margin-bottom: 18px;
-}
-
-
-/* Size */
+/* ================= SIZE ================= */
 
 .size-title {
-    display: flex;
-
-    justify-content: space-between;
-
     font-size: 12px;
 
     color: #777;
@@ -672,6 +603,7 @@ a {
 
 .size-buttons {
     display: flex;
+
     gap: 10px;
 
     margin-bottom: 18px;
@@ -684,15 +616,14 @@ a {
 
     border-radius: 12px;
 
-    border:
-        1.5px solid
-        #e5e5e5;
+    border: 1.5px solid #e5e5e5;
 
     background: white;
 
     color: #555;
 
     font-size: 13px;
+
     font-weight: 600;
 
     cursor: pointer;
@@ -702,28 +633,26 @@ a {
 
 .size-btn:hover {
     border-color: #ff6b00;
+
     color: #ff6b00;
 }
 
 .size-btn.active {
-    background:
-        linear-gradient(
-            135deg,
-            #ff5a1f,
-            #ff8a00
-        );
+    background: linear-gradient(
+        135deg,
+        #ff5a1f,
+        #ff8a00
+    );
 
     border-color: transparent;
 
     color: white;
 
-    box-shadow:
-        0 7px 15px
+    box-shadow: 0 7px 15px
         rgba(255, 107, 0, 0.2);
 }
 
-
-/* Price */
+/* ================= PRICE ================= */
 
 .price-row {
     display: flex;
@@ -734,9 +663,7 @@ a {
 
     padding-top: 8px;
 
-    border-top:
-        1px solid
-        #eee;
+    border-top: 1px solid #eee;
 }
 
 .price-row small {
@@ -757,16 +684,13 @@ a {
     color: #16a34a;
 }
 
-
-/* Veg Icon */
+/* ================= VEG ================= */
 
 .veg-icon {
     width: 22px;
     height: 22px;
 
-    border:
-        2px solid
-        #16a34a;
+    border: 2px solid #16a34a;
 
     display: flex;
 
@@ -783,8 +707,7 @@ a {
     background: #16a34a;
 }
 
-
-/* Card Actions */
+/* ================= ACTIONS ================= */
 
 .food-actions {
     display: flex;
@@ -798,6 +721,7 @@ a {
     flex: 1;
 
     display: flex;
+
     align-items: center;
     justify-content: center;
 
@@ -812,6 +736,7 @@ a {
     color: #333;
 
     font-size: 13px;
+
     font-weight: 700;
 
     transition: 0.3s;
@@ -822,7 +747,6 @@ a {
 
     color: white;
 }
-
 
 .cart-form {
     margin: 0;
@@ -837,15 +761,15 @@ a {
     border-radius: 12px;
 
     display: flex;
+
     align-items: center;
     justify-content: center;
 
-    background:
-        linear-gradient(
-            135deg,
-            #ff5a1f,
-            #ff9d00
-        );
+    background: linear-gradient(
+        135deg,
+        #ff5a1f,
+        #ff9d00
+    );
 
     color: white;
 
@@ -857,29 +781,112 @@ a {
 }
 
 .cart-btn:hover {
-    transform:
-        translateY(-3px);
+    color: white;
 
-    box-shadow:
-        0 10px 20px
+    transform: translateY(-3px);
+
+    box-shadow: 0 10px 20px
         rgba(255, 107, 0, 0.35);
 }
 
+/* ================= HIDDEN MENU ================= */
 
-/* ================= WHY SECTION ================= */
-
-.why-section {
-    padding:
-        100px 0;
-
-    background:
-        linear-gradient(
-            135deg,
-            #fff7f2,
-            #fff
-        );
+.hidden-menu {
+    display: none !important;
 }
 
+.show-menu {
+    display: block !important;
+
+    animation: showMenu 0.45s ease;
+}
+
+@keyframes showMenu {
+
+    from {
+        opacity: 0;
+        transform: translateY(25px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+/* ================= VIEW MORE ================= */
+
+.menu-toggle-wrapper {
+    display: flex;
+
+    justify-content: center;
+
+    margin-top: 55px;
+}
+
+.menu-toggle-btn {
+    border: none;
+
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 10px;
+
+    padding: 15px 30px;
+
+    border-radius: 50px;
+
+    background: linear-gradient(
+        135deg,
+        #ff5a1f,
+        #ff9d00
+    );
+
+    color: white;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+
+.menu-toggle-btn:hover {
+    transform: translateY(-4px);
+}
+
+.no-result {
+    text-align: center;
+
+    padding: 50px 20px;
+
+    color: #777;
+}
+
+.no-result i {
+    font-size: 55px;
+
+    color: #ff6b00;
+
+    margin-bottom: 15px;
+}
+
+/* ================= WHY ================= */
+
+.why-section {
+    padding: 100px 0;
+
+    background: linear-gradient(
+        135deg,
+        #fff7f2,
+        #fff
+    );
+}
 
 .why-card {
     height: 100%;
@@ -892,45 +899,39 @@ a {
 
     border-radius: 25px;
 
-    box-shadow:
-        0 10px 35px
+    box-shadow: 0 10px 35px
         rgba(0, 0, 0, 0.06);
 
     transition: 0.3s;
 }
 
 .why-card:hover {
-    transform:
-        translateY(-8px);
+    transform: translateY(-8px);
 }
-
 
 .why-icon {
     width: 70px;
     height: 70px;
 
-    margin:
-        0 auto
-        20px;
+    margin: 0 auto 20px;
 
     border-radius: 20px;
 
     display: flex;
+
     align-items: center;
     justify-content: center;
 
-    background:
-        linear-gradient(
-            135deg,
-            #ff5a1f,
-            #ff9d00
-        );
+    background: linear-gradient(
+        135deg,
+        #ff5a1f,
+        #ff9d00
+    );
 
     color: white;
 
     font-size: 28px;
 }
-
 
 .why-card h3 {
     font-size: 20px;
@@ -948,16 +949,13 @@ a {
     line-height: 1.7;
 }
 
-
 /* ================= ABOUT ================= */
 
 .about-section {
-    padding:
-        110px 0;
+    padding: 110px 0;
 
     background: white;
 }
-
 
 .about-image {
     position: relative;
@@ -972,39 +970,34 @@ a {
 
     border-radius: 30px;
 
-    box-shadow:
-        0 20px 50px
+    box-shadow: 0 20px 50px
         rgba(0, 0, 0, 0.15);
 }
-
 
 .experience-box {
     position: absolute;
 
     right: -20px;
+
     bottom: 30px;
 
     display: flex;
+
     align-items: center;
+
     gap: 12px;
 
-    padding:
-        20px 25px;
+    padding: 20px 25px;
 
     border-radius: 20px;
 
-    background:
-        linear-gradient(
-            135deg,
-            #ff5a1f,
-            #ff9d00
-        );
+    background: linear-gradient(
+        135deg,
+        #ff5a1f,
+        #ff9d00
+    );
 
     color: white;
-
-    box-shadow:
-        0 15px 35px
-        rgba(255, 107, 0, 0.3);
 }
 
 .experience-box strong {
@@ -1013,9 +1006,9 @@ a {
 
 .experience-box span {
     font-size: 12px;
+
     font-weight: 600;
 }
-
 
 .about-text h2 {
     font-size: 42px;
@@ -1031,7 +1024,6 @@ a {
     color: #ff6b00;
 }
 
-
 .about-text p {
     color: #777;
 
@@ -1040,17 +1032,14 @@ a {
     margin-bottom: 15px;
 }
 
-
 .about-points {
     display: grid;
 
-    grid-template-columns:
-        repeat(2, 1fr);
+    grid-template-columns: repeat(2, 1fr);
 
     gap: 14px;
 
-    margin:
-        25px 0 30px;
+    margin: 25px 0 30px;
 }
 
 .about-points div {
@@ -1079,17 +1068,13 @@ a {
     font-size: 11px;
 }
 
-
 /* ================= ADDRESS ================= */
 
 .address-section {
-    padding:
-        80px 0 110px;
+    padding: 80px 0 110px;
 
-    background:
-        #f7f8fc;
+    background: #f7f8fc;
 }
-
 
 .address-card {
     overflow: hidden;
@@ -1098,11 +1083,9 @@ a {
 
     background: white;
 
-    box-shadow:
-        0 15px 45px
+    box-shadow: 0 15px 45px
         rgba(0, 0, 0, 0.08);
 }
-
 
 .address-info {
     display: flex;
@@ -1111,10 +1094,8 @@ a {
 
     gap: 20px;
 
-    padding:
-        35px;
+    padding: 35px;
 }
-
 
 .address-icon {
     width: 65px;
@@ -1123,23 +1104,22 @@ a {
     flex-shrink: 0;
 
     display: flex;
+
     align-items: center;
     justify-content: center;
 
     border-radius: 20px;
 
-    background:
-        linear-gradient(
-            135deg,
-            #ff5a1f,
-            #ff9d00
-        );
+    background: linear-gradient(
+        135deg,
+        #ff5a1f,
+        #ff9d00
+    );
 
     color: white;
 
     font-size: 26px;
 }
-
 
 .address-info span {
     font-size: 12px;
@@ -1154,8 +1134,7 @@ a {
 
     font-weight: 800;
 
-    margin:
-        5px 0;
+    margin: 5px 0;
 }
 
 .address-info p {
@@ -1164,11 +1143,9 @@ a {
     margin: 0;
 }
 
-
 .map-wrapper iframe {
     display: block;
 }
-
 
 /* ================= AI ASSISTANT ================= */
 
@@ -1176,7 +1153,7 @@ a {
     position: fixed;
 
     right: 25px;
-    bottom: 90px;
+    bottom: 30px;
 
     width: 68px;
     height: 68px;
@@ -1187,19 +1164,14 @@ a {
 
     padding: 4px;
 
-    box-shadow:
-        0 10px 30px
+    box-shadow: 0 10px 30px
         rgba(0, 0, 0, 0.25);
 
     cursor: grab;
 
-    z-index: 9999;
+    z-index: 9998;
 
-    animation:
-        aiFloat
-        2s
-        infinite
-        ease-in-out;
+    animation: aiFloat 2s infinite ease-in-out;
 }
 
 #aiAssistant:active {
@@ -1215,24 +1187,20 @@ a {
     border-radius: 50%;
 }
 
-
 @keyframes aiFloat {
 
     0%,
     100% {
-        transform:
-            translateY(0);
+        transform: translateY(0);
     }
 
     50% {
-        transform:
-            translateY(-8px);
+        transform: translateY(-8px);
     }
 
 }
 
-
-/* ================= MOBILE ================= */
+/* ================= TABLET ================= */
 
 @media (max-width: 991px) {
 
@@ -1245,28 +1213,28 @@ a {
     }
 
     .menu-items {
-        gap: 12px;
+        gap: 14px;
     }
 
     .menu-items a span {
         display: none;
     }
 
+    .search-box {
+        max-width: 350px;
+    }
 
     .hero {
         min-height: 580px;
     }
 
-
     .hero-content h1 {
         font-size: 55px;
     }
 
-
     .section-heading h2 {
         font-size: 38px;
     }
-
 
     .about-image img {
         height: 400px;
@@ -1274,6 +1242,7 @@ a {
 
 }
 
+/* ================= MOBILE ================= */
 
 @media (max-width: 768px) {
 
@@ -1281,11 +1250,11 @@ a {
         padding: 10px 0;
     }
 
-
     .nav-container {
         flex-wrap: wrap;
-    }
 
+        gap: 10px;
+    }
 
     .search-box {
         order: 3;
@@ -1293,21 +1262,32 @@ a {
         width: 100%;
 
         flex-basis: 100%;
+
+        max-width: 100%;
     }
 
+    .logo-text {
+        font-size: 20px;
+    }
+
+    .logo-icon {
+        width: 42px;
+        height: 42px;
+    }
+
+    .menu-items {
+        gap: 14px;
+    }
 
     .hero {
-        min-height: 560px;
+        min-height: 600px;
 
         text-align: center;
     }
 
-
     .hero-overlay {
-        background:
-            rgba(0, 0, 0, 0.62);
+        background: rgba(0, 0, 0, 0.62);
     }
-
 
     .hero-content {
         display: flex;
@@ -1317,16 +1297,13 @@ a {
         align-items: center;
     }
 
-
     .hero-content h1 {
         font-size: 45px;
     }
 
-
     .hero-content p {
         font-size: 15px;
     }
-
 
     .hero-features {
         justify-content: center;
@@ -1334,78 +1311,70 @@ a {
         gap: 18px;
     }
 
-
     .section-heading {
         margin-bottom: 40px;
     }
-
 
     .section-heading h2 {
         font-size: 32px;
     }
 
-
     .food-image {
         height: 210px;
     }
 
+    .food-body {
+        padding: 16px;
+    }
+
+    .card-title {
+        font-size: 17px;
+    }
 
     .about-text h2 {
         font-size: 34px;
     }
 
-
     .experience-box {
+        right: 15px;
+
+        bottom: 20px;
+    }
+
+    .about-points {
+        grid-template-columns: 1fr;
+    }
+
+    .address-info {
+        padding: 25px;
+
+        align-items: flex-start;
+    }
+
+    #aiAssistant {
+        width: 58px;
+        height: 58px;
+
         right: 15px;
         bottom: 20px;
     }
 
-
-    .about-points {
-        grid-template-columns:
-            1fr;
-    }
-
 }
-
 
 @media (max-width: 480px) {
 
-    .logo-text {
-        font-size: 20px;
+    .container {
+        padding-left: 15px;
+        padding-right: 15px;
     }
-
-
-    .logo-icon {
-        width: 42px;
-        height: 42px;
-    }
-
-
-    .menu-items {
-        gap: 14px;
-    }
-
-
-    .hero {
-        min-height: 520px;
-    }
-
 
     .hero-content h1 {
-        font-size: 36px;
+        font-size: 38px;
     }
-
-
-    .hero-content p {
-        font-size: 14px;
-    }
-
 
     .hero-buttons {
         justify-content: center;
     }
-
 
     .btn-order,
     .btn-about {
@@ -1414,65 +1383,51 @@ a {
         font-size: 13px;
     }
 
-
     .hero-features {
-        flex-direction: column;
-
-        align-items: center;
-
-        gap: 10px;
+        font-size: 12px;
     }
 
-
-    .menu-section,
-    .why-section,
-    .about-section {
-        padding:
-            70px 0;
+    .food-image {
+        height: 170px;
     }
 
-
-    .section-heading h2 {
-        font-size: 28px;
+    .card-title {
+        font-size: 15px;
     }
-
 
     .food-body {
-        padding: 18px;
+        padding: 12px;
     }
 
+    .size-btn {
+        padding: 8px 5px;
+
+        font-size: 11px;
+    }
+
+    .price {
+        font-size: 19px;
+    }
+
+    .cart-btn {
+        width: 42px;
+        height: 42px;
+    }
+
+    .view-btn {
+        font-size: 11px;
+    }
 
     .about-image img {
         height: 330px;
     }
 
-
     .experience-box {
-        padding:
-            15px;
+        padding: 15px;
     }
-
-
-    .address-info {
-        align-items: flex-start;
-
-        padding: 25px;
-
-        gap: 15px;
-    }
-
 
     .address-info h2 {
         font-size: 19px;
-    }
-
-
-    #aiAssistant {
-        width: 58px;
-        height: 58px;
-
-        right: 15px;
-        bottom: 75px;
     }
 
 }
