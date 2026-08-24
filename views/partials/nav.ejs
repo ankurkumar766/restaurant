@@ -1,23 +1,35 @@
 <div class="bottom-nav">
 
-    <a href="/" class="nav-item">
+    <a href="/listings" class="nav-item">
         <i class="fa-solid fa-house"></i>
         <span>Home</span>
     </a>
 
-    <a href="<%= currentUser ? '/cart' : '/signup' %>" class="nav-item">
+
+    <a
+        href="<%= currentUser ? '/cart' : '/signup' %>"
+        class="nav-item"
+    >
         <i class="fa-solid fa-cart-shopping"></i>
         <span>Cart</span>
     </a>
 
-    <a href="<%= currentUser ? '/my-orders' : '/signup' %>" class="nav-item">
+
+    <a
+        href="<%= currentUser ? '/my-orders' : '/signup' %>"
+        class="nav-item"
+    >
         <i class="fa-solid fa-bag-shopping"></i>
         <span>My Orders</span>
     </a>
 
-    <a href="<%= currentUser ? '/profile' : '/signup' %>" class="nav-item">
-        <i class="fa-solid fa-circle-info"></i>
-        <span> My Profile</span>
+
+    <a
+        href="<%= currentUser ? '/profile' : '/signup' %>"
+        class="nav-item"
+    >
+        <i class="fa-solid fa-user"></i>
+        <span>My Profile</span>
     </a>
 
 </div>

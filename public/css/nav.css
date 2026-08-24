@@ -1,83 +1,261 @@
-/* ================= DESKTOP ================= */
+/* =========================================
+   SECONDARY NAVIGATION - DESKTOP
+========================================= */
 
-.bottom-nav{
-    position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:65px;
-    background:#fff;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    gap:60px;
-    box-shadow:0 2px 10px rgba(0,0,0,.1);
-    z-index:9999;
-}
+.bottom-nav {
 
-.nav-item{
-    text-decoration:none;
-    color:#444;
-    display:flex;
-    align-items:center;
-    gap:8px;
-    font-size:16px;
-    font-weight:600;
-    transition:.3s;
-}
+    position: fixed;
 
-.nav-item i{
-    font-size:20px;
-}
+    top: 78px;
+    right: 25px;
 
-.nav-item:hover{
-    color:#ff6600;
-}
+    width: auto;
+    height: auto;
 
-/* Desktop me body top se start ho */
-body{
-    padding-top:75px;
-    padding-bottom:0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 6px;
+
+    padding: 6px;
+
+    background: rgba(255, 255, 255, 0.95);
+
+    border: 1px solid rgba(0, 0, 0, 0.06);
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.10);
+
+    z-index: 9998;
+
+    backdrop-filter: blur(10px);
 }
 
 
-/* ================= MOBILE ================= */
+/* NAV ITEM */
 
-@media(max-width:768px){
+.nav-item {
 
-.bottom-nav{
+    position: relative;
 
-    top:auto;
-    bottom:0;
-    left:0;
-    width:100%;
-    height:65px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-    justify-content:space-around;
-    gap:0;
+    gap: 7px;
 
-    border-top:1px solid #ddd;
-    box-shadow:0 -2px 10px rgba(0,0,0,.1);
+    padding: 10px 14px;
+
+    border-radius: 13px;
+
+    text-decoration: none;
+
+    color: #555;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    white-space: nowrap;
+
+    transition: all 0.3s ease;
 }
 
-.nav-item{
 
-    flex-direction:column;
-    gap:3px;
-    font-size:12px;
+.nav-item i {
+
+    font-size: 15px;
+
+    color: #ff6b00;
+
+    transition: 0.3s ease;
 }
 
-.nav-item i{
 
-    font-size:22px;
+/* HOVER */
+
+.nav-item:hover {
+
+    background: linear-gradient(
+        135deg,
+        #ff5a1f,
+        #ff9d00
+    );
+
+    color: white;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 7px 15px rgba(255, 107, 0, 0.25);
+}
+
+
+.nav-item:hover i {
+    color: white;
+}
+
+
+/* ACTIVE */
+
+.nav-item.active {
+
+    background: linear-gradient(
+        135deg,
+        #ff5a1f,
+        #ff9d00
+    );
+
+    color: white;
+
+    box-shadow:
+        0 7px 15px rgba(255, 107, 0, 0.25);
+}
+
+
+.nav-item.active i {
+    color: white;
+}
+
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 1200px) {
+
+    .bottom-nav {
+
+        right: 15px;
+
+        gap: 4px;
+
+    }
+
+
+    .nav-item {
+
+        padding: 9px 10px;
+
+        font-size: 12px;
+
+    }
 
 }
 
-body{
 
-    padding-top:0;
-    padding-bottom:75px;
+/* =========================================
+   MOBILE - BOTTOM NAVIGATION
+========================================= */
 
-}
+@media (max-width: 768px) {
+
+    .bottom-nav {
+
+        position: fixed;
+
+        top: auto;
+        bottom: 0;
+
+        left: 0;
+        right: auto;
+
+        width: 100%;
+        height: 65px;
+
+        display: flex;
+
+        justify-content: space-around;
+        align-items: center;
+
+        gap: 0;
+
+        padding: 0;
+
+        border-radius: 0;
+
+        border: none;
+
+        border-top: 1px solid #e5e5e5;
+
+        background: white;
+
+        box-shadow:
+            0 -5px 20px rgba(0, 0, 0, 0.08);
+
+        z-index: 9999;
+
+    }
+
+
+    .nav-item {
+
+        flex: 1;
+
+        flex-direction: column;
+
+        gap: 4px;
+
+        padding: 8px 3px;
+
+        border-radius: 0;
+
+        background: transparent;
+
+        font-size: 10px;
+
+        color: #777;
+
+    }
+
+
+    .nav-item i {
+
+        font-size: 19px;
+
+    }
+
+
+    .nav-item:hover {
+
+        background: transparent;
+
+        color: #ff6b00;
+
+        transform: none;
+
+        box-shadow: none;
+
+    }
+
+
+    .nav-item:hover i {
+        color: #ff6b00;
+    }
+
+
+    /* MOBILE ACTIVE */
+
+    .nav-item.active {
+
+        background: transparent;
+
+        color: #ff6b00;
+
+        box-shadow: none;
+
+    }
+
+
+    .nav-item.active i {
+        color: #ff6b00;
+    }
+
+
+    body {
+        padding-bottom: 75px;
+    }
 
 }

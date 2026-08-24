@@ -44,6 +44,7 @@
         rel="stylesheet"
         href="/css/marquee.css"
     >
+     <link rel="stylesheet" href="/css/nav.css">
 
     <!-- PWA -->
     <link
@@ -72,81 +73,86 @@
     <!-- ================= MARQUEE ================= -->
 
     <%- include("../partials/marquee") %>
+    
+    
 
 
   <body>
 
-    <!-- MAIN NAVBAR : HAMESHA VISIBLE -->
-    <nav class="navbar">
+   <!-- MAIN NAVBAR : HAMESHA VISIBLE -->
 
-        <div class="container nav-container">
+<nav class="navbar">
 
-            <!-- LOGO -->
-            <a href="/listings" class="logo">
+    <div class="container nav-container">
 
-                <div class="logo-icon">
-                    <i class="fa-solid fa-utensils"></i>
-                </div>
+        <!-- LOGO -->
 
-                <div class="logo-text">
-                    <span>AR</span> Food
-                    <small>Fresh & Delicious</small>
-                </div>
+        <a href="/listings" class="logo">
 
-            </a>
-
-
-            <!-- SEARCH : HAMESHA VISIBLE -->
-            <div class="search-box">
-
-                <i class="fa-solid fa-magnifying-glass"></i>
-
-                <input
-                    type="text"
-                    id="searchInput"
-                    placeholder="Search your favourite food..."
-                >
-
+            <div class="logo-icon">
+                <i class="fa-solid fa-utensils"></i>
             </div>
 
-
-            <!-- RIGHT SIDE -->
-            <div class="menu-items">
-
-                <% if(currentUser){ %>
-
-                    <!-- LOGIN KE BAAD NAV.EJS -->
-                    <%- include("../partials/nav") %>
-
-                <% } else { %>
-
-                    <a href="/signup">
-                        <i class="fa-solid fa-user-plus"></i>
-                        <span>Signup</span>
-                    </a>
-
-                    <a href="/login">
-                        <i class="fa-solid fa-right-to-bracket"></i>
-                        <span>Login</span>
-                    </a>
-
-                <% } %>
-
-
-                <!-- ABOUT HAMESHA -->
-                <a href="#about">
-
-                    <i class="fa-solid fa-circle-info"></i>
-
-                    <span>About</span>
-
-                </a>
-
+            <div class="logo-text">
+                <span>AR</span> Food
+                <small>Fresh & Delicious</small>
             </div>
+
+        </a>
+
+
+        <!-- SEARCH : HAMESHA VISIBLE -->
+
+        <div class="search-box">
+
+            <i class="fa-solid fa-magnifying-glass"></i>
+
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Search your favourite food..."
+            >
 
         </div>
 
-    </nav>
+
+        <!-- RIGHT SIDE -->
+
+        <div class="menu-items">
+
+            <% if(!currentUser){ %>
+
+                <a href="/signup">
+                    <i class="fa-solid fa-user-plus"></i>
+                    <span>Signup</span>
+                </a>
+
+
+                <a href="/login">
+                    <i class="fa-solid fa-right-to-bracket"></i>
+                    <span>Login</span>
+                </a>
+
+            <% } %>
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+<!-- HOME / CART / MY ORDERS / PROFILE NAV -->
+
+<%- include("../partials/nav") %>
+     
+     
+     
+     
+
+   
+     
+
 
 
     <!-- ================= HERO ================= -->
