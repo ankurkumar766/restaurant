@@ -1153,7 +1153,7 @@ a {
     position: fixed;
 
     right: 25px;
-    bottom: 30px;
+    bottom: 80px;
 
     width: 68px;
     height: 68px;
@@ -1356,7 +1356,7 @@ a {
         height: 58px;
 
         right: 15px;
-        bottom: 20px;
+        bottom: 80px;
     }
 
 }
