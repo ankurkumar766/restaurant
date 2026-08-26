@@ -114,6 +114,36 @@ router.get("/dashboard", async (req, res) => {
     });
 
 });
+
+router.get("/unread-orders", async (req, res) => {
+    try {
+
+        if (!req.session.isAdmin) {
+            return res.status(401).json({
+                success: false,
+                message: "Unauthorized"
+            });
+        }
+
+        const unreadOrders = await Order.countDocuments({
+            isSeen: false
+        });
+
+        res.json({
+            success: true,
+            unreadOrders
+        });
+
+    } catch (err) {
+
+        console.log("Unread order error:", err);
+
+        res.status(500).json({
+            success: false,
+            unreadOrders: 0
+        });
+    }
+});
 router.get("/user", async (req, res) => {
 
     if (!req.session.isAdmin) {

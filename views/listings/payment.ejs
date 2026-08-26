@@ -693,33 +693,7 @@
 
     <!-- ================= COPY UPI ================= -->
 
-    <script>
-
-        function copyUPI() {
-
-            const upiId = "7667880272-2@ybl";
-
-            navigator.clipboard.writeText(upiId);
-
-            const button =
-                document.querySelector(".copy-upi");
-
-            const original =
-                button.innerHTML;
-
-            button.innerHTML =
-                '<i class="fa-solid fa-check"></i>';
-
-            setTimeout(() => {
-
-                button.innerHTML = original;
-
-            }, 1500);
-
-        }
-
-    </script>
-
+  
 
 
     <!-- PAYMENT JS -->
