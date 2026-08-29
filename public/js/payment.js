@@ -123,6 +123,7 @@ hiddenTotal.value = total;
 hiddenOrder.value = JSON.stringify(order);
 
 
+
 // ================= PLACE ORDER =================
 
 document
@@ -131,7 +132,7 @@ document
 
         e.preventDefault();
 
-        // Empty cart check
+        // ================= EMPTY CART CHECK =================
         if (order.length === 0) {
             alert("Your bag is empty!");
             return;
@@ -139,82 +140,99 @@ document
 
         const form = this;
 
-        const orderButton =
-            form.querySelector(".order-btn");
+        const orderButton = form.querySelector(".order-btn");
 
-        const originalButton =
-            orderButton.innerHTML;
+        // Original button HTML save kar lo
+        const originalButton = orderButton.innerHTML;
 
-        // ================= INSTANT LOADING MESSAGE =================
+        // ================= SHOW LOADING IMMEDIATELY =================
+       orderButton.disabled = true;
 
-        orderButton.disabled = true;
+   orderButton.innerHTML =
+    '<i class="fa-solid fa-spinner fa-spin"></i> Please Wait...';
 
-        orderButton.innerHTML = `
-            <span>
-                <i class="fa-solid fa-spinner fa-spin"></i>
-                Placing Order...
-            </span>
-        `;
-
-
+        // Form data
         const formData = new FormData(form);
-
 
         try {
 
-            // ==========================================
-            // 1. PLACE ORDER FIRST
-            // ==========================================
+            // =====================================================
+            // 1. PLACE ORDER
+            // =====================================================
 
-            const response =
-                await fetch("/place-order", {
-                    method: "POST",
-                    body: formData
-                });
+            const response = await fetch("/place-order", {
+                method: "POST",
+                body: formData
+            });
 
+            const result = await response.json();
 
-            const result =
-                await response.json();
-
-            console.log(result);
+            console.log("Place Order Response:", result);
 
 
-            // ==========================================
+            // =====================================================
             // ORDER SUCCESS
-            // ==========================================
+            // =====================================================
 
             if (result.success) {
 
-                // TURANT USER KO SUCCESS MESSAGE
-                alert("Order Placed Successfully! ✅\n\nYour order has been received.");
+                // =================================================
+                // IMPORTANT:
+                // Loading tab tak rahegi jab tak success alert
+                // show nahi hota.
+                // =================================================
 
-                // Cart clear
+                alert(
+                    "Order Placed Successfully! ✅\n\n" +
+                    "Your order has been received."
+                );
+
+
+                // =================================================
+                // SUCCESS ALERT KE BAAD LOADING HATAO
+                // =================================================
+
+                orderButton.disabled = false;
+                orderButton.innerHTML = originalButton;
+
+
+                // =================================================
+                // CART CLEAR
+                // =================================================
+
                 localStorage.removeItem("order");
 
 
-                // ==========================================
-                // 2. EMAIL SEND BACKGROUND ME
-                // ==========================================
+                // =================================================
+                // EMAIL BACKGROUND ME SEND
+                // =================================================
 
                 fetch("https://api.web3forms.com/submit", {
                     method: "POST",
                     body: formData
                 })
-                .then(() => {
-                    console.log("Order email sent successfully");
-                })
-                .catch((err) => {
-                    console.log("Email sending error:", err);
-                });
+                    .then(() => {
+                        console.log("Order email sent successfully");
+                    })
+                    .catch((err) => {
+                        console.log(
+                            "Email sending error:",
+                            err
+                        );
+                    });
 
 
-                // ==========================================
-                // 3. REDIRECT IMMEDIATELY
-                // ==========================================
+                // =================================================
+                // REDIRECT
+                // =================================================
 
                 window.location.href = "/my-orders";
 
             } else {
+
+                // =================================================
+                // ORDER FAILED
+                // =================================================
 
                 alert(
                     result.error ||
@@ -222,24 +240,32 @@ document
                     "Order could not be placed."
                 );
 
+                // Loading hatao
                 orderButton.disabled = false;
 
-                orderButton.innerHTML =
-                    originalButton;
+                orderButton.innerHTML = originalButton;
             }
 
         } catch (err) {
 
-            console.error(err);
+            console.error(
+                "Order placement error:",
+                err
+            );
+
+            // =================================================
+            // ERROR
+            // =================================================
 
             alert(
                 "Something went wrong. Please try again."
             );
 
+            // Loading hatao
             orderButton.disabled = false;
 
-            orderButton.innerHTML =
-                originalButton;
+            orderButton.innerHTML = originalButton;
         }
 
     });
+
