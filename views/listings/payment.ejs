@@ -5,7 +5,10 @@
 
     <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Secure Payment | AR Food</title>
 
@@ -133,7 +136,9 @@
                 <div class="step active">
 
                     <div class="step-number">
+
                         3
+
                     </div>
 
                     <span>Payment</span>
@@ -184,7 +189,7 @@
 
                                 <span>Payment Method</span>
 
-                                <h2>Scan & Pay Securely</h2>
+                                <h2>Pay Securely Online</h2>
 
                             </div>
 
@@ -195,34 +200,36 @@
                         <div class="payment-content">
 
 
-                            <!-- QR -->
+                            <!-- RAZORPAY PAYMENT -->
 
                             <div class="qr-box">
 
                                 <div class="qr-header">
 
-                                    <i class="fa-solid fa-qrcode"></i>
+                                    <i class="fa-solid fa-shield-halved"></i>
 
-                                    Scan QR Code
+                                    Secure Online Payment
 
                                 </div>
 
 
                                 <div class="qr-image-wrapper">
 
-                                    <img
-                                        src="/css/images/qr.jpg"
-                                        class="qr"
-                                        alt="UPI QR Code"
-                                    >
+                                    <div class="qr">
+
+                                        <i
+                                            class="fa-solid fa-credit-card"
+                                        ></i>
+
+                                    </div>
 
                                 </div>
 
 
                                 <p>
 
-                                    Open any UPI app and scan
-                                    this QR code
+                                    Complete your payment securely
+                                    using Razorpay.
 
                                 </p>
 
@@ -230,7 +237,7 @@
 
 
 
-                            <!-- UPI DETAILS -->
+                            <!-- PAYMENT DETAILS -->
 
                             <div class="upi-details">
 
@@ -246,69 +253,70 @@
 
                                 <h3>
 
-                                    Pay Using UPI
+                                    Pay Using Razorpay
 
                                 </h3>
 
 
                                 <p class="upi-text">
 
-                                    Send payment directly using
-                                    the UPI ID below.
+                                    Choose UPI, Credit Card, Debit Card,
+                                    Net Banking and other available
+                                    payment methods.
 
                                 </p>
 
 
 
-                                <!-- UPI ID -->
+                                <!-- PAYMENT METHODS -->
 
                                 <div class="upi-id-box">
 
                                     <div>
 
-                                        <span>Your UPI ID</span>
+                                        <span>Available Payment Methods</span>
 
                                         <strong>
 
-                                            7667880272-2@ybl
+                                            UPI • Cards • Net Banking
 
                                         </strong>
 
                                     </div>
 
 
-                                    <button
-                                        type="button"
-                                        class="copy-upi"
-                                        onclick="copyUPI()"
-                                    >
+                                    <div>
 
-                                        <i class="fa-regular fa-copy"></i>
+                                        <i
+                                            class="fa-solid fa-shield-halved"
+                                            style="font-size: 24px;"
+                                        ></i>
 
-                                    </button>
+                                    </div>
 
                                 </div>
 
 
 
-                                <!-- PAYMENT BUTTONS -->
+                                <!-- PAYMENT INFO -->
 
                                 <div class="payment-buttons">
-
 
                                     <button
                                         type="button"
                                         class="pay-btn phonepe"
-                                        onclick="openPhonePe()"
+                                        disabled
                                     >
 
-                                        <i class="fa-solid fa-mobile-screen-button"></i>
+                                        <i
+                                            class="fa-solid fa-mobile-screen-button"
+                                        ></i>
 
                                         <span>
 
                                             Pay with
 
-                                            <strong>PhonePe</strong>
+                                            <strong>UPI</strong>
 
                                         </span>
 
@@ -319,39 +327,43 @@
                                     <button
                                         type="button"
                                         class="pay-btn whatsapp"
-                                        onclick="openWhatsApp()"
+                                        disabled
                                     >
 
-                                        <i class="fa-brands fa-whatsapp"></i>
+                                        <i
+                                            class="fa-solid fa-credit-card"
+                                        ></i>
 
                                         <span>
 
-                                            Send Screenshot
+                                            Pay with
 
-                                            <strong>WhatsApp</strong>
+                                            <strong>Card</strong>
 
                                         </span>
 
                                     </button>
 
-
                                 </div>
 
 
 
-                                <!-- UPLOAD -->
+                                <!-- RAZORPAY STATUS -->
 
-                                <a
-                                    href="https://forms.gle/r5UYrCbEHFmVqCTY6"
-                                    target="_blank"
+                                <div
                                     class="upload-btn"
+                                    style="
+                                        text-align:center;
+                                        cursor:default;
+                                        text-decoration:none;
+                                    "
                                 >
 
-                                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                                    <i class="fa-solid fa-lock"></i>
 
-                                    Upload Payment Screenshot
+                                    Secure Payment by Razorpay
 
-                                </a>
+                                </div>
 
 
                                 <div class="payment-security">
@@ -361,7 +373,7 @@
                                     <span>
 
                                         Your payment information
-                                        is kept secure.
+                                        is kept secure with Razorpay.
 
                                     </span>
 
@@ -390,14 +402,13 @@
 
                         <div>
 
-                            <strong>Payment Screenshot</strong>
+                            <strong>Online Payment</strong>
 
                             <p>
 
-                                After completing your UPI payment,
-                                you can upload the screenshot using
-                                the button above or send it directly
-                                through WhatsApp.
+                                Select Razorpay as your payment method
+                                and click Place Order. Razorpay will
+                                securely open the payment window.
 
                             </p>
 
@@ -465,6 +476,29 @@
                                 type="hidden"
                                 name="total"
                                 id="totalAmount"
+                            >
+
+
+                            <!-- RAZORPAY DETAILS -->
+
+                            <input
+                                type="hidden"
+                                name="razorpayOrderId"
+                                id="razorpayOrderId"
+                            >
+
+
+                            <input
+                                type="hidden"
+                                name="razorpayPaymentId"
+                                id="razorpayPaymentId"
+                            >
+
+
+                            <input
+                                type="hidden"
+                                name="razorpaySignature"
+                                id="razorpaySignature"
                             >
 
 
@@ -590,16 +624,18 @@
                                         </option>
 
 
-                                        <option value="UPI">
+                                        <option value="Razorpay">
 
-                                            ⚡ UPI Payment
+                                            💳 Online Payment
 
                                         </option>
 
                                     </select>
 
 
-                                    <i class="fa-solid fa-chevron-down arrow"></i>
+                                    <i
+                                        class="fa-solid fa-chevron-down arrow"
+                                    ></i>
 
                                 </div>
 
@@ -648,21 +684,27 @@
 
                                 <span>
 
-                                    <i class="fa-solid fa-bag-shopping"></i>
+                                    <i
+                                        class="fa-solid fa-bag-shopping"
+                                    ></i>
 
                                     Place Order
 
                                 </span>
 
 
-                                <i class="fa-solid fa-arrow-right"></i>
+                                <i
+                                    class="fa-solid fa-arrow-right"
+                                ></i>
 
                             </button>
 
 
                             <div class="order-secure">
 
-                                <i class="fa-solid fa-shield-halved"></i>
+                                <i
+                                    class="fa-solid fa-shield-halved"
+                                ></i>
 
                                 Safe & Secure Order
 
@@ -691,9 +733,19 @@
 
 
 
-    <!-- ================= COPY UPI ================= -->
+    <!-- ================= RAZORPAY ================= -->
 
-  
+    <script>
+
+        const RAZORPAY_KEY_ID =
+            "<%= RAZORPAY_KEY_ID %>";
+
+    </script>
+
+
+    <script
+        src="https://checkout.razorpay.com/v1/checkout.js"
+    ></script>
 
 
     <!-- PAYMENT JS -->

@@ -18,11 +18,11 @@ const adminRoutes = require("./routes/admin");
 const sendTelegramMessage = require("./utils/telegram");
 const sendEmail = require("./utils/sendEmail");
 const aiRoutes = require("./routes/ai");
+const paymentRoutes = require("./routes/payment");
 
 
-
-
-
+app.locals.RAZORPAY_KEY_ID =
+    process.env.RAZORPAY_KEY_ID;
 // ...
 // const MONGO_URI = process.env.MONGO_URI || "mongodb://127.0.0.1:27017/restaurants";
 const dbUrl = process.env.ATLASDB_URI;
@@ -76,15 +76,6 @@ app.use(flash());
 
 app.use(passport.initialize());
 app.use(passport.session());
-
-
-
-
-
-
-
-
-
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
@@ -123,6 +114,8 @@ app.use("/", authRoutes);
 app.use("/ai", aiRoutes);
 app.use("/cart", cartRoutes);
 
+app.use("/", paymentRoutes);
+
 // =========================================================
 // Routes
 // =========================================================
@@ -134,6 +127,12 @@ app.get("/", async (req, res) => {
 
   res.render("listings/index.ejs", { allListings });
 
+});
+//delete listing
+app.delete("/listings/:id", async (req, res) => {
+  const { id } = req.params;
+  await Listing.findByIdAndDelete(id);
+  res.redirect("/listings");
 });
 
 // =========================================================
