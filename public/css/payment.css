@@ -1048,3 +1048,43 @@ body {
     }
 
 }
+#paymentLoader {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 99999;
+}
+
+.payment-loader-box {
+    background: #fff;
+    padding: 30px 40px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+}
+
+.payment-spinner {
+    width: 45px;
+    height: 45px;
+    border: 4px solid #eee;
+    border-top: 4px solid #ff6b35;
+    border-radius: 50%;
+    animation: paymentSpin 0.8s linear infinite;
+    margin: 0 auto 15px;
+}
+
+.payment-loader-box p {
+    margin: 0;
+    font-weight: 600;
+}
+
+@keyframes paymentSpin {
+
+    to {
+        transform: rotate(360deg);
+    }
+
+}

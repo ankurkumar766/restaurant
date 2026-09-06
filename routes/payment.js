@@ -10,33 +10,69 @@ const razorpay = new Razorpay({
 });
 
 
-// ==========================================
+// ==================================================
 // CREATE RAZORPAY ORDER
-// ==========================================
+// ==================================================
 
-router.post("/create-payment", async (req, res) => {
+router.post("/api/create-order", async (req, res) => {
 
     try {
 
         const { amount } = req.body;
 
-        if (!amount || Number(amount) <= 0) {
+        const amountInRupees = Number(amount);
+
+        if (
+            !Number.isFinite(amountInRupees) ||
+            amountInRupees <= 0
+        ) {
             return res.status(400).json({
                 success: false,
                 message: "Invalid amount"
             });
         }
 
-        const razorpayOrder = await razorpay.orders.create({
-            amount: Math.round(Number(amount) * 100),
-            currency: "INR",
-            receipt: "ARFOOD_" + Date.now()
+
+        const amountInPaise =
+            Math.round(amountInRupees * 100);
+
+
+        if (amountInPaise < 100) {
+            return res.status(400).json({
+                success: false,
+                message: "Minimum payment amount is ₹1"
+            });
+        }
+
+
+        const razorpayOrder =
+            await razorpay.orders.create({
+
+                amount: amountInPaise,
+
+                currency: "INR",
+
+                receipt:
+                    "ARFOOD_" + Date.now()
+
+            });
+
+
+        return res.json({
+
+            success: true,
+
+            order_id:
+                razorpayOrder.id,
+
+            amount:
+                razorpayOrder.amount,
+
+            currency:
+                razorpayOrder.currency
+
         });
 
-        res.json({
-            success: true,
-            order: razorpayOrder
-        });
 
     } catch (error) {
 
@@ -45,19 +81,43 @@ router.post("/create-payment", async (req, res) => {
             error
         );
 
-        res.status(500).json({
+
+        if (
+            error.statusCode === 401 ||
+            error.statusCode === 403
+        ) {
+
+            return res.status(401).json({
+
+                success: false,
+
+                message:
+                    "Razorpay authentication failed."
+
+            });
+
+        }
+
+
+        return res.status(500).json({
+
             success: false,
-            message: "Unable to create payment"
+
+            message:
+                "Unable to create Razorpay order."
+
         });
+
     }
+
 });
 
 
-// ==========================================
+// ==================================================
 // VERIFY RAZORPAY PAYMENT
-// ==========================================
+// ==================================================
 
-router.post("/verify-payment", async (req, res) => {
+router.post("/api/verify-payment", async (req, res) => {
 
     try {
 
@@ -66,6 +126,24 @@ router.post("/verify-payment", async (req, res) => {
             razorpay_payment_id,
             razorpay_signature
         } = req.body;
+
+
+        if (
+            !razorpay_order_id ||
+            !razorpay_payment_id ||
+            !razorpay_signature
+        ) {
+
+            return res.status(400).json({
+
+                success: false,
+
+                message:
+                    "Missing payment verification fields."
+
+            });
+
+        }
 
 
         const body =
@@ -85,20 +163,29 @@ router.post("/verify-payment", async (req, res) => {
 
 
         if (
-            expectedSignature ===
+            expectedSignature !==
             razorpay_signature
         ) {
 
-            return res.json({
-                success: true,
-                message: "Payment verified"
+            return res.status(400).json({
+
+                success: false,
+
+                message:
+                    "Payment verification failed."
+
             });
+
         }
 
 
-        return res.status(400).json({
-            success: false,
-            message: "Payment verification failed"
+        return res.json({
+
+            success: true,
+
+            message:
+                "Payment verified successfully."
+
         });
 
 
@@ -109,11 +196,18 @@ router.post("/verify-payment", async (req, res) => {
             error
         );
 
-        res.status(500).json({
+
+        return res.status(500).json({
+
             success: false,
-            message: "Payment verification error"
+
+            message:
+                "Payment verification error."
+
         });
+
     }
+
 });
 
 
