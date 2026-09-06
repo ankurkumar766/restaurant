@@ -114,8 +114,7 @@ app.use("/", authRoutes);
 app.use("/ai", aiRoutes);
 app.use("/cart", cartRoutes);
 
-app.use("/", paymentRoutes);
-
+app.use("/payment", paymentRoutes);
 // =========================================================
 // Routes
 // =========================================================

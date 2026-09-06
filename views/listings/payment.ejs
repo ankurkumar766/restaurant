@@ -10,45 +10,31 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>Secure Payment | AR Food</title>
+    <title>AR Food | Payment</title>
 
+    <!-- Bootstrap -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
 
     <!-- Font Awesome -->
-
     <link
         rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
     >
 
+    <!-- Cashfree JS SDK -->
+    <script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script>
 
-    <!-- Google Font -->
-
+    <!-- Your existing payment CSS -->
     <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
         rel="stylesheet"
+        href="/css/payment.css"
     >
+     <link rel="stylesheet" href="/css/footer.css">
+      <link rel="stylesheet" href="/css/nav.css">
 
-
-    <!-- CSS -->
-
-    <link rel="stylesheet" href="/css/payment.css">
-
-    <link rel="stylesheet" href="/css/footer.css">
-
-    <link rel="stylesheet" href="/css/marquee.css">
-
-   
-
-    <link rel="stylesheet" href="/css/nav.css">
-
-
-    <!-- Favicon -->
-
-    <link
-        rel="icon"
-        type="image/x-icon"
-        href="/images/rest.png"
-    >
 
 </head>
 
@@ -56,656 +42,323 @@
 <body>
 
 
-    <!-- ================= MARQUEE ================= -->
-
-    <%- include("../partials/marquee") %>
-
-
     <!-- ================= NAVBAR ================= -->
 
     <%- include("../partials/nav") %>
 
 
+    <!-- ================= MAIN ================= -->
 
-    <!-- ================= PAGE HEADER ================= -->
-
-    <section class="payment-hero">
-
-        <div class="payment-hero-content">
-
-            <div class="secure-badge">
-
-                <i class="fa-solid fa-shield-halved"></i>
-
-                Secure Checkout
-
-            </div>
-
-
-            <h1>
-
-                Complete Your
-
-                <span>Order</span>
-
-            </h1>
-
-
-            <p>
-
-                Choose your preferred payment method and
-                complete your delicious order.
-
-            </p>
-
-
-            <div class="checkout-steps">
-
-                <div class="step completed">
-
-                    <div class="step-number">
-
-                        <i class="fa-solid fa-check"></i>
-
-                    </div>
-
-                    <span>Cart</span>
-
-                </div>
-
-
-                <div class="step-line active-line"></div>
-
-
-                <div class="step completed">
-
-                    <div class="step-number">
-
-                        <i class="fa-solid fa-check"></i>
-
-                    </div>
-
-                    <span>Details</span>
-
-                </div>
-
-
-                <div class="step-line active-line"></div>
-
-
-                <div class="step active">
-
-                    <div class="step-number">
-
-                        3
-
-                    </div>
-
-                    <span>Payment</span>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-
-    <!-- ================= MAIN PAYMENT ================= -->
-
-    <main class="payment-main">
+    <main class="payment-page">
 
         <div class="container">
 
-
-            <div class="checkout-layout">
-
-
-                <!-- ================================= -->
-                <!-- LEFT SIDE : PAYMENT -->
-                <!-- ================================= -->
-
-                <div class="payment-left">
+            <div class="checkout-wrapper">
 
 
+                <!-- ================= ORDER CARD ================= -->
 
-                    <!-- PAYMENT CARD -->
-
-                    <div class="checkout-card payment-method-card">
-
-
-                        <div class="card-heading">
-
-                            <div class="heading-icon">
-
-                                <i class="fa-solid fa-wallet"></i>
-
-                            </div>
+                <div class="checkout-card order-card">
 
 
-                            <div>
+                    <!-- HEADING -->
 
-                                <span>Payment Method</span>
+                    <div class="card-heading">
 
-                                <h2>Pay Securely Online</h2>
+                        <div class="heading-icon order-icon">
 
-                            </div>
+                            <i class="fa-solid fa-bag-shopping"></i>
 
                         </div>
-
-
-
-                        <div class="payment-content">
-
-
-                            <!-- RAZORPAY PAYMENT -->
-
-                            <div class="qr-box">
-
-                                <div class="qr-header">
-
-                                    <i class="fa-solid fa-shield-halved"></i>
-
-                                    Secure Online Payment
-
-                                </div>
-
-
-                                <div class="qr-image-wrapper">
-
-                                    <div class="qr">
-
-                                        <i
-                                            class="fa-solid fa-credit-card"
-                                        ></i>
-
-                                    </div>
-
-                                </div>
-
-
-                                <p>
-
-                                    Complete your payment securely
-                                    using Razorpay.
-
-                                </p>
-
-                            </div>
-
-
-
-                            <!-- PAYMENT DETAILS -->
-
-                            <div class="upi-details">
-
-
-                                <div class="upi-label">
-
-                                    <i class="fa-solid fa-bolt"></i>
-
-                                    Quick & Secure Payment
-
-                                </div>
-
-
-                                <h3>
-
-                                    Pay Using Razorpay
-
-                                </h3>
-
-
-                                <p class="upi-text">
-
-                                    Choose UPI, Credit Card, Debit Card,
-                                    Net Banking and other available
-                                    payment methods.
-
-                                </p>
-
-
-
-                                <!-- PAYMENT METHODS -->
-
-                                <div class="upi-id-box">
-
-                                    <div>
-
-                                        <span>Available Payment Methods</span>
-
-                                        <strong>
-
-                                            UPI • Cards • Net Banking
-
-                                        </strong>
-
-                                    </div>
-
-
-                                    <div>
-
-                                        <i
-                                            class="fa-solid fa-shield-halved"
-                                            style="font-size: 24px;"
-                                        ></i>
-
-                                    </div>
-
-                                </div>
-
-
-
-                                <!-- PAYMENT INFO -->
-
-                                <div class="payment-buttons">
-
-                                    <button
-                                        type="button"
-                                        class="pay-btn phonepe"
-                                        disabled
-                                    >
-
-                                        <i
-                                            class="fa-solid fa-mobile-screen-button"
-                                        ></i>
-
-                                        <span>
-
-                                            Pay with
-
-                                            <strong>UPI</strong>
-
-                                        </span>
-
-                                    </button>
-
-
-
-                                    <button
-                                        type="button"
-                                        class="pay-btn whatsapp"
-                                        disabled
-                                    >
-
-                                        <i
-                                            class="fa-solid fa-credit-card"
-                                        ></i>
-
-                                        <span>
-
-                                            Pay with
-
-                                            <strong>Card</strong>
-
-                                        </span>
-
-                                    </button>
-
-                                </div>
-
-
-
-                                <!-- RAZORPAY STATUS -->
-
-                                <div
-                                    class="upload-btn"
-                                    style="
-                                        text-align:center;
-                                        cursor:default;
-                                        text-decoration:none;
-                                    "
-                                >
-
-                                    <i class="fa-solid fa-lock"></i>
-
-                                    Secure Payment by Razorpay
-
-                                </div>
-
-
-                                <div class="payment-security">
-
-                                    <i class="fa-solid fa-lock"></i>
-
-                                    <span>
-
-                                        Your payment information
-                                        is kept secure with Razorpay.
-
-                                    </span>
-
-                                </div>
-
-
-                            </div>
-
-
-                        </div>
-
-                    </div>
-
-
-
-                    <!-- PAYMENT NOTE -->
-
-                    <div class="payment-note">
-
-                        <div class="note-icon">
-
-                            <i class="fa-solid fa-circle-info"></i>
-
-                        </div>
-
 
                         <div>
 
-                            <strong>Online Payment</strong>
+                            <span>Your Order</span>
 
-                            <p>
-
-                                Select Razorpay as your payment method
-                                and click Place Order. Razorpay will
-                                securely open the payment window.
-
-                            </p>
+                            <h2>Order Summary</h2>
 
                         </div>
 
                     </div>
 
 
+                    <!-- ================= FORM ================= -->
 
-                </div>
-
-
-
-                <!-- ================================= -->
-                <!-- RIGHT SIDE : ORDER -->
-                <!-- ================================= -->
-
-                <div class="payment-right">
+                    <form id="orderForm">
 
 
-                    <div class="checkout-card order-card">
+                        <!-- ================= HIDDEN DATA ================= -->
+
+                        <input
+                            type="hidden"
+                            name="orderData"
+                            id="orderData"
+                        >
 
 
-                        <div class="card-heading">
-
-                            <div class="heading-icon order-icon">
-
-                                <i class="fa-solid fa-bag-shopping"></i>
-
-                            </div>
+                        <input
+                            type="hidden"
+                            name="total"
+                            id="totalAmount"
+                        >
 
 
-                            <div>
+                        <input
+                            type="hidden"
+                            name="paymentMethod"
+                            id="paymentMethodHidden"
+                        >
 
-                                <span>Your Order</span>
 
-                                <h2>Order Summary</h2>
+                        <!-- Cashfree order id -->
+
+                        <input
+                            type="hidden"
+                            name="cashfreeOrderId"
+                            id="cashfreeOrderId"
+                        >
+
+
+                        <!-- ================= ORDER SUMMARY ================= -->
+
+                        <div class="form-group">
+
+                            <label>
+
+                                <i class="fa-solid fa-receipt"></i>
+
+                                Your Items
+
+                            </label>
+
+
+                            <div id="order-summary">
+
+                                <!-- payment.js fills this -->
 
                             </div>
 
                         </div>
 
 
+                        <!-- ================= CUSTOMER DETAILS ================= -->
 
-                        <form id="orderForm">
-
-
-                            <!-- Hidden Inputs -->
-
-                            <input
-                                type="hidden"
-                                name="access_key"
-                                value="1f937280-f43a-482b-b121-466444023e0f"
-                            >
+                        <div class="customer-section">
 
 
-                            <input
-                                type="hidden"
-                                name="orderData"
-                                id="orderData"
-                            >
+                            <h3>
+
+                                <i class="fa-solid fa-user"></i>
+
+                                Customer Details
+
+                            </h3>
 
 
-                            <input
-                                type="hidden"
-                                name="total"
-                                id="totalAmount"
-                            >
-
-
-                            <!-- RAZORPAY DETAILS -->
-
-                            <input
-                                type="hidden"
-                                name="razorpayOrderId"
-                                id="razorpayOrderId"
-                            >
-
-
-                            <input
-                                type="hidden"
-                                name="razorpayPaymentId"
-                                id="razorpayPaymentId"
-                            >
-
-
-                            <input
-                                type="hidden"
-                                name="razorpaySignature"
-                                id="razorpaySignature"
-                            >
-
-
-
-                            <!-- ORDER SUMMARY -->
+                            <!-- NAME -->
 
                             <div class="form-group">
 
                                 <label>
-
-                                    <i class="fa-solid fa-receipt"></i>
-
-                                    Your Items
-
+                                    Full Name
                                 </label>
 
 
-                                <div id="order-summary">
-
-                                    <!-- JS se automatically fill hoga -->
-
-                                </div>
-
-                            </div>
-
-
-
-                            <!-- CUSTOMER DETAILS -->
-
-                            <div class="customer-section">
-
-                                <h3>
+                                <div class="input-wrapper">
 
                                     <i class="fa-solid fa-user"></i>
 
-                                    Customer Details
-
-                                </h3>
-
-
-                                <div class="form-group">
-
-                                    <label>
-
-                                        Full Name
-
-                                    </label>
-
-
-                                    <div class="input-wrapper">
-
-                                        <i class="fa-solid fa-user"></i>
-
-                                        <input
-                                            type="text"
-                                            name="name"
-                                            placeholder="Enter your full name"
-                                            required
-                                        >
-
-                                    </div>
-
-                                </div>
-
-
-
-                                <!-- Hidden Phone -->
-
-                                <input
-                                    type="hidden"
-                                    name="phone"
-                                    value="<%= currentUser.address.phone %>"
-                                >
-
-
-                                <!-- Hidden Address -->
-
-                                <input
-                                    type="hidden"
-                                    name="address"
-                                    value="<%= currentUser.address.addressLine %>"
-                                >
-
-
-                            </div>
-
-
-
-                            <!-- PAYMENT METHOD -->
-
-                            <div class="form-group payment-select-group">
-
-                                <label>
-
-                                    <i class="fa-solid fa-credit-card"></i>
-
-                                    Select Payment Method
-
-                                </label>
-
-
-                                <div class="select-wrapper">
-
-                                    <i class="fa-solid fa-wallet"></i>
-
-                                <select
-    name="paymentMethod"
-    id="paymentMethod"
-    required
->
-
-    <option value="">
-        Select Payment Method
-    </option>
-
-    <option value="Cash on Delivery">
-        💵 Cash on Delivery
-    </option>
-
-    <option value="UPI">
-        📱 UPI / PhonePe / Google Pay
-    </option>
-
-</select>
-
-                                    <i
-                                        class="fa-solid fa-chevron-down arrow"
-                                    ></i>
+                                    <input
+                                        type="text"
+                                        name="name"
+                                        placeholder="Enter your full name"
+                                        value="<%= currentUser.name || '' %>"
+                                        required
+                                    >
 
                                 </div>
 
                             </div>
 
 
+                            <!-- PHONE -->
 
-                            <!-- GRAND TOTAL -->
-
-                            <div class="grand-total">
-
-                                <div>
-
-                                    <span>
-
-                                        Total Amount
-
-                                    </span>
-
-
-                                    <small>
-
-                                        Including all charges
-
-                                    </small>
-
-                                </div>
-
-
-                                <h3>
-
-                                    ₹<span id="grandTotal">0</span>
-
-                                </h3>
-
-                            </div>
-
-
-
-                            <!-- ORDER BUTTON -->
-
-                            <button
-                                type="submit"
-                                class="order-btn"
+                            <input
+                                type="hidden"
+                                name="phone"
+                                value="<%= currentUser.address?.phone || '' %>"
                             >
 
+
+                            <!-- ADDRESS -->
+
+                            <input
+                                type="hidden"
+                                name="address"
+                                value="<%= currentUser.address?.addressLine || '' %>"
+                            >
+
+
+                            <!-- EMAIL -->
+
+                            <input
+                                type="hidden"
+                                name="email"
+                                value="<%= currentUser.email || '' %>"
+                            >
+
+
+                        </div>
+
+
+                        <!-- ================= PAYMENT METHOD ================= -->
+
+                        <div class="form-group payment-select-group">
+
+
+                            <label>
+
+                                <i class="fa-solid fa-credit-card"></i>
+
+                                Select Payment Method
+
+                            </label>
+
+
+                            <div class="select-wrapper">
+
+                                <i class="fa-solid fa-wallet"></i>
+
+
+                                <select
+                                    id="paymentMethod"
+                                    required
+                                >
+
+                                    <option value="">
+                                        Select Payment Method
+                                    </option>
+
+
+                                    <option value="Cash on Delivery">
+
+                                        💵 Cash on Delivery
+
+                                    </option>
+
+
+                                    <option value="UPI">
+
+                                        ⚡ Online Payment / UPI
+
+                                    </option>
+
+                                </select>
+
+
+                                <i class="fa-solid fa-chevron-down arrow"></i>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- ================= CASHFREE STATUS ================= -->
+
+                        <div
+                            id="upiPaymentStatus"
+                            class="upi-payment-status"
+                            style="display:none;"
+                        >
+
+                            <div class="upi-status-icon">
+
+                                <i class="fa-solid fa-shield-halved"></i>
+
+                            </div>
+
+
+                            <div class="upi-status-content">
+
+                                <strong>
+                                    Secure Online Payment
+                                </strong>
+
+                                <p>
+
+                                    You will be redirected to
+                                    Cashfree's secure payment checkout.
+
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- ================= GRAND TOTAL ================= -->
+
+                        <div class="grand-total">
+
+
+                            <div>
+
                                 <span>
-
-                                    <i
-                                        class="fa-solid fa-bag-shopping"
-                                    ></i>
-
-                                    Place Order
-
+                                    Total Amount
                                 </span>
 
 
-                                <i
-                                    class="fa-solid fa-arrow-right"
-                                ></i>
-
-                            </button>
-
-
-                            <div class="order-secure">
-
-                                <i
-                                    class="fa-solid fa-shield-halved"
-                                ></i>
-
-                                Safe & Secure Order
+                                <small>
+                                    Including all charges
+                                </small>
 
                             </div>
 
 
-                        </form>
+                            <h3>
+
+                                ₹<span id="grandTotal">0.00</span>
+
+                            </h3>
+
+                        </div>
 
 
-                    </div>
+                        <!-- ================= ORDER BUTTON ================= -->
+
+                        <button
+                            type="submit"
+                            class="order-btn"
+                            id="orderButton"
+                        >
+
+                            <span>
+
+                                <i class="fa-solid fa-bag-shopping"></i>
+
+                                Place Order
+
+                            </span>
+
+
+                            <i class="fa-solid fa-arrow-right"></i>
+
+                        </button>
+
+
+                        <!-- ================= SECURITY ================= -->
+
+                        <div class="order-secure">
+
+                            <i class="fa-solid fa-shield-halved"></i>
+
+                            Safe & Secure Payment
+
+                        </div>
+
+
+                    </form>
+
 
                 </div>
 
@@ -717,29 +370,12 @@
     </main>
 
 
-
     <!-- ================= FOOTER ================= -->
 
     <%- include("../partials/footer") %>
 
 
-
-    <!-- ================= RAZORPAY ================= -->
-
-    <script>
-
-        const RAZORPAY_KEY_ID =
-            "<%= RAZORPAY_KEY_ID %>";
-
-    </script>
-
-
-    <script
-        src="https://checkout.razorpay.com/v1/checkout.js"
-    ></script>
-
-
-    <!-- PAYMENT JS -->
+    <!-- ================= PAYMENT JS ================= -->
 
     <script src="/js/payment.js"></script>
 

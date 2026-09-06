@@ -1,923 +1,994 @@
-// ==========================================================
-// PAYMENT.JS
-// AR FOOD - RAZORPAY UPI + COD
-// ==========================================================
+// ============================================================
+// AR FOOD
+// CASHFREE PAYMENT.JS
+// COD + CASHFREE UPI / ONLINE PAYMENT
+// ============================================================
 
-document.addEventListener("DOMContentLoaded", () => {
+        
 
-    // ==========================================================
-    // ELEMENTS
-    // ==========================================================
-
-    const order =
-        JSON.parse(
-            localStorage.getItem("order")
-        ) || [];
-
-    const container =
-        document.getElementById("order-summary");
-
-    const hiddenOrder =
-        document.getElementById("orderData");
-
-    const hiddenTotal =
-        document.getElementById("totalAmount");
-
-    const grandTotal =
-        document.getElementById("grandTotal");
-
-    const paymentMethod =
-        document.getElementById("paymentMethod");
-
-    const form =
-        document.getElementById("orderForm");
-
-    const orderButton =
-        form.querySelector(".order-btn");
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
 
 
-    // ==========================================================
-    // CALCULATE TOTAL
-    // ==========================================================
+        // =====================================================
+        // ELEMENTS
+        // =====================================================
 
-    let total = 0;
-
-
-    // ==========================================================
-    // SHOW ORDER ITEMS
-    // ==========================================================
-
-    if (container) {
-
-        container.innerHTML = "";
-
-    }
+        const order =
+            JSON.parse(
+                localStorage.getItem("order")
+            ) || [];
 
 
-    order.forEach(item => {
+        const container =
+            document.getElementById(
+                "order-summary"
+            );
 
-        const price =
-            Number(item.price) || 0;
 
-        const quantity =
-            Number(item.quantity) || 1;
+        const form =
+            document.getElementById(
+                "orderForm"
+            );
 
-        const subtotal =
-            price * quantity;
 
-        total += subtotal;
+        const paymentMethod =
+            document.getElementById(
+                "paymentMethod"
+            );
 
+
+        const paymentMethodHidden =
+            document.getElementById(
+                "paymentMethodHidden"
+            );
+
+
+        const hiddenOrder =
+            document.getElementById(
+                "orderData"
+            );
+
+
+        const hiddenTotal =
+            document.getElementById(
+                "totalAmount"
+            );
+
+
+        const grandTotal =
+            document.getElementById(
+                "grandTotal"
+            );
+
+
+        const orderButton =
+            document.getElementById(
+                "orderButton"
+            );
+
+
+        const upiPaymentStatus =
+            document.getElementById(
+                "upiPaymentStatus"
+            );
+
+
+        const cashfreeOrderId =
+            document.getElementById(
+                "cashfreeOrderId"
+            );
+
+
+        // =====================================================
+        // CHECK FORM
+        // =====================================================
+
+        if (!form) {
+
+            console.error(
+                "Payment form not found."
+            );
+
+            return;
+
+        }
+
+
+        // =====================================================
+        // CALCULATE TOTAL
+        // =====================================================
+
+        let total = 0;
+
+
+        // =====================================================
+        // CLEAR SUMMARY
+        // =====================================================
 
         if (container) {
 
-            container.innerHTML += `
-
-                <div class="summary-item">
-
-                    <div class="summary-left">
-
-                        <h4>
-                            ${
-                                item.title ||
-                                item.name ||
-                                "Food Item"
-                            }
-                        </h4>
-
-                        <p>
-
-                            ${
-                                item.variation
-                                    ? `
-                                        <b>Size:</b>
-                                        ${item.variation}
-                                        <br>
-                                      `
-                                    : ""
-                            }
-
-                            <b>Price:</b>
-                            ₹${price.toFixed(2)}
-
-                        </p>
-
-                    </div>
-
-
-                    <div class="summary-right">
-
-                        Qty : ${quantity}
-
-                    </div>
-
-                </div>
-
-            `;
+            container.innerHTML = "";
 
         }
+        
 
-    });
 
+        // =====================================================
+        // SHOW ORDER ITEMS
+        // =====================================================
 
-    // ==========================================================
-    // SET TOTAL
-    // ==========================================================
+        order.forEach(
+            function (item) {
 
-    if (grandTotal) {
 
-        grandTotal.textContent =
-            total.toFixed(2);
+                const price =
+                    Number(item.price) || 0;
 
-    }
 
+                const quantity =
+                    Number(item.quantity) || 1;
 
-    if (hiddenTotal) {
 
-        hiddenTotal.value =
-            total.toFixed(2);
+                const subtotal =
+                    price * quantity;
 
-    }
 
+                total += subtotal;
 
-    if (hiddenOrder) {
 
-        hiddenOrder.value =
-            JSON.stringify(order);
+                if (container) {
 
-    }
+                    container.innerHTML += `
 
+                        <div class="summary-item">
 
-    // ==========================================================
-    // FORM SUBMIT
-    // ==========================================================
+                            <div class="summary-left">
 
-    form.addEventListener(
-        "submit",
-        async function (e) {
+                                <h4>
+                                    ${item.title || item.name || "Food Item"}
+                                </h4>
 
-            e.preventDefault();
+                                <p>
 
-
-            // ==================================================
-            // PAYMENT METHOD
-            // ==================================================
-
-            const selectedMethod =
-                paymentMethod.value;
-
-
-            if (!selectedMethod) {
-
-                alert(
-                    "Please select a payment method."
-                );
-
-                return;
-
-            }
-
-
-            // ==================================================
-            // TOTAL CHECK
-            // ==================================================
-
-            if (total < 1) {
-
-                alert(
-                    "Minimum order amount is ₹1."
-                );
-
-                return;
-
-            }
-
-
-            // ==================================================
-            // COD
-            // ==================================================
-
-            if (
-                selectedMethod ===
-                "Cash on Delivery"
-            ) {
-
-                await placeOrder(
-                    "Cash on Delivery"
-                );
-
-                return;
-
-            }
-
-
-            // ==================================================
-            // ONLINE / UPI / RAZORPAY
-            // ==================================================
-
-            if (
-                selectedMethod === "UPI" ||
-                selectedMethod === "Razorpay" ||
-                selectedMethod === "PhonePe"
-            ) {
-
-                await startRazorpayPayment();
-
-                return;
-
-            }
-
-
-            alert(
-                "Invalid payment method."
-            );
-
-        }
-    );
-
-
-    // ==========================================================
-    // START RAZORPAY PAYMENT
-    // ==========================================================
-
-    async function startRazorpayPayment() {
-
-        const originalButton =
-            orderButton.innerHTML;
-
-
-        try {
-
-            // ==================================================
-            // BUTTON LOADING
-            // ==================================================
-
-            orderButton.disabled = true;
-
-            orderButton.innerHTML = `
-
-                <i class="fa-solid fa-spinner fa-spin"></i>
-
-                Opening Payment...
-
-            `;
-
-
-            // ==================================================
-            // CREATE RAZORPAY ORDER
-            // ==================================================
-
-            const createResponse =
-                await fetch(
-                    "/create-payment",
-                    {
-
-                        method: "POST",
-
-                        headers: {
-
-                            "Content-Type":
-                                "application/json"
-
-                        },
-
-                        body: JSON.stringify({
-
-                            amount: total
-
-                        })
-
-                    }
-                );
-
-
-            const createData =
-                await createResponse.json();
-
-
-            console.log(
-                "Create Razorpay Order:",
-                createData
-            );
-
-
-            if (
-                !createResponse.ok ||
-                !createData.success
-            ) {
-
-                throw new Error(
-                    createData.message ||
-                    "Unable to create Razorpay order."
-                );
-
-            }
-
-
-            // ==================================================
-            // RAZORPAY OPTIONS
-            // ==================================================
-
-            const options = {
-
-                key: RAZORPAY_KEY_ID,
-
-                amount:
-                    createData.order
-                        ? createData.order.amount
-                        : createData.amount,
-
-                currency:
-                    createData.order
-                        ? createData.order.currency
-                        : createData.currency,
-
-                name:
-                    "AR Food",
-
-                description:
-                    "AR Food Order Payment",
-
-                order_id:
-                    createData.order
-                        ? createData.order.id
-                        : createData.order_id,
-
-
-                // ==================================================
-                // CUSTOMER DETAILS
-                // ==================================================
-
-                prefill: {
-
-                    name:
-                        form.elements.name?.value ||
-                        "",
-
-                    contact:
-                        form.elements.phone?.value ||
-                        ""
-
-                },
-
-
-                // ==================================================
-                // THEME
-                // ==================================================
-
-                theme: {
-
-                    color:
-                        "#ff6b35"
-
-                },
-
-
-                // ==================================================
-                // PAYMENT SUCCESS
-                // ==================================================
-
-                handler:
-                    async function (response) {
-
-                        console.log(
-                            "Razorpay Success:",
-                            response
-                        );
-
-
-                        try {
-
-                            // ==========================================
-                            // VERIFY PAYMENT
-                            // ==========================================
-
-                            const verifyResponse =
-                                await fetch(
-                                    "/verify-payment",
-                                    {
-
-                                        method: "POST",
-
-                                        headers: {
-
-                                            "Content-Type":
-                                                "application/json"
-
-                                        },
-
-                                        body:
-                                            JSON.stringify({
-
-                                                razorpay_order_id:
-                                                    response
-                                                        .razorpay_order_id,
-
-                                                razorpay_payment_id:
-                                                    response
-                                                        .razorpay_payment_id,
-
-                                                razorpay_signature:
-                                                    response
-                                                        .razorpay_signature
-
-                                            })
-
+                                    ${
+                                        item.variation
+                                            ? `<b>Size:</b> ${item.variation}<br>`
+                                            : ""
                                     }
-                                );
+
+                                    <b>Price:</b>
+                                    ₹${price.toFixed(2)}
+
+                                </p>
+
+                            </div>
 
 
-                            const verifyData =
-                                await verifyResponse.json();
+                            <div class="summary-right">
 
+                                Qty : ${quantity}
 
-                            console.log(
-                                "Razorpay Verify Response:",
-                                verifyData
-                            );
+                            </div>
 
+                        </div>
 
-                            // ==========================================
-                            // VERIFICATION FAILED
-                            // ==========================================
-
-                            if (
-                                !verifyResponse.ok ||
-                                !verifyData.success
-                            ) {
-
-                                alert(
-                                    "Payment verification failed.\n\n" +
-                                    "Your order has NOT been placed."
-                                );
-
-
-                                orderButton.disabled =
-                                    false;
-
-
-                                orderButton.innerHTML =
-                                    originalButton;
-
-
-                                return;
-
-                            }
-
-
-                            // ==========================================
-                            // PAYMENT VERIFIED
-                            // ==========================================
-
-                            console.log(
-                                "Payment verified successfully."
-                            );
-
-
-                            // ==========================================
-                            // SAVE RAZORPAY DETAILS
-                            // ==========================================
-
-                            const razorpayOrderId =
-                                document.getElementById(
-                                    "razorpayOrderId"
-                                );
-
-
-                            const razorpayPaymentId =
-                                document.getElementById(
-                                    "razorpayPaymentId"
-                                );
-
-
-                            const razorpaySignature =
-                                document.getElementById(
-                                    "razorpaySignature"
-                                );
-
-
-                            if (razorpayOrderId) {
-
-                                razorpayOrderId.value =
-                                    response
-                                        .razorpay_order_id;
-
-                            }
-
-
-                            if (razorpayPaymentId) {
-
-                                razorpayPaymentId.value =
-                                    response
-                                        .razorpay_payment_id;
-
-                            }
-
-
-                            if (razorpaySignature) {
-
-                                razorpaySignature.value =
-                                    response
-                                        .razorpay_signature;
-
-                            }
-
-
-                            // ==========================================
-                            // NOW PLACE ORDER
-                            // ==========================================
-
-                            await placeOrder(
-                                "UPI"
-                            );
-
-                        }
-
-
-                        catch (error) {
-
-                            console.error(
-                                "Verification Error:",
-                                error
-                            );
-
-
-                            alert(
-                                "Payment verification failed. " +
-                                "Order was not placed."
-                            );
-
-
-                            orderButton.disabled =
-                                false;
-
-
-                            orderButton.innerHTML =
-                                originalButton;
-
-                        }
-
-                    },
-
-
-                // ==================================================
-                // PAYMENT MODAL CLOSED
-                // ==================================================
-
-                modal: {
-
-                    ondismiss:
-                        function () {
-
-                            console.log(
-                                "Razorpay payment window closed."
-                            );
-
-
-                            orderButton.disabled =
-                                false;
-
-
-                            orderButton.innerHTML =
-                                originalButton;
-
-                        }
+                    `;
 
                 }
 
-            };
+            }
+        );
 
 
-            // ==================================================
-            // OPEN RAZORPAY
-            // ==================================================
+        // =====================================================
+        // SET TOTAL
+        // =====================================================
 
-            const razorpay =
-                new Razorpay(options);
+        if (grandTotal) {
 
-
-            // ==================================================
-            // PAYMENT FAILED
-            // ==================================================
-
-            razorpay.on(
-                "payment.failed",
-                function (response) {
-
-                    console.error(
-                        "Payment Failed:",
-                        response.error
-                    );
-
-
-                    alert(
-                        response.error?.description ||
-                        "Payment failed. Please try again."
-                    );
-
-
-                    orderButton.disabled =
-                        false;
-
-
-                    orderButton.innerHTML =
-                        originalButton;
-
-                }
-            );
-
-
-            // ==================================================
-            // OPEN PAYMENT WINDOW
-            // ==================================================
-
-            razorpay.open();
+            grandTotal.textContent =
+                total.toFixed(2);
 
         }
 
 
-        catch (error) {
-
-            console.error(
-                "Razorpay Error:",
-                error
-            );
-
-
-            alert(
-                error.message ||
-                "Unable to start Razorpay payment."
-            );
-
-
-            orderButton.disabled =
-                false;
-
-
-            orderButton.innerHTML =
-                originalButton;
-
-        }
-
-    }
-
-
-    // ==========================================================
-    // PLACE ORDER
-    // ==========================================================
-
-    async function placeOrder(
-        selectedPaymentMethod
-    ) {
-
-        const originalButton =
-            orderButton.innerHTML;
-
-
-        try {
-
-            // ==================================================
-            // LOADING
-            // ==================================================
-
-            orderButton.disabled =
-                true;
-
-
-            orderButton.innerHTML = `
-
-                <i class="fa-solid fa-spinner fa-spin"></i>
-
-                Please Wait...
-
-            `;
-
-
-            // ==================================================
-            // UPDATE HIDDEN DATA
-            // ==================================================
-
-            hiddenOrder.value =
-                JSON.stringify(order);
-
+        if (hiddenTotal) {
 
             hiddenTotal.value =
                 total.toFixed(2);
 
-
-            paymentMethod.value =
-                selectedPaymentMethod;
+        }
 
 
-            // ==================================================
-            // FORM DATA
-            // ==================================================
+        if (hiddenOrder) {
 
-            const formData =
-                new FormData(form);
+            hiddenOrder.value =
+                JSON.stringify(order);
 
-
-            formData.set(
-                "orderData",
-                JSON.stringify(order)
-            );
+        }
 
 
-            formData.set(
-                "total",
-                total.toFixed(2)
-            );
+        // =====================================================
+        // PAYMENT METHOD CHANGE
+        // =====================================================
+
+        paymentMethod.addEventListener(
+            "change",
+            function () {
 
 
-            formData.set(
-                "paymentMethod",
-                selectedPaymentMethod
-            );
+                if (
+                    paymentMethod.value ===
+                    "UPI"
+                ) {
+
+                    upiPaymentStatus.style.display =
+                        "flex";
+
+                } else {
+
+                    upiPaymentStatus.style.display =
+                        "none";
+
+                }
+
+            }
+        );
 
 
-            // ==================================================
-            // PLACE ORDER REQUEST
-            // ==================================================
+        // =====================================================
+        // FORM SUBMIT
+        // =====================================================
 
-            const response =
-                await fetch(
-                    "/place-order",
-                    {
-
-                        method: "POST",
-
-                        body: formData
-
-                    }
-                );
+        form.addEventListener(
+            "submit",
+            async function (event) {
 
 
-            const contentType =
-                response.headers.get(
-                    "content-type"
-                ) || "";
+                event.preventDefault();
 
 
-            // ==================================================
-            // JSON RESPONSE
-            // ==================================================
+                const selectedMethod =
+                    paymentMethod.value;
 
-            if (
-                contentType.includes(
-                    "application/json"
-                )
-            ) {
 
-                const result =
+                // =================================================
+                // PAYMENT METHOD CHECK
+                // =================================================
+
+                if (!selectedMethod) {
+
+                    alert(
+                        "Please select a payment method."
+                    );
+
+                    return;
+
+                }
+
+
+                // =================================================
+                // ORDER CHECK
+                // =================================================
+
+                if (order.length === 0) {
+
+                    alert(
+                        "Your bag is empty."
+                    );
+
+                    return;
+
+                }
+
+
+                // =================================================
+                // AMOUNT CHECK
+                // =================================================
+
+                if (total < 1) {
+
+                    alert(
+                        "Minimum payment amount is ₹1."
+                    );
+
+                    return;
+
+                }
+
+
+                // =================================================
+                // COD
+                // =================================================
+
+                if (
+                    selectedMethod ===
+                    "Cash on Delivery"
+                ) {
+
+                    await placeOrder(
+                        "Cash on Delivery"
+                    );
+
+                    return;
+
+                }
+
+
+                // =================================================
+                // CASHFREE
+                // =================================================
+
+                if (
+                    selectedMethod ===
+                    "UPI"
+                ) {
+
+                    await startCashfreePayment();
+
+                    return;
+
+                }
+
+            }
+        );
+
+
+        // =====================================================
+        // CASHFREE PAYMENT
+        // =====================================================
+
+        async function startCashfreePayment() {
+
+
+            const originalButtonHTML =
+                orderButton.innerHTML;
+
+
+            try {
+
+
+                // =================================================
+                // BUTTON LOADING
+                // =================================================
+
+                orderButton.disabled =
+                    true;
+
+
+                orderButton.innerHTML = `
+
+                    <i class="fa-solid fa-spinner fa-spin"></i>
+
+                    Creating Secure Payment...
+
+                `;
+
+
+                // =================================================
+                // CREATE CASHFREE ORDER
+                // =================================================
+
+                const response =
+                    await fetch(
+                        "/payment/create-order",
+                        {
+
+                            method: "POST",
+
+                            headers: {
+
+                                "Content-Type":
+                                    "application/json"
+
+                            },
+
+                            body: JSON.stringify({
+
+                                amount:
+                                    total,
+
+                                name:
+                                    form.elements.name?.value || "",
+
+                                email:
+                                    form.elements.email?.value || "",
+
+                                phone:
+                                    form.elements.phone?.value || ""
+
+                            })
+
+                        }
+                    );
+
+
+                const data =
                     await response.json();
 
 
                 console.log(
-                    "Place Order Response:",
-                    result
+                    "Cashfree Create Order:",
+                    data
                 );
 
 
-                if (!result.success) {
+                if (
+                    !response.ok ||
+                    !data.success
+                ) {
 
                     throw new Error(
-                        result.error ||
-                        result.message ||
-                        "Order could not be placed."
+                        data.message ||
+                        "Unable to create Cashfree payment."
                     );
 
                 }
 
 
-                // ==================================================
-                // SUCCESS
-                // ==================================================
+                // =================================================
+                // SAVE CASHFREE ORDER ID
+                // =================================================
 
-                alert(
-                    "Order Placed Successfully! ✅\n\n" +
-                    "Your order has been received."
-                );
+                if (cashfreeOrderId) {
 
+                    cashfreeOrderId.value =
+                        data.order_id;
 
-                // ==================================================
-                // CLEAR ORDER
-                // ==================================================
-
-                localStorage.removeItem(
-                    "order"
-                );
+                }
 
 
-                // ==================================================
-                // EMAIL
-                // ==================================================
+                // =================================================
+                // INITIALIZE CASHFREE
+                // =================================================
 
-                fetch(
-                    "https://api.web3forms.com/submit",
-                    {
+                const cashfree =
+                    Cashfree({
 
-                        method: "POST",
-
-                        body: formData
-
-                    }
-                )
-                    .then(() => {
-
-                        console.log(
-                            "Order email sent successfully"
-                        );
-
-                    })
-                    .catch(err => {
-
-                        console.error(
-                            "Email error:",
-                            err
-                        );
+                        mode:
+                            data.mode ||
+                            "sandbox"
 
                     });
 
 
-                // ==================================================
-                // REDIRECT
-                // ==================================================
+                // =================================================
+                // CHECK PAYMENT SESSION
+                // =================================================
 
-                window.location.href =
-                    "/my-orders";
+                if (
+                    !data.payment_session_id
+                ) {
+
+                    throw new Error(
+                        "Cashfree payment session was not received."
+                    );
+
+                }
 
 
-                return;
+                // =================================================
+                // OPEN CASHFREE CHECKOUT
+                // =================================================
+
+                const checkoutOptions = {
+
+                    paymentSessionId:
+                        data.payment_session_id,
+
+                    redirectTarget:
+                        "_self"
+
+                };
+
+
+                await cashfree.checkout(
+                    checkoutOptions
+                );
+
+
+            } catch (error) {
+
+
+                console.error(
+                    "Cashfree Payment Error:",
+                    error
+                );
+
+
+                alert(
+                    error.message ||
+                    "Unable to start online payment."
+                );
+
+
+                orderButton.disabled =
+                    false;
+
+
+                orderButton.innerHTML =
+                    originalButtonHTML;
 
             }
 
+        }
 
-            // ==================================================
-            // REDIRECT RESPONSE
-            // ==================================================
 
-            if (response.redirected) {
+        // =====================================================
+        // PLACE ORDER
+        // =====================================================
+
+        async function placeOrder(
+            selectedPaymentMethod
+        ) {
+
+
+            const originalButtonHTML =
+                orderButton.innerHTML;
+
+
+            try {
+
+
+                // =================================================
+                // LOADING
+                // =================================================
+
+                orderButton.disabled =
+                    true;
+
+
+                orderButton.innerHTML = `
+
+                    <i class="fa-solid fa-spinner fa-spin"></i>
+
+                    Placing Order...
+
+                `;
+
+
+                // =================================================
+                // UPDATE HIDDEN DATA
+                // =================================================
+
+                if (hiddenOrder) {
+
+                    hiddenOrder.value =
+                        JSON.stringify(order);
+
+                }
+
+
+                if (hiddenTotal) {
+
+                    hiddenTotal.value =
+                        total.toFixed(2);
+
+                }
+
+
+                if (paymentMethodHidden) {
+
+                    paymentMethodHidden.value =
+                        selectedPaymentMethod;
+
+                }
+
+
+                // =================================================
+                // FORM DATA
+                // =================================================
+
+                const formData =
+                    new FormData(form);
+
+
+                formData.set(
+                    "orderData",
+                    JSON.stringify(order)
+                );
+
+
+                formData.set(
+                    "total",
+                    total.toFixed(2)
+                );
+
+
+                formData.set(
+                    "paymentMethod",
+                    selectedPaymentMethod
+                );
+
+
+                // =================================================
+                // CASHFREE ORDER ID
+                // =================================================
+
+                if (
+                    cashfreeOrderId &&
+                    cashfreeOrderId.value
+                ) {
+
+                    formData.set(
+                        "cashfreeOrderId",
+                        cashfreeOrderId.value
+                    );
+
+                }
+
+
+                // =================================================
+                // PLACE ORDER
+                // =================================================
+
+                const response =
+                    await fetch(
+                        "/place-order",
+                        {
+
+                            method: "POST",
+
+                            body: formData
+
+                        }
+                    );
+
+
+                // =================================================
+                // RESPONSE TYPE
+                // =================================================
+
+                const contentType =
+                    response.headers.get(
+                        "content-type"
+                    ) || "";
+
+
+                // =================================================
+                // JSON RESPONSE
+                // =================================================
+
+                if (
+                    contentType.includes(
+                        "application/json"
+                    )
+                ) {
+
+
+                    const data =
+                        await response.json();
+
+
+                    console.log(
+                        "Place Order Response:",
+                        data
+                    );
+
+
+                    if (
+                        !response.ok ||
+                        data.success === false
+                    ) {
+
+                        throw new Error(
+                            data.message ||
+                            data.error ||
+                            "Order placement failed."
+                        );
+
+                    }
+
+
+                    // =============================================
+                    // CLEAR ORDER
+                    // =============================================
+
+                    localStorage.removeItem(
+                        "order"
+                    );
+
+
+                    localStorage.removeItem(
+                        "cart"
+                    );
+
+
+                    // =============================================
+                    // REDIRECT
+                    // =============================================
+
+                    window.location.href =
+                        data.redirect ||
+                        "/my-orders";
+
+
+                    return;
+
+                }
+
+
+                // =================================================
+                // EXPRESS REDIRECT
+                // =================================================
+
+                if (
+                    response.redirected
+                ) {
+
+                    localStorage.removeItem(
+                        "order"
+                    );
+
+
+                    localStorage.removeItem(
+                        "cart"
+                    );
+
+
+                    window.location.href =
+                        response.url;
+
+
+                    return;
+
+                }
+
+
+                // =================================================
+                // HTML RESPONSE
+                // =================================================
+
+                const html =
+                    await response.text();
+
 
                 localStorage.removeItem(
                     "order"
                 );
 
 
-                window.location.href =
-                    response.url;
+                localStorage.removeItem(
+                    "cart"
+                );
 
 
-                return;
+                document.open();
+
+                document.write(html);
+
+                document.close();
+
+
+            } catch (error) {
+
+
+                console.error(
+                    "Place Order Error:",
+                    error
+                );
+
+
+                alert(
+                    error.message ||
+                    "Unable to place order."
+                );
+
+
+                orderButton.disabled =
+                    false;
+
+
+                orderButton.innerHTML =
+                    originalButtonHTML;
 
             }
 
-
-            // ==================================================
-            // OTHER RESPONSE
-            // ==================================================
-
-            const text =
-                await response.text();
+        }
 
 
-            console.log(
-                "Server Response:",
-                text
+        // =====================================================
+        // CASHFREE RETURN HANDLING
+        // =====================================================
+        //
+        // Cashfree redirects to:
+        //
+        // /payment/cashfree-return?order_id=XXXX
+        //
+        // The backend verifies the payment and then redirects
+        // back to this payment page with ?payment=success
+        //
+        // =====================================================
+
+        const urlParams =
+            new URLSearchParams(
+                window.location.search
             );
 
 
-            orderButton.disabled =
-                false;
+        const paymentStatus =
+            urlParams.get(
+                "payment"
+            );
 
 
-            orderButton.innerHTML =
-                originalButton;
+        const returnedOrderId =
+            urlParams.get(
+                "order_id"
+            );
+
+
+        if (
+            paymentStatus ===
+            "success"
+        ) {
+
+
+            if (returnedOrderId) {
+
+                if (cashfreeOrderId) {
+
+                    cashfreeOrderId.value =
+                        returnedOrderId;
+
+                }
+
+
+                verifyReturnedPayment(
+                    returnedOrderId
+                );
+
+            }
 
         }
 
 
-        catch (error) {
+        // =====================================================
+        // VERIFY RETURNED PAYMENT
+        // =====================================================
 
-            console.error(
-                "Order placement error:",
-                error
-            );
-
-
-            alert(
-                error.message ||
-                "Something went wrong. Please try again."
-            );
+        async function verifyReturnedPayment(
+            orderId
+        ) {
 
 
-            orderButton.disabled =
-                false;
+            try {
 
 
-            orderButton.innerHTML =
-                originalButton;
+                orderButton.disabled =
+                    true;
+
+
+                orderButton.innerHTML = `
+
+                    <i class="fa-solid fa-spinner fa-spin"></i>
+
+                    Verifying Payment...
+
+                `;
+
+
+                const response =
+                    await fetch(
+                        "/payment/verify",
+                        {
+
+                            method: "POST",
+
+                            headers: {
+
+                                "Content-Type":
+                                    "application/json"
+
+                            },
+
+                            body: JSON.stringify({
+
+                                order_id:
+                                    orderId
+
+                            })
+
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                console.log(
+                    "Cashfree Verify:",
+                    data
+                );
+
+
+                if (
+                    !response.ok ||
+                    !data.success
+                ) {
+
+                    throw new Error(
+                        data.message ||
+                        "Payment verification failed."
+                    );
+
+                }
+
+
+                // =================================================
+                // PAYMENT SUCCESS
+                // =================================================
+
+                if (
+                    data.payment_status ===
+                    "SUCCESS"
+                ) {
+
+
+                    alert(
+                        "Payment successful! ✅"
+                    );
+
+
+                    await placeOrder(
+                        "UPI"
+                    );
+
+
+                    return;
+
+                }
+
+
+                // =================================================
+                // PAYMENT NOT SUCCESS
+                // =================================================
+
+                throw new Error(
+                    "Payment was not successful. Order was not placed."
+                );
+
+
+            } catch (error) {
+
+
+                console.error(
+                    "Cashfree Verification Error:",
+                    error
+                );
+
+
+                alert(
+                    error.message ||
+                    "Payment verification failed. Order was not placed."
+                );
+
+
+                orderButton.disabled =
+                    false;
+
+
+                orderButton.innerHTML = `
+
+                    <span>
+
+                        <i class="fa-solid fa-bag-shopping"></i>
+
+                        Place Order
+
+                    </span>
+
+                    <i class="fa-solid fa-arrow-right"></i>
+
+                `;
+
+            }
 
         }
+
 
     }
-
-});
+);
