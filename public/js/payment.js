@@ -1,59 +1,51 @@
 // ==========================================================
 // PAYMENT.JS
-// AR FOOD - RAZORPAY + UPI + COD
-// ==========================================================
-
-
-// ==========================================================
-// LOAD ORDER
+// AR FOOD - RAZORPAY UPI + COD
 // ==========================================================
 
 document.addEventListener("DOMContentLoaded", () => {
+
+    // ==========================================================
+    // ELEMENTS
+    // ==========================================================
 
     const order =
         JSON.parse(
             localStorage.getItem("order")
         ) || [];
 
-
     const container =
         document.getElementById("order-summary");
-
 
     const hiddenOrder =
         document.getElementById("orderData");
 
-
     const hiddenTotal =
         document.getElementById("totalAmount");
-
 
     const grandTotal =
         document.getElementById("grandTotal");
 
-
     const paymentMethod =
         document.getElementById("paymentMethod");
 
-
     const form =
         document.getElementById("orderForm");
-
 
     const orderButton =
         form.querySelector(".order-btn");
 
 
-    // ======================================================
+    // ==========================================================
     // CALCULATE TOTAL
-    // ======================================================
+    // ==========================================================
 
     let total = 0;
 
 
-    // ======================================================
+    // ==========================================================
     // SHOW ORDER ITEMS
-    // ======================================================
+    // ==========================================================
 
     if (container) {
 
@@ -67,14 +59,11 @@ document.addEventListener("DOMContentLoaded", () => {
         const price =
             Number(item.price) || 0;
 
-
         const quantity =
             Number(item.quantity) || 1;
 
-
         const subtotal =
             price * quantity;
-
 
         total += subtotal;
 
@@ -88,14 +77,22 @@ document.addEventListener("DOMContentLoaded", () => {
                     <div class="summary-left">
 
                         <h4>
-                            ${item.title || item.name || "Food Item"}
+                            ${
+                                item.title ||
+                                item.name ||
+                                "Food Item"
+                            }
                         </h4>
 
                         <p>
 
                             ${
                                 item.variation
-                                    ? `<b>Size:</b> ${item.variation}<br>`
+                                    ? `
+                                        <b>Size:</b>
+                                        ${item.variation}
+                                        <br>
+                                      `
                                     : ""
                             }
 
@@ -122,9 +119,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 
-    // ======================================================
+    // ==========================================================
     // SET TOTAL
-    // ======================================================
+    // ==========================================================
 
     if (grandTotal) {
 
@@ -150,9 +147,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    // ======================================================
-    // PLACE ORDER / PAYMENT
-    // ======================================================
+    // ==========================================================
+    // FORM SUBMIT
+    // ==========================================================
 
     form.addEventListener(
         "submit",
@@ -162,7 +159,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
             // ==================================================
-            // PAYMENT METHOD CHECK
+            // PAYMENT METHOD
             // ==================================================
 
             const selectedMethod =
@@ -173,21 +170,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 alert(
                     "Please select a payment method."
-                );
-
-                return;
-
-            }
-
-
-            // ==================================================
-            // ORDER CHECK
-            // ==================================================
-
-            if (order.length === 0) {
-
-                alert(
-                    "There are no items in your order."
                 );
 
                 return;
@@ -229,12 +211,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
             // ==================================================
-            // UPI / RAZORPAY
+            // ONLINE / UPI / RAZORPAY
             // ==================================================
 
             if (
-                selectedMethod ===
-                "UPI"
+                selectedMethod === "UPI" ||
+                selectedMethod === "Razorpay" ||
+                selectedMethod === "PhonePe"
             ) {
 
                 await startRazorpayPayment();
@@ -243,15 +226,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
             }
 
+
+            alert(
+                "Invalid payment method."
+            );
+
         }
     );
 
 
     // ==========================================================
-    // RAZORPAY PAYMENT
+    // START RAZORPAY PAYMENT
     // ==========================================================
 
     async function startRazorpayPayment() {
+
+        const originalButton =
+            orderButton.innerHTML;
+
 
         try {
 
@@ -259,12 +251,7 @@ document.addEventListener("DOMContentLoaded", () => {
             // BUTTON LOADING
             // ==================================================
 
-            const originalButton =
-                orderButton.innerHTML;
-
-
             orderButton.disabled = true;
-
 
             orderButton.innerHTML = `
 
@@ -281,7 +268,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const createResponse =
                 await fetch(
-                    "/api/create-order",
+                    "/create-payment",
                     {
 
                         method: "POST",
@@ -332,28 +319,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const options = {
 
-                key:
-                    RAZORPAY_KEY_ID,
-
+                key: RAZORPAY_KEY_ID,
 
                 amount:
-                    createData.amount,
-
+                    createData.order
+                        ? createData.order.amount
+                        : createData.amount,
 
                 currency:
-                    createData.currency,
-
+                    createData.order
+                        ? createData.order.currency
+                        : createData.currency,
 
                 name:
                     "AR Food",
 
-
                 description:
                     "AR Food Order Payment",
 
-
                 order_id:
-                    createData.order_id,
+                    createData.order
+                        ? createData.order.id
+                        : createData.order_id,
 
 
                 // ==================================================
@@ -369,56 +356,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     contact:
                         form.elements.phone?.value ||
                         ""
-
-                },
-
-
-                // ==================================================
-                // UPI ONLY
-                // ==================================================
-
-                config: {
-
-                    display: {
-
-                        blocks: {
-
-                            upi: {
-
-                                name:
-                                    "Pay using UPI",
-
-                                instruments: [
-
-                                    {
-
-                                        method:
-                                            "upi"
-
-                                    }
-
-                                ]
-
-                            }
-
-                        },
-
-
-                        sequence: [
-
-                            "block.upi"
-
-                        ],
-
-
-                        preferences: {
-
-                            show_default_blocks:
-                                false
-
-                        }
-
-                    }
 
                 },
 
@@ -450,13 +387,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
                         try {
 
-                            // ======================================
+                            // ==========================================
                             // VERIFY PAYMENT
-                            // ======================================
+                            // ==========================================
 
                             const verifyResponse =
                                 await fetch(
-                                    "/api/verify-payment",
+                                    "/verify-payment",
                                     {
 
                                         method: "POST",
@@ -494,14 +431,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
                             console.log(
-                                "Verify Response:",
+                                "Razorpay Verify Response:",
                                 verifyData
                             );
 
 
-                            // ======================================
+                            // ==========================================
                             // VERIFICATION FAILED
-                            // ======================================
+                            // ==========================================
 
                             if (
                                 !verifyResponse.ok ||
@@ -509,11 +446,8 @@ document.addEventListener("DOMContentLoaded", () => {
                             ) {
 
                                 alert(
-
                                     "Payment verification failed.\n\n" +
-
                                     "Your order has NOT been placed."
-
                                 );
 
 
@@ -530,18 +464,18 @@ document.addEventListener("DOMContentLoaded", () => {
                             }
 
 
-                            // ======================================
+                            // ==========================================
                             // PAYMENT VERIFIED
-                            // ======================================
+                            // ==========================================
 
                             console.log(
                                 "Payment verified successfully."
                             );
 
 
-                            // ======================================
+                            // ==========================================
                             // SAVE RAZORPAY DETAILS
-                            // ======================================
+                            // ==========================================
 
                             const razorpayOrderId =
                                 document.getElementById(
@@ -588,16 +522,18 @@ document.addEventListener("DOMContentLoaded", () => {
                             }
 
 
-                            // ======================================
+                            // ==========================================
                             // NOW PLACE ORDER
-                            // ======================================
+                            // ==========================================
 
                             await placeOrder(
                                 "UPI"
                             );
 
+                        }
 
-                        } catch (error) {
+
+                        catch (error) {
 
                             console.error(
                                 "Verification Error:",
@@ -606,7 +542,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
                             alert(
-                                "Payment verification failed. Order was not placed."
+                                "Payment verification failed. " +
+                                "Order was not placed."
                             );
 
 
@@ -673,11 +610,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
                     alert(
-
                         response.error?.description ||
-
                         "Payment failed. Please try again."
-
                     );
 
 
@@ -692,10 +626,16 @@ document.addEventListener("DOMContentLoaded", () => {
             );
 
 
+            // ==================================================
+            // OPEN PAYMENT WINDOW
+            // ==================================================
+
             razorpay.open();
 
+        }
 
-        } catch (error) {
+
+        catch (error) {
 
             console.error(
                 "Razorpay Error:",
@@ -859,7 +799,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
                 // ==================================================
-                // CLEAR CART
+                // CLEAR ORDER
                 // ==================================================
 
                 localStorage.removeItem(
@@ -952,8 +892,10 @@ document.addEventListener("DOMContentLoaded", () => {
             orderButton.innerHTML =
                 originalButton;
 
+        }
 
-        } catch (error) {
+
+        catch (error) {
 
             console.error(
                 "Order placement error:",
