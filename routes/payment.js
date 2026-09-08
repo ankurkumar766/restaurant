@@ -159,9 +159,9 @@ router.post(
                     : `guest_${Date.now()}`;
 
 
-            // =================================================
+           
             // ORDER ID
-            // =================================================
+           
 
             const orderId =
                 "ARFOOD_" +
@@ -172,21 +172,15 @@ router.post(
                 );
 
 
-            // =================================================
-            // RETURN URL
-            // =================================================
+           
+           const protocol =
+    req.get("x-forwarded-proto") || req.protocol;
 
-            // const protocol =
-            //     req.protocol;
+const host =
+    req.get("host");
 
-
-            // const host =
-            //     req.get("host");
-
-
-            const returnUrl =
-                `${protocol}://${host}/payment/cashfree-return?order_id=${encodeURIComponent(orderId)}`;
-
+const returnUrl =
+    `${protocol}://${host}/payment/cashfree-return?order_id=${encodeURIComponent(orderId)}`;
 
             // =================================================
             // CASHFREE REQUEST
