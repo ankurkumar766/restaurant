@@ -43,6 +43,7 @@ const session = require("express-session");
 const MongoStore = require("connect-mongo");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
+require("./config/google");
 const flash = require("connect-flash");
 const cartRoutes = require("./routes/cart");
 
@@ -658,7 +659,25 @@ if(!emailRegex.test(email)){
 
 
 
+// Google Login
+app.get(
+  "/auth/google",
+  passport.authenticate("google", {
+    scope: ["profile", "email"]
+  })
+);
 
+app.get(
+  "/auth/google/callback",
+  passport.authenticate("google", {
+    failureRedirect: "/login",
+    failureFlash: true
+  }),
+  (req, res) => {
+    req.flash("success", "Welcome!");
+    res.redirect("/");
+  }
+);
 // Login
 app.get("/login", (req, res) => {
   res.render("listings/login.ejs");
