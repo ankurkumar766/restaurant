@@ -1,16 +1,25 @@
 {
-  "name": "Restaurant App",
-  "short_name": "Restaurant",
-  "description": "A family restaurant app.",
-  "start_url": ".",
+  "name": "AR Food",
+  "short_name": "AR Food",
+  "description": "Delicious food delivered fast",
+  "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#000000",
+  "theme_color": "#ffffff",
+  "orientation": "portrait",
   "icons": [
     {
-      "src": "/icons/mypic.png",
-      "sizes": "1278x1278",
-      "type": "image/png"
+      "src": "/images/rest.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/images/rest.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ]
 }

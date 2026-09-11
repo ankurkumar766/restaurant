@@ -40,10 +40,10 @@
         href="/css/footer.css"
     >
 
-    <link
+    <!-- <link
         rel="stylesheet"
         href="/css/marquee.css"
-    >
+    > -->
      <link rel="stylesheet" href="/css/nav.css">
 
     <!-- PWA -->
@@ -63,18 +63,27 @@
         type="image/x-icon"
         href="/images/food1.jfif"
     >
+    <link rel="manifest" href="/manifest.json">
+
+<meta name="theme-color" content="#ffffff">
+
+<link rel="apple-touch-icon" href="/images/rest.png">
 
 </head>
 
 
 <body>
+    <button id="installBtn" class="install-btn">
+    <i class="fa-solid fa-download"></i>
+    Install App
+</button>
 
 
     <!-- ================= MARQUEE ================= -->
 
   
     
-
+ 
 
   
 
@@ -852,7 +861,7 @@
 
                         <p>
 
-                            In our restaurant, we serve fresh
+                            In our website, we serve fresh
                             and delicious food with a wide variety
                             of Indian, Chinese, and Continental dishes.
 
@@ -933,7 +942,7 @@
 
     <!-- ================= ADDRESS ================= -->
 
-    <section class="address-section">
+    <!-- <section class="address-section">
 
         <div class="container">
 
@@ -995,7 +1004,7 @@
 
         </div>
 
-    </section>
+    </section> -->
 
 
 
@@ -1025,6 +1034,26 @@
     <!-- ================= JAVASCRIPT ================= -->
 
     <script src="/js/script.js"></script>
+    <script src="/js/install.js"></script>
+
+<script>
+if ("serviceWorker" in navigator) {
+
+    window.addEventListener("load", () => {
+
+        navigator.serviceWorker
+            .register("/sw.js")
+            .then(() => {
+                console.log("Service Worker registered");
+            })
+            .catch(error => {
+                console.log("Service Worker error:", error);
+            });
+
+    });
+
+}
+</script>
 
 
 </body>
