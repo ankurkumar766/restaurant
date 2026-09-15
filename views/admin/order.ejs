@@ -186,72 +186,90 @@ No Orders Found
 
 <td>
 
-    <% if(order.status === "Pending"){ %>
 
-        <span class="badge bg-warning text-dark">
-            🟡 Pending
-        </span>
+<% if(order.status === "Pending"){ %>
 
-    <% } else if(order.status === "Out for Delivery"){ %>
+    <span class="badge bg-warning text-dark">
+        🟡 Pending
+    </span>
 
-        <span class="badge bg-primary">
-            🚚 Out for Delivery
-        </span>
+<% } else if(order.status === "Preparing"){ %>
 
-    <% } else { %>
+    <span class="badge bg-info text-dark">
+        👨‍🍳 Preparing
+    </span>
 
-        <span class="badge bg-success">
-            ✅ Delivered
-        </span>
+<% } else if(order.status === "Out for Delivery"){ %>
 
-    <% } %>
+    <span class="badge bg-primary">
+        🚚 Out for Delivery
+    </span>
+
+<% } else { %>
+
+    <span class="badge bg-success">
+        ✅ Delivered
+    </span>
+
+<% } %>
+
 
 </td>
 
 <td>
 
-    <% if(order.status === "Pending"){ %>
 
-        <form action="/admin/order/<%= order._id %>/out-for-delivery"
-              method="POST"
-              style="display:inline;">
+<% if(order.status === "Pending"){ %>
 
-            <button class="btn btn-primary btn-sm">
-                🚚 Out for Delivery
-            </button>
+    <form action="/admin/order/<%= order._id %>/preparing" 
+          method="POST" 
+          style="display:inline;">
 
-        </form>
-
-   
-    <% } else if(order.status === "Out for Delivery"){ %>
-
-<form action="/admin/order/<%= order._id %>/delivered"
-      method="POST">
-
-<button class="btn btn-success btn-sm">
-
-✅ Delivered
-
-</button>
-
-</form>
-
-<% } %>
-
-    <form
-        action="/admin/order/<%= order._id %>/delete"
-        method="POST"
-        style="display:inline;"
-        onsubmit="return confirm('Delete this order?')">
-
-        <button class="btn btn-danger btn-sm">
-            <i class="fas fa-trash"></i>
+        <button class="btn btn-info btn-sm">
+            👨‍🍳 Preparing
         </button>
 
     </form>
-    
+
+<% } else if(order.status === "Preparing"){ %>
+
+    <form action="/admin/order/<%= order._id %>/out-for-delivery" 
+          method="POST">
+
+        <button class="btn btn-primary btn-sm">
+            🚚 Out for Delivery
+        </button>
+
+    </form>
+
+<% } else if(order.status === "Out for Delivery"){ %>
+
+    <form action="/admin/order/<%= order._id %>/delivered" 
+          method="POST">
+
+        <button class="btn btn-success btn-sm">
+            ✅ Delivered
+        </button>
+
+    </form>
+
+<% } %>
+
+<form 
+    action="/admin/order/<%= order._id %>/delete" 
+    method="POST" 
+    style="display:inline;" 
+    onsubmit="return confirm('Delete this order?')">
+
+    <button class="btn btn-danger btn-sm">
+        <i class="fas fa-trash"></i>
+    </button>
+
+</form>
+
 
 </td>
+
 <td>
     <div class="mt-2">
 

@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -16,7 +17,6 @@
     <link rel="stylesheet" href="/css/footer.css">
     <link rel="stylesheet" href="/css/marquee.css">
     <link rel="stylesheet" href="/css/nav.css">
-
     <link rel="stylesheet" href="/css/card.css">
 
     <link rel="icon"
@@ -42,6 +42,9 @@
         cart.forEach(item => {
             total += Number(item.price);
         });
+
+        const deliveryCharge = 30;
+        const grandTotal = total + deliveryCharge;
     %>
 
 
@@ -183,6 +186,8 @@
                 </h2>
 
 
+                <!-- SUBTOTAL -->
+
                 <div class="summary-line">
 
                     <span>
@@ -200,14 +205,16 @@
                 </div>
 
 
+                <!-- DELIVERY -->
+
                 <div class="summary-line">
 
                     <span>
                         Delivery
                     </span>
 
-                    <span>
-                        ₹0.00
+                    <span id="deliveryCharge">
+                        ₹30.00
                     </span>
 
                 </div>
@@ -215,6 +222,8 @@
 
                 <div class="summary-divider"></div>
 
+
+                <!-- TOTAL -->
 
                 <div class="summary-total">
 
@@ -224,13 +233,14 @@
 
                     <span id="summaryTotal">
 
-                        ₹<%= total.toLocaleString("en-IN", {
+                        ₹<%= grandTotal.toLocaleString("en-IN", {
                             minimumFractionDigits: 2
                         }) %>
 
                     </span>
 
                 </div>
+
 
             </div>
 
@@ -258,7 +268,7 @@
 
                 <strong id="bottomTotal">
 
-                    ₹<%= total.toLocaleString("en-IN", {
+                    ₹<%= grandTotal.toLocaleString("en-IN", {
                         minimumFractionDigits: 2
                     }) %>
 
@@ -436,7 +446,22 @@
                 });
 
 
-            const formatted =
+            // ==========================
+            // DELIVERY CHARGE
+            // ==========================
+
+            const deliveryCharge = 30;
+
+
+            // ==========================
+            // GRAND TOTAL
+            // ==========================
+
+            const grandTotal =
+                subtotal + deliveryCharge;
+
+
+            const formattedSubtotal =
                 subtotal.toLocaleString("en-IN", {
 
                     minimumFractionDigits: 2
@@ -444,7 +469,17 @@
                 });
 
 
-            // Summary subtotal
+            const formattedTotal =
+                grandTotal.toLocaleString("en-IN", {
+
+                    minimumFractionDigits: 2
+
+                });
+
+
+            // ==========================
+            // SUMMARY SUBTOTAL
+            // ==========================
 
             const summarySubtotal =
                 document.getElementById(
@@ -455,12 +490,14 @@
             if(summarySubtotal) {
 
                 summarySubtotal.innerText =
-                    "₹" + formatted;
+                    "₹" + formattedSubtotal;
 
             }
 
 
-            // Summary total
+            // ==========================
+            // SUMMARY TOTAL
+            // ==========================
 
             const summaryTotal =
                 document.getElementById(
@@ -471,12 +508,14 @@
             if(summaryTotal) {
 
                 summaryTotal.innerText =
-                    "₹" + formatted;
+                    "₹" + formattedTotal;
 
             }
 
 
-            // Bottom total
+            // ==========================
+            // BOTTOM TOTAL
+            // ==========================
 
             const bottomTotal =
                 document.getElementById(
@@ -487,7 +526,7 @@
             if(bottomTotal) {
 
                 bottomTotal.innerText =
-                    "₹" + formatted;
+                    "₹" + formattedTotal;
 
             }
 
@@ -502,6 +541,8 @@
         function proceedToCheckout() {
 
             const order = [];
+
+            let subtotal = 0;
 
 
             document
@@ -536,6 +577,10 @@
                         );
 
 
+                    subtotal +=
+                        price * quantity;
+
+
                     order.push({
 
                         title: title,
@@ -551,9 +596,41 @@
                 });
 
 
+            // ==========================
+            // DELIVERY + TOTAL
+            // ==========================
+
+            const deliveryCharge = 30;
+
+            const grandTotal =
+                subtotal + deliveryCharge;
+
+
+            // Save order
+
             localStorage.setItem(
                 "order",
                 JSON.stringify(order)
+            );
+
+
+            // Save payment amount
+
+            localStorage.setItem(
+                "orderSubtotal",
+                subtotal.toString()
+            );
+
+
+            localStorage.setItem(
+                "deliveryCharge",
+                deliveryCharge.toString()
+            );
+
+
+            localStorage.setItem(
+                "orderTotal",
+                grandTotal.toString()
             );
 
 
@@ -568,3 +645,4 @@
 </body>
 
 </html>
+

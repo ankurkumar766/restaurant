@@ -362,6 +362,55 @@ router.get("/analytics", async (req, res) => {
 
 });
 
+router.post("/order/:id/preparing", async (req, res) => {
+
+
+if (!req.session.isAdmin) {
+    return res.redirect("/admin");
+}
+
+try {
+
+    const order = await Order.findByIdAndUpdate(
+        req.params.id,
+        { status: "Preparing" },
+        { new: true }
+    ).populate("user");
+
+    await sendEmail(
+        order.user.email,
+        "👨‍🍳 Your Order is Being Prepared",
+        `Hello ${order.name},
+
+
+Your order is now being prepared.
+
+We will notify you when your order is Out for Delivery.
+
+Thank you for ordering with us.
+
+Team AR Food`
+);
+
+
+    req.flash("success", "Order is now Preparing.");
+
+    res.redirect("/admin/order");
+
+} catch (err) {
+
+    console.log(err);
+
+    req.flash("error", "Unable to update order status.");
+
+    res.redirect("/admin/order");
+
+}
+
+
+});
+
+
 router.post("/order/:id/out-for-delivery", async (req, res) => {
 
     if (!req.session.isAdmin) {
