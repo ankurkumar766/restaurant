@@ -443,74 +443,71 @@
                                 </div>
 
 
-                                <div class="size-buttons">
+                               <div class="size-buttons">
+
+    <% if (listing.halfPrice && listing.halfPrice !== "Not Available") { %>
+
+        <button
+            type="button"
+            class="size-btn active"
+            data-type="Half"
+            data-price="<%= listing.halfPrice %>"
+        >
+            Half
+        </button>
+
+    <% } %>
 
 
-                                    <button
-                                        type="button"
-                                        class="size-btn active"
-                                        data-type="Half"
-                                        data-price="<%= listing.halfPrice %>"
-                                    >
+    <% if (listing.fullPrice && listing.fullPrice !== "Not Available") { %>
 
-                                        Half
+        <button
+            type="button"
+            class="size-btn <%= !listing.halfPrice || listing.halfPrice === 'Not Available' ? 'active' : '' %>"
+            data-type="Full"
+            data-price="<%= listing.fullPrice %>"
+        >
+            Full
+        </button>
 
-                                    </button>
+    <% } %>
 
-
-                                    <button
-                                        type="button"
-                                        class="size-btn"
-                                        data-type="Full"
-                                        data-price="<%= listing.fullPrice %>"
-                                    >
-
-                                        Full
-
-                                    </button>
+</div>
 
 
-                                </div>
+<!-- PRICE -->
+
+<div class="price-row">
+
+    <div>
+
+        <small>
+            Starting from
+        </small>
+
+        <h4 class="price">
+            ₹
+
+            <span class="food-price">
+
+                <%= 
+                    listing.halfPrice && listing.halfPrice !== "Not Available"
+                        ? listing.halfPrice
+                        : listing.fullPrice
+                %>
+
+            </span>
+
+        </h4>
+
+    </div>
 
 
-                                <!-- PRICE -->
+    <div class="veg-icon">
+        <span></span>
+    </div>
 
-                                <div class="price-row">
-
-
-                                    <div>
-
-
-                                        <small>
-                                            Starting from
-                                        </small>
-
-
-                                        <h4 class="price">
-
-                                            ₹
-
-                                            <span class="food-price">
-
-                                                <%= listing.halfPrice %>
-
-                                            </span>
-
-                                        </h4>
-
-
-                                    </div>
-
-
-                                    <div class="veg-icon">
-
-                                        <span></span>
-
-                                    </div>
-
-
-                                </div>
-
+</div>
 
 
                                 <!-- BUTTONS -->

@@ -1,15 +1,7 @@
-// ============================================================
-// AR FOOD
-// CASHFREE PAYMENT.JS
-// COD + CASHFREE UPI / ONLINE PAYMENT
-// ============================================================
-
-        
 
 document.addEventListener(
     "DOMContentLoaded",
     function () {
-
 
         // =====================================================
         // ELEMENTS
@@ -20,60 +12,50 @@ document.addEventListener(
                 localStorage.getItem("order")
             ) || [];
 
-
         const container =
             document.getElementById(
                 "order-summary"
             );
-
 
         const form =
             document.getElementById(
                 "orderForm"
             );
 
-
         const paymentMethod =
             document.getElementById(
                 "paymentMethod"
             );
-
 
         const paymentMethodHidden =
             document.getElementById(
                 "paymentMethodHidden"
             );
 
-
         const hiddenOrder =
             document.getElementById(
                 "orderData"
             );
-
 
         const hiddenTotal =
             document.getElementById(
                 "totalAmount"
             );
 
-
         const grandTotal =
             document.getElementById(
                 "grandTotal"
             );
-
 
         const orderButton =
             document.getElementById(
                 "orderButton"
             );
 
-
         const upiPaymentStatus =
             document.getElementById(
                 "upiPaymentStatus"
             );
-
 
         const cashfreeOrderId =
             document.getElementById(
@@ -92,7 +74,6 @@ document.addEventListener(
             );
 
             return;
-
         }
 
 
@@ -101,6 +82,9 @@ document.addEventListener(
         // =====================================================
 
         let total = 0;
+
+        // FIXED DELIVERY CHARGE
+        const deliveryCharge = 30;
 
 
         // =====================================================
@@ -112,7 +96,6 @@ document.addEventListener(
             container.innerHTML = "";
 
         }
-        
 
 
         // =====================================================
@@ -122,18 +105,14 @@ document.addEventListener(
         order.forEach(
             function (item) {
 
-
                 const price =
                     Number(item.price) || 0;
-
 
                 const quantity =
                     Number(item.quantity) || 1;
 
-
                 const subtotal =
                     price * quantity;
-
 
                 total += subtotal;
 
@@ -175,11 +154,18 @@ document.addEventListener(
                         </div>
 
                     `;
-
                 }
 
             }
         );
+
+
+        // =====================================================
+        // FINAL TOTAL = FOOD TOTAL + DELIVERY
+        // =====================================================
+
+        const finalTotal =
+            total + deliveryCharge;
 
 
         // =====================================================
@@ -189,7 +175,7 @@ document.addEventListener(
         if (grandTotal) {
 
             grandTotal.textContent =
-                total.toFixed(2);
+                finalTotal.toFixed(2);
 
         }
 
@@ -197,7 +183,7 @@ document.addEventListener(
         if (hiddenTotal) {
 
             hiddenTotal.value =
-                total.toFixed(2);
+                finalTotal.toFixed(2);
 
         }
 
@@ -217,7 +203,6 @@ document.addEventListener(
         paymentMethod.addEventListener(
             "change",
             function () {
-
 
                 if (
                     paymentMethod.value ===
@@ -246,7 +231,6 @@ document.addEventListener(
             "submit",
             async function (event) {
 
-
                 event.preventDefault();
 
 
@@ -265,7 +249,6 @@ document.addEventListener(
                     );
 
                     return;
-
                 }
 
 
@@ -280,7 +263,6 @@ document.addEventListener(
                     );
 
                     return;
-
                 }
 
 
@@ -288,14 +270,13 @@ document.addEventListener(
                 // AMOUNT CHECK
                 // =================================================
 
-                if (total < 1) {
+                if (finalTotal < 1) {
 
                     alert(
                         "Minimum payment amount is ₹1."
                     );
 
                     return;
-
                 }
 
 
@@ -313,7 +294,6 @@ document.addEventListener(
                     );
 
                     return;
-
                 }
 
 
@@ -329,7 +309,6 @@ document.addEventListener(
                     await startCashfreePayment();
 
                     return;
-
                 }
 
             }
@@ -342,13 +321,11 @@ document.addEventListener(
 
         async function startCashfreePayment() {
 
-
             const originalButtonHTML =
                 orderButton.innerHTML;
 
 
             try {
-
 
                 // =================================================
                 // BUTTON LOADING
@@ -356,8 +333,6 @@ document.addEventListener(
 
                 orderButton.disabled =
                     true;
-
-
                 orderButton.innerHTML = `
 
                     <i class="fa-solid fa-spinner fa-spin"></i>
@@ -387,8 +362,9 @@ document.addEventListener(
 
                             body: JSON.stringify({
 
+                                // FOOD TOTAL + ₹30 DELIVERY
                                 amount:
-                                    total,
+                                    finalTotal,
 
                                 name:
                                     form.elements.name?.value || "",
@@ -491,7 +467,6 @@ document.addEventListener(
 
             } catch (error) {
 
-
                 console.error(
                     "Cashfree Payment Error:",
                     error
@@ -506,7 +481,6 @@ document.addEventListener(
 
                 orderButton.disabled =
                     false;
-
 
                 orderButton.innerHTML =
                     originalButtonHTML;
@@ -524,13 +498,11 @@ document.addEventListener(
             selectedPaymentMethod
         ) {
 
-
             const originalButtonHTML =
                 orderButton.innerHTML;
 
 
             try {
-
 
                 // =================================================
                 // LOADING
@@ -538,7 +510,6 @@ document.addEventListener(
 
                 orderButton.disabled =
                     true;
-
 
                 orderButton.innerHTML = `
 
@@ -563,8 +534,9 @@ document.addEventListener(
 
                 if (hiddenTotal) {
 
+                    // FOOD TOTAL + ₹30 DELIVERY
                     hiddenTotal.value =
-                        total.toFixed(2);
+                        finalTotal.toFixed(2);
 
                 }
 
@@ -591,9 +563,10 @@ document.addEventListener(
                 );
 
 
+                // FOOD TOTAL + ₹30 DELIVERY
                 formData.set(
                     "total",
-                    total.toFixed(2)
+                    finalTotal.toFixed(2)
                 );
 
 
@@ -656,7 +629,6 @@ document.addEventListener(
                         "application/json"
                     )
                 ) {
-
 
                     const data =
                         await response.json();
@@ -764,7 +736,6 @@ document.addEventListener(
 
             } catch (error) {
 
-
                 console.error(
                     "Place Order Error:",
                     error
@@ -779,7 +750,6 @@ document.addEventListener(
 
                 orderButton.disabled =
                     false;
-
 
                 orderButton.innerHTML =
                     originalButtonHTML;
@@ -825,7 +795,6 @@ document.addEventListener(
             "success"
         ) {
 
-
             if (returnedOrderId) {
 
                 if (cashfreeOrderId) {
@@ -853,9 +822,7 @@ document.addEventListener(
             orderId
         ) {
 
-
             try {
-
 
                 orderButton.disabled =
                     true;
@@ -927,7 +894,6 @@ document.addEventListener(
                     "SUCCESS"
                 ) {
 
-
                     alert(
                         "Payment successful! ✅"
                     );
@@ -953,7 +919,6 @@ document.addEventListener(
 
 
             } catch (error) {
-
 
                 console.error(
                     "Cashfree Verification Error:",
@@ -989,6 +954,6 @@ document.addEventListener(
 
         }
 
-
     }
 );
+

@@ -19,15 +19,15 @@ const listingSchema = new Schema({
     price: Number,
 
     // Naye fields
-    halfPrice: {
-        type: Number,
-        default: 0,
-    },
+  halfPrice: {
+    type: String,
+    default: ""
+},
 
-    fullPrice: {
-        type: Number,
-        default: 0,
-    },
+fullPrice: {
+    type: String,
+    default: ""
+},
 
     location: String,
     country: String,
